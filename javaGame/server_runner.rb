@@ -1,4 +1,4 @@
-require "server_wrapper"
+require_relative "server_wrapper"
 
 if !File.exist?("../pipes/javapipe")
   puts 'making javapipe'

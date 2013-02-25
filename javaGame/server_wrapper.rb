@@ -1,14 +1,15 @@
 require 'java'
-require 'GPT.jar'
+require_relative 'GPT.jar'
 java_import('EventHandler')
 
 class ServerWrapper
 
   def open_pipes
     puts 'server opening pipes'
+    scriptloc = File.expand_path(File.dirname(__FILE__))
 
-    puts @rpipe = open("../pipes/rubypipe",'r+')
-    puts @wpipe = open("../pipes/javapipe",'w+')
+    puts @rpipe = open(File.join(scriptloc, "../pipes/rubypipe"),'r+')
+    puts @wpipe = open(File.join(scriptloc, "../pipes/javapipe"),'w+')
 
     @event_handler = EventHandler.new
   end
