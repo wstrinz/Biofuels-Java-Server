@@ -1,9 +1,13 @@
-Biofuels Game running on Rails
+Biofuels Game Running On Rails
+------------------------------
 
-to run you must have some way to access both MRI Ruby and JRuby w/ Java7 (for now), then do
+to run you must have some way to access both MRI Ruby and JRuby w/ Java7 (for now). first compile the java model:
 
-bundle install
+> javac -cp javaGame/json-simple-1.1.1.jar javaGame/*.java
 
-rvm jruby exec ruby javaGame/server_runner.rb         # or run jruby another way
+then run
 
-thin start
+> bundle install
+> rvm jruby exec ruby javaGame/server_runner.rb         # or run jruby another way
+
+> thin start
