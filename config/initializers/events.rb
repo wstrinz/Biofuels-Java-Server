@@ -1,6 +1,7 @@
 WebsocketRails.setup do |config|
 
   # Change to :debug for debugging output
+  # config.log_level = :debug
   config.log_level = :default
 
   # Change to true to enable standalone server mode

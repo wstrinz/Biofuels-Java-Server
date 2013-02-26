@@ -12,8 +12,9 @@ Ext.define('BiofuelsModerator.view.NetworkLayer', {
 
       this.networkEvents = new Array();
       webSocket.bind('event', function(message){
-        // console.log('receive ' + message)
+        console.log('receive ' + message)
         // console.log(self.networkEvents)
+
         var json = JSON.parse(message);
         var index;
         for (index = 0; index < self.networkEvents.length; index++) {
@@ -23,6 +24,12 @@ Ext.define('BiofuelsModerator.view.NetworkLayer', {
           }
         }
       });
+
+      /*var channel = webSocket.subscribe('bla');
+
+      channel.bind('event', function(message){
+        console.log('blatest success')
+      });*/
     },
 
     /*receiveEvent: function(message){

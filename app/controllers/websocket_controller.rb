@@ -9,19 +9,18 @@ class WebsocketController < WebsocketRails::BaseController
   end
 
   def connected
-    puts "connection madeified!"
+    puts "connection made!"
+
     # watch_pipe
 
     Thread.new do
       loop do
         str = read_pipe
-
-        puts "Broadcasting #{str}"
+        # puts self
+        puts "Sending #{str}"
         send_event str
       end
     end
-
-    # trigger_success (message: 'awesome level is sufficient')
 
 #    render :nothing => true
 
@@ -32,7 +31,8 @@ class WebsocketController < WebsocketRails::BaseController
 
   def send_event(msg)
     # puts "sending #{msg}"
-    broadcast_message :event, msg
+    # WebsocketRails[:"bla"].trigger(:event, "blaaaaa");
+    send_message :event, msg
   end
 
   def receive_event
