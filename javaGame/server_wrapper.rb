@@ -1,6 +1,8 @@
 require 'java'
-require_relative 'GPT.jar'
-java_import('EventHandler')
+# require_relative 'GPT.jar'
+java_import 'EventHandler'
+$CLASSPATH << '.'
+$CLASSPATH << 'json-simple-1.1.1.jar'
 
 class ServerWrapper
 
