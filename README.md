@@ -12,4 +12,5 @@ execute server_runner.rb with jruby, for example using
 then run
 
 > bundle install
+>
 > thin start
