@@ -1,8 +1,10 @@
+if ARGV.first
+  puts `javac -cp json-simple-1.1.1.jar *.java` # attempt to compile server
+end
+
+
 require_relative "server_wrapper"
 
-unless ARGV.first==false
-`javac -cp json-simple-1.1.1.jar *.java` # attempt to compile server
-end
 
 if !File.exist?("../pipes/javapipe")
   puts 'making javapipe'
@@ -15,7 +17,6 @@ if !File.exist?("../pipes/rubypipe")
   # File.delete('rubypipe')
   `mkfifo ".."/pipes/rubypipe`
 end
-
 
 s = ServerWrapper.new
 

@@ -1,9 +1,15 @@
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import org.json.simple.*;
 
 public class EventHandler {
 
+  private HashMap<String, Game> games;
+
   public EventHandler() {
     // TODO Auto-generated constructor stub
+    games = new HashMap<>();
   }
 
   public String handle(String event){
@@ -13,7 +19,7 @@ public class EventHandler {
 
 
     case "validateRoom":
-      if(games.contains(eventObj.get("roomName"))){
+      if(games.get(eventObj.get("roomName")) != null){
         return("{\"event\":\"validateRoom\",\"result\":false}");
       }
       return("{\"event\":\"validateRoom\",\"result\":true}");
@@ -28,15 +34,27 @@ public class EventHandler {
         e.printStackTrace();
       }
       System.out.print("waking\n");*/
-      if(games.contains(eventObj.get("roomName"))){
+      if(games.get(eventObj.get("roomName")) != null){
         return("{\"event\":\"createRoom\",\"result\":false}");
       }
-
-      games.add(new Game((String) eventObj.get("roomName")));
+      games.put((String) eventObj.get("roomName"), new Game((String) eventObj.get("roomName")));
       return("{\"event\":\"createRoom\",\"result\":true}");
 
     case "validateUserName":
-      return "{\"event\":\"validateUserName\",\"roomResult\":true,\"needsPassword\":false,\"passwordResult\":true,\"userNameResult\":true}";
+      boolean roomResult = games.get(eventObj.get("roomName")) != null;
+      boolean nameResult = false;
+      if(roomResult && eventObj.get("userName")!=null){
+        nameResult = !games.get(eventObj.get("roomName")).hasFarmer((String) eventObj.get(eventObj.get("userName")));
+      }
+      return "{\"event\":\"validateUserName\",\"roomResult\":"+ roomResult + ",\"needsPassword\":false,\"passwordResult\":false,\"userNameResult\":"+nameResult +"}";
+
+    case "joinRoom":
+      //    {"event":"joinRoom","roomName":"a","password":"","userName":"d"}
+      if(games.get(eventObj.get("roomName")) != null && !games.get(eventObj.get("roomName")).hasFarmer((String) eventObj.get(eventObj.get("userName")))){
+        games.get(eventObj.get("roomName")).addFarmer((String) eventObj.get(eventObj.get("userName")));
+        return("{\"event\":\"joinRoom\",\"result\":true}");
+      }
+      return("{\"event\":\"joinRoom\",\"result\":false}");
 
     }
 
@@ -46,7 +64,7 @@ public class EventHandler {
   //for testing
   public static void main(String[] args) {
 
-    String teststr = new String("{\"tese\"}");
+    String teststr = new String("{\"event\":\"createRoom\",\"roomName\":\"room\"}");
     EventHandler meself = new EventHandler();
     meself.handle(teststr);
 
