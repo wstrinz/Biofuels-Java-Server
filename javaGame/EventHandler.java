@@ -9,12 +9,9 @@ public class EventHandler {
   public String handle(String event){
     JSONObject eventObj = (JSONObject) JSONValue.parse(event);
 
-    //    System.out.println("got " + eventObj.get("event"));
-//    if(eventObj != null && eventObj.get())
     switch (eventObj.get("event").toString()){
 
     case "createRoom":
-
       //uncomment to test concurrency
       /*System.out.print("sleeping\n");
       try {
@@ -24,17 +21,19 @@ public class EventHandler {
         e.printStackTrace();
       }
       System.out.print("waking\n");*/
-
       return("{\"event\":\"createRoom\",\"result\":true}");
+    case "validateUserName":
+      return "{\"event\":\"validateUserName\",\"roomResult\":true,\"needsPassword\":true,\"passwordResult\":true,\"userNameResult\":true}";
 
     }
+
     return("{\"event\":\"validateRoom\",\"result\":true}");
   }
 
   //for testing
   public static void main(String[] args) {
 
-    String teststr = new String("{\"test\"}");
+    String teststr = new String("{\"tese\"}");
     EventHandler meself = new EventHandler();
     meself.handle(teststr);
 
