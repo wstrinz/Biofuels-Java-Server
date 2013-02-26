@@ -23,21 +23,12 @@ Ext.define('WsConnection',{
   };*/
 });
 
+Ext.Loader.setConfig({
+    enabled: true
+});
+
 Ext.application({
     autoCreateViewport: true,
-    name: 'BiofuelsModerator',
-    appFolder: '/assets/moderator',
-
-
-    //--------------------------------------------------------------------------
-    init: function(application) {
-      Ext.Loader.setConfig({
-          enabled: true
-      });
-    },
-
-    //--------------------------------------------------------------------------
-    launch: function(profile) {
-    }
-
+    name: 'Biofuels',
+    appFolder: '/assets/playerClient'
 });

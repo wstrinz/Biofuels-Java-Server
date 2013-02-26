@@ -3,36 +3,16 @@
  */
 
  // TODO: would be nice if this could be shared between: player, moderator, global projects?
-Ext.define('BiofuelsModerator.view.NetworkLayer', {
-
+Ext.define('Biofuels.view.NetworkLayer', {
 
     //--------------------------------------------------------------------------
     constructor: function() {
-      this.networkEvents = new Array();
 
-      /*var channel = webSocket.subscribe('bla');
-
-      channel.bind('event', function(message){
-        console.log('blatest success')
-      });*/
+    	this.networkEvents = new Array();
     },
 
-    /*receiveEvent: function(message){
-      var self = this;
-      console.log('receive ' + message)
-      console.log(this)
-      var json = JSON.parse(message);
-      var index;
-      for (index = 0; index < this.networkEvents.length; index++) {
-        var ne = this.networkEvents[index];
-        if (!json.event.localeCompare(ne.name)) {
-          ne.processor.call(ne.scope, json);
-        }
-      }
-    },*/
     //--------------------------------------------------------------------------
     registerListener: function(eventName, eventProcessor, scope) {
-      console.log('reg listener')
     	var event = {
     		name: eventName,
     		processor: eventProcessor,
@@ -45,10 +25,10 @@ Ext.define('BiofuelsModerator.view.NetworkLayer', {
     //--------------------------------------------------------------------------
 	openSocket: function(ipAddr,port,url) {
 
-		// var WS = window['MozWebSocket'] ? MozWebSocket : WebSocket;
+    // var WS = window['MozWebSocket'] ? MozWebSocket : WebSocket;
     WsConnection.websocket = new WebSocketRails('localhost:3000/websocket');
 
-		var self = this;
+    var self = this;
     WsConnection.webSocket.on_open = function() {
       console.log('the sockets are open')
     };
@@ -95,32 +75,12 @@ Ext.define('BiofuelsModerator.view.NetworkLayer', {
 
     WsConnection.webSocket.trigger('get_new_id', 'blank', success);
 
-  //   var webSocket = new WebSocketRails('localhost:3000/websocket');
+		/*var WS = window['MozWebSocket'] ? MozWebSocket : WebSocket;
 
-    /*webSocket.on_open = function() {
-      console.log('the sockets are open')
-    };
-    webSocket.on_close = function() {
-      console.log('websocket onClose!!');
-    };
-    webSocket.on_message = function(message) {
+		var self = this;
+		this.webSocket = new WS('ws://' + ipAddr + ':' + port + url);
 
-      var json = JSON.parse(message.data);
-      var index;
-      for (index = 0; index < self.networkEvents.length; index++) {
-        var ne = self.networkEvents[index];
-        if (!json.event.localeCompare(ne.name)) {
-          ne.processor.call(ne.scope, json);
-        }
-      }
-    };
-    webSocket.on_error = function() {
-      console.log('websocket onError!!');
-    };*/
-
-		/*this.webSocket = new WS('ws://' + ipAddr + ':' + port + url);
-
-    this.webSocket.onopen = function() {
+		this.webSocket.onopen = function() {
 		};
 		this.webSocket.onclose = function() {
 			console.log('websocket onClose!!');
@@ -143,11 +103,10 @@ Ext.define('BiofuelsModerator.view.NetworkLayer', {
 
     //--------------------------------------------------------------------------
 	send: function(json) {
-    // console.log('sending')
     var sendArray = new Array();
     sendArray.push(WsConnection.webSocket.id);
     sendArray.push(json);
-		WsConnection.webSocket.trigger('receive_event', sendArray);
+    WsConnection.webSocket.trigger('receive_event', sendArray);
 	}
 
 });

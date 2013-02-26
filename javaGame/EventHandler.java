@@ -11,6 +11,13 @@ public class EventHandler {
 
     switch (eventObj.get("event").toString()){
 
+
+    case "validateRoom":
+      if(games.contains(eventObj.get("roomName"))){
+        return("{\"event\":\"validateRoom\",\"result\":false}");
+      }
+      return("{\"event\":\"validateRoom\",\"result\":true}");
+
     case "createRoom":
       //uncomment to test concurrency
       /*System.out.print("sleeping\n");
@@ -21,9 +28,15 @@ public class EventHandler {
         e.printStackTrace();
       }
       System.out.print("waking\n");*/
+      if(games.contains(eventObj.get("roomName"))){
+        return("{\"event\":\"createRoom\",\"result\":false}");
+      }
+
+      games.add(new Game((String) eventObj.get("roomName")));
       return("{\"event\":\"createRoom\",\"result\":true}");
+
     case "validateUserName":
-      return "{\"event\":\"validateUserName\",\"roomResult\":true,\"needsPassword\":true,\"passwordResult\":true,\"userNameResult\":true}";
+      return "{\"event\":\"validateUserName\",\"roomResult\":true,\"needsPassword\":false,\"passwordResult\":true,\"userNameResult\":true}";
 
     }
 
