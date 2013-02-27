@@ -1,14 +1,17 @@
 require 'java'
 # require_relative 'GPT.jar'
-java_import 'EventHandler'
-$CLASSPATH << '.'
-$CLASSPATH << 'json-simple-1.1.1.jar'
+scriptloc = File.expand_path(File.dirname(__FILE__))
+
+$CLASSPATH << "#{scriptloc}"
+$CLASSPATH << "#{scriptloc}/json-simple-1.1.1.jar"
+java_import "EventHandler"
 
 class ServerWrapper
 
+
   def open_pipes
-    puts 'server opening pipes'
     scriptloc = File.expand_path(File.dirname(__FILE__))
+    puts 'server opening pipes'
 
     puts @rpipe = open(File.join(scriptloc, "../pipes/rubypipe"),'r+')
     puts @wpipe = open(File.join(scriptloc, "../pipes/javapipe"),'w+')

@@ -5,17 +5,19 @@ end
 
 require_relative "server_wrapper"
 
+scriptloc = File.expand_path(File.dirname(__FILE__))
 
-if !File.exist?("../pipes/javapipe")
+
+if !File.exist?(File.join(scriptloc, "../pipes/javapipe"))
   puts 'making javapipe'
   # File.delete('javapipe')
-  `mkfifo ".."/pipes/javapipe`
+  `mkfifo "#{scriptloc}"/../pipes/javapipe`
 end
 
-if !File.exist?("../pipes/rubypipe")
+if !File.exist?(File.join(scriptloc,"../pipes/rubypipe"))
   puts 'making rubypipe'
   # File.delete('rubypipe')
-  `mkfifo ".."/pipes/rubypipe`
+  `mkfifo "#{scriptloc}"/../pipes/rubypipe`
 end
 
 s = ServerWrapper.new
