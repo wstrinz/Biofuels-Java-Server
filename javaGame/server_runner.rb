@@ -1,6 +1,6 @@
 scriptloc = File.expand_path(File.dirname(__FILE__))
 
-if ARGV.first
+if ARGV[0]
   puts `javac -cp "#{scriptloc}"/json-simple-1.1.1.jar "#{scriptloc}"/*.java` # attempt to compile server
 end
 
@@ -23,4 +23,4 @@ end
 
 s = ServerWrapper.new
 
-s.watch
+s.watch(ARGV[1])

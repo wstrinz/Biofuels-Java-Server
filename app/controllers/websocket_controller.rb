@@ -6,7 +6,8 @@ class WebsocketController < WebsocketRails::BaseController
 
   def initialize_session
     @id = 0
-    open_pipes
+    @mode = "redis"
+    open_pipes(@mode)
   end
 
   def connected
@@ -34,7 +35,17 @@ class WebsocketController < WebsocketRails::BaseController
     # puts jss
     jss["clientID"] = message[0]
     puts "received #{message}"
-    write_pipe(ActiveSupport::JSON.encode(jss))
+    # write_pipe(ActiveSupport::JSON.encode(jss))
+    if(jss["event"] == "changeSettings")
+      send_event(jss["roomName"],ActiveSupport::JSON.encode(jss))
+    else
+      if @mode == "redis"
+        write_queue(ActiveSupport::JSON.encode(jss))
+      else
+        write_pipe(ActiveSupport::JSON.encode(jss))
+      end
+    end
+    # puts "wrote"
   end
 
   def get_new_id
@@ -44,7 +55,11 @@ class WebsocketController < WebsocketRails::BaseController
 
   def watch_pipe
     loop do
-      str = read_pipe
+      if @mode == "redis"
+        str = read_queue
+      else
+        str = read_pipe
+      end
       obj = ActiveSupport::JSON.decode(str);
 
       puts "Sending #{str}"

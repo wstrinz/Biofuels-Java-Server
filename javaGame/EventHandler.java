@@ -14,6 +14,7 @@ public class EventHandler {
 
   public String[] handle(String event){
     ArrayList<String> replies = new ArrayList<>();
+    System.out.println("handle " + event);
     JSONObject eventObj = (JSONObject) JSONValue.parse(event);
 
     Integer clientID = Integer.parseInt((String) eventObj.get("clientID"));
