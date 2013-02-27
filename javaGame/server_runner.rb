@@ -1,11 +1,12 @@
+scriptloc = File.expand_path(File.dirname(__FILE__))
+
 if ARGV.first
-  puts `javac -cp json-simple-1.1.1.jar *.java` # attempt to compile server
+  puts `javac -cp "#{scriptloc}"/json-simple-1.1.1.jar "#{scriptloc}"/*.java` # attempt to compile server
 end
 
 
 require_relative "server_wrapper"
 
-scriptloc = File.expand_path(File.dirname(__FILE__))
 
 
 if !File.exist?(File.join(scriptloc, "../pipes/javapipe"))

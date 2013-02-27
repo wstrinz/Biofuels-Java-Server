@@ -37,7 +37,6 @@ public class Game {
   public void addFarmer(String newPlayer) {
     // TODO Auto-generated method stub
     players.add(newPlayer);
-    System.out.println("farmers: "+players.toString());
   }
 
   public Boolean hasPassword(){
