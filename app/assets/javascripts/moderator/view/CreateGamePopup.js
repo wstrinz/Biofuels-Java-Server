@@ -40,7 +40,7 @@ Ext.define('BiofuelsModerator.view.CreateGamePopup', {
     //--------------------------------------------------------------------------
     initNetworkEvents: function() {
     	var app = BiofuelsModerator;
-    	
+
         app.network.registerListener('validateRoom', this.manageLed, this);
         app.network.registerListener('createRoom', this.serverCreateRoomResult, this);
     },
@@ -50,7 +50,7 @@ Ext.define('BiofuelsModerator.view.CreateGamePopup', {
         var me = this;
 
         this.initNetworkEvents();
-        
+
         Ext.applyIf(me, {
             items: [{
 				xtype: 'textfield',
@@ -120,35 +120,36 @@ Ext.define('BiofuelsModerator.view.CreateGamePopup', {
 
         me.callParent(arguments);
     },
-    
+
     //--------------------------------------------------------------------------
     dirtyChange: function(value) {
-  
+
     	var app = BiofuelsModerator;
  		var output = {
  			event: 'validateRoom',
  			roomName: value
  		};
     	app.network.send(JSON.stringify(output));
-    	
+
     	return true;
     },
-    
+
     //--------------------------------------------------------------------------
     manageLed: function(json) {
-    	var led = this.getComponent('roomLed');
-    	if (json.result) {
+
+      var led = this.getComponent('roomLed');
+      if ((led != null) && json.result) {
     		led.setSrc('app/resources/greenLed.png');
     	}
     	else {
     		led.setSrc('app/resources/redLed.png');
     	}
     },
-    
-    // Asks the server to try to create the given room    
+
+    // Asks the server to try to create the given room
     //--------------------------------------------------------------------------
     tryCreateRoom: function() {
-    	
+
     	var roomName = this.getComponent('name').value;
     	var password = this.getComponent('password').value;
     	var playerCount = this.getComponent('count').value;
@@ -157,25 +158,26 @@ Ext.define('BiofuelsModerator.view.CreateGamePopup', {
     	password = (typeof password == 'undefined' || password.length < 1) ? '' : password;
 
     	if (typeof roomName == 'undefined' || roomName.length < 1) {
-    		
+
     		Ext.MessageBox.alert('Data Required', 'A unique room name is required. ' +
     			'The room name also cannot be left empty.');
     		var roomName = this.getComponent('name').focus(true,true);
     		return;
     	}
-    	
+
     	var message = {
     		event: 'createRoom',
     		roomName: roomName,
     		password: password,
     		playerCount: playerCount
     	};
-    	BiofuelsModerator.network.send(JSON.stringify(message));
+      WsConnection.webSocket.gameChannel = roomName;
+      BiofuelsModerator.network.send(JSON.stringify(message));
     },
-    
+
     //--------------------------------------------------------------------------
     serverCreateRoomResult: function(json) {
-    	
+
      	if (json.result) {
      		this.close();
      	}
@@ -183,5 +185,5 @@ Ext.define('BiofuelsModerator.view.CreateGamePopup', {
      		Ext.MessageBox.alert('Create Room Error', json.errorMessage);
      	}
     }
-    
+
 });

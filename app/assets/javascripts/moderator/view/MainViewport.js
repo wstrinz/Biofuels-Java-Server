@@ -123,13 +123,16 @@ Ext.define('BiofuelsModerator.view.MainViewport', {
  		var fieldCount = container.getComponent('fieldCount').value;
  		var contractsOn = container.getComponent('contracts').value;
  		var mgmtOptsOn = container.getComponent('managementOptions').value;
+    var roomName = WsConnection.webSocket.gameChannel;
 
  		var message = {
     		event: 'changeSettings',
-    		fieldCount: fieldCount,
-    		contractsOn: contractsOn,
-    		mgmtOptsOn: mgmtOptsOn
+        roomName: roomName,
+        fieldCount: fieldCount,
+        contractsOn: contractsOn,
+        mgmtOptsOn: mgmtOptsOn
     	};
+      console.log(message);
     	BiofuelsModerator.network.send(JSON.stringify(message));
  	}
 

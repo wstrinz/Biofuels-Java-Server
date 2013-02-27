@@ -30,7 +30,9 @@ class ServerWrapper
     loop do
       str = read_pipe
       puts str
-      write_pipe(@event_handler.handle(str))
+      @event_handler.handle(str).each do |msg|
+        write_pipe(msg)
+      end
     end
   end
 
