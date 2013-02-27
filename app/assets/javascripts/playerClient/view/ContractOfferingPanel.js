@@ -1,7 +1,7 @@
 /*
  * File: app/view/ContractOfferingWindow.js
  */
-	
+
 //------------------------------------------------------------------------------
 Ext.define('Biofuels.view.ContractOfferingPanel', {
     extend: 'Ext.panel.Panel',
@@ -44,14 +44,14 @@ Ext.define('Biofuels.view.ContractOfferingPanel', {
                     scale: 'large',
                     text: 'Accept Contract?',
                     enableToggle: true,
-					handler: function(button, evt) {
-						if (button.pressed) {
-							button.setText('Contract Accepted!');
-						}
-						else {
-							button.setText('Accept Contract?');
-						}
-					}
+          					handler: function(button, evt) {
+          						if (button.pressed) {
+          							button.setText('Contract Accepted!');
+          						}
+          						else {
+          							button.setText('Accept Contract?');
+          						}
+          					}
                 }
             ]
         });

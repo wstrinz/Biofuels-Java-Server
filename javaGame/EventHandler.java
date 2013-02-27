@@ -16,12 +16,14 @@ public class EventHandler {
     ArrayList<String> replies = new ArrayList<>();
     JSONObject eventObj = (JSONObject) JSONValue.parse(event);
 
-    Integer clientId = Integer.parseInt((String) eventObj.get("clientID"));
+    Integer clientID = Integer.parseInt((String) eventObj.get("clientID"));
+    String roomName = (String) eventObj.get("roomName");
+    String farmerName = (String) eventObj.get("userName");
 
     switch (eventObj.get("event").toString()){
 
     case "validateRoom":
-      if(games.get(eventObj.get("roomName")) != null){
+      if(games.get(roomName) != null){
         replies.add("{\"event\":\"validateRoom\",\"result\":false}");
       }
       else{
@@ -43,53 +45,56 @@ public class EventHandler {
             e.printStackTrace();
           }
           System.out.print("waking\n");*/
-      if(games.get(eventObj.get("roomName")) != null){
+      if(games.get(roomName) != null){
         replies.add("{\"event\":\"createRoom\",\"result\":false}");
       }
-      games.put((String) eventObj.get("roomName"), new Game((String) eventObj.get("roomName")));
+      else if(((String)eventObj.get("password")).length()>0){
+        games.put(roomName,
+            new Game(roomName, (String)eventObj.get("password"),
+                Integer.parseInt(((String)eventObj.get("playerCount")))));
+      }
+      else{
+        games.put(roomName, new Game(roomName, (long)eventObj.get("playerCount")));
+      }
       replies.add (buildJson("createRoom","result",true));
       //replies.add("{\"event\":\"createRoom\",\"result\":true}");
     break;
 
     case "validateUserName":
-      Boolean roomResult = roomValid((String) eventObj.get("roomName")); //games.get(eventObj.get("roomName")) != null;
-      Boolean nameResult = false;
-      Boolean needsPass = false;
-      Boolean correctPass = false;
+      boolean roomResult = (roomExists(roomName) && !games.get(roomName).isFull());
+      boolean nameResult = false;
+      boolean needsPass = false;
+      boolean correctPass = false;
       if(roomResult){
-        nameResult = !eventObj.get("userName").equals("") && !farmerExistsInRoom((String)eventObj.get("userName"), (String) eventObj.get("roomName"));//!games.get(eventObj.get("roomName")).hasFarmer((String) eventObj.get(eventObj.get("userName")));
-        needsPass = games.get(eventObj.get("roomName")).hasPassword();
+        nameResult = !eventObj.get("userName").equals("") && !farmerExistsInRoom((String)eventObj.get("userName"), roomName);//!games.get(roomName).hasFarmer((String) eventObj.get(eventObj.get("userName")));
+        needsPass = games.get(roomName).hasPassword();
         if(needsPass){
-          correctPass = games.get(eventObj.get("roomName")).getPassword().equals(eventObj.get("password"));
+          correctPass = games.get(roomName).getPassword().equals(eventObj.get("password"));
         }
       }
       replies.add(buildJson("validateUserName","roomResult",roomResult,"needsPassword",needsPass,
           "passwordResult",correctPass,"userNameResult",nameResult));
-      //replies.add "{\"event\":\"validateUserName\",\"roomResult\":"+ roomResult + ",\"needsPassword\":false,\"passwordResult\":false,\"userNameResult\":"+nameResult +"}";
     break;
 
     case "joinRoom":
-      //    {"event":"joinRoom","roomName":"a","password":"","userName":"d"}
-      if(roomExists((String) eventObj.get("roomName")) &&
-      !farmerExistsInRoom((String) eventObj.get("userName"),(String) eventObj.get("roomName"))){
-        games.get(eventObj.get("roomName")).addFarmer((String) eventObj.get("userName"));
-        replies.add(buildJson("joinRoom","result",true,"roomName",(String) eventObj.get("roomName")));
-        //replies.add("{\"event\":\"joinRoom\",\"result\":true}");
+      if(roomExists(roomName) && (!farmerExistsInRoom(farmerName, roomName) && !games.get(roomName).isFull()))
+      {
+        games.get(roomName).addFarmer(farmerName, clientID);
+        replies.add(buildJson("joinRoom","result",true,"roomName",(String) roomName));
       }
       else
         replies.add(buildJson("joinRoom","result",false));
     break;
     default:
-//      replies.add("{\"event\":\"validateRoom\",\"result\":true}");
     }
     String[] ret = new String[replies.size()];
     replies.toArray(ret);
     return ret;
   }
 
-  private boolean roomValid(String room){
+  /*private boolean roomValid(String room){
     return (room.length()>0 && roomExists(room));
-  }
+  }*/
 
   private boolean roomExists(String room){
     return games.get(room) != null;
