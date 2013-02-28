@@ -27,7 +27,7 @@ Ext.define('Biofuels.view.NetworkLayer', {
 
 
     // var WS = window['MozWebSocket'] ? MozWebSocket : WebSocket;
-    WsConnection.websocket = new WebSocketRails('localhost:3000/websocket');
+    WsConnection.webSocket = new WebSocketRails('localhost:3000/websocket');
 
     var self = this;
     WsConnection.webSocket.on_open = function() {
@@ -57,7 +57,7 @@ Ext.define('Biofuels.view.NetworkLayer', {
 
       WsConnection.webSocket.id = channelID.toString();
 
-      var channel = WsConnection.websocket.subscribe(channelID.toString());
+      var channel = WsConnection.webSocket.subscribe(channelID.toString());
 
       channel.bind('event', function(message){
         // console.log('receive ' + message)

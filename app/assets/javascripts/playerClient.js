@@ -4,7 +4,7 @@
 
 Ext.define('WsConnection',{
   singleton: true,
-  webSocket: new WebSocketRails('localhost:3000/websocket'),
+  //webSocket: new WebSocketRails('localhost:3000/websocket'),
   id: '',
   gameChannel: ''
 
