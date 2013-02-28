@@ -12,8 +12,6 @@ module WebsocketHelper
     end
     # #puts "#{File.exist?('~/javapipe')}"
     # Dir.chdir(File.dirname(__FILE__))
-
-
   end
 
   def write_pipe(msg)
