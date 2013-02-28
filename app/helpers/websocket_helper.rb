@@ -6,7 +6,7 @@ module WebsocketHelper
       puts @wpipe = open("#{Rails.root}/pipes/rubypipe",'w+')
     else
       puts 'rails connecting to redis'
-      uri = URI.parse("redis://redistogo:1f736fa2a27319dc45b7ebb470e04bbe@dory.redistogo.com:10177/")
+      uri = URI.parse(ENV["REDISTOGO_URL"])
       @red = Redis.new(:host => uri.host, :port => uri.port, :password => uri.password)
       @blu = Redis.new(:host => uri.host, :port => uri.port, :password => uri.password)
     end
