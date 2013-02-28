@@ -25,10 +25,12 @@ public class EventHandler {
 
     case "validateRoom":
       if(games.get(roomName) != null){
-        replies.add("{\"event\":\"validateRoom\",\"result\":false}");
+        replies.add(buildJson(clientID, "validateRoom", "result", false));
+//        replies.add("{\"event\":\"validateRoom\",\"result\":false}");
       }
       else{
-        replies.add("{\"event\":\"validateRoom\",\"result\":true}");
+        replies.add(buildJson(clientID, "validateRoom", "result", true));
+//        replies.add("{\"event\":\"validateRoom\",\"result\":true}");
       }
     break;
 
@@ -47,7 +49,8 @@ public class EventHandler {
           }
           System.out.print("waking\n");*/
       if(games.get(roomName) != null){
-        replies.add("{\"event\":\"createRoom\",\"result\":false}");
+        replies.add(buildJson(clientID, "createRoom", "result", false));
+//        replies.add("{\"event\":\"createRoom\",\"result\":false}");
       }
       else if(((String)eventObj.get("password")).length()>0){
         games.put(roomName,
@@ -57,7 +60,7 @@ public class EventHandler {
       else{
         games.put(roomName, new Game(roomName, (long)eventObj.get("playerCount")));
       }
-      replies.add (buildJson("createRoom","result",true));
+      replies.add (buildJson(clientID, "createRoom","result",true));
       //replies.add("{\"event\":\"createRoom\",\"result\":true}");
     break;
 
@@ -73,7 +76,7 @@ public class EventHandler {
           correctPass = games.get(roomName).getPassword().equals(eventObj.get("password"));
         }
       }
-      replies.add(buildJson("validateUserName","roomResult",roomResult,"needsPassword",needsPass,
+      replies.add(buildJson(clientID, "validateUserName","roomResult",roomResult,"needsPassword",needsPass,
           "passwordResult",correctPass,"userNameResult",nameResult));
     break;
 
@@ -81,10 +84,10 @@ public class EventHandler {
       if(roomExists(roomName) && (!farmerExistsInRoom(farmerName, roomName) && !games.get(roomName).isFull()))
       {
         games.get(roomName).addFarmer(farmerName, clientID);
-        replies.add(buildJson("joinRoom","result",true,"roomName",(String) roomName));
+        replies.add(buildJson(clientID, "joinRoom","result",true,"roomName",roomName,"userName",(String)eventObj.get("userName")));
       }
       else
-        replies.add(buildJson("joinRoom","result",false));
+        replies.add(buildJson(clientID, "joinRoom","result",false));
     break;
     default:
     }
@@ -109,8 +112,39 @@ public class EventHandler {
     return false;
   }
 
-  private String buildJson(String event, Object ... arguments){
+/*  private String buildJson(String event, Object ... arguments){
     String start = "{\"event\":\""+event+"\",";
+    StringBuilder sb = new StringBuilder(start);
+    if(!(arguments.length % 2 == 0)){
+      System.out.println("bad argument list; not an even number");
+      return (sb.append("}")).toString();
+    }
+    for(int i = 0;i<arguments.length;i+=2){
+      String str1 = arguments[i].toString();
+      if(arguments[i] instanceof String){
+        str1 = "\"" + arguments[i] + "\"";
+      }
+      String str2 = arguments[i+1].toString();
+      if(arguments[i+1] instanceof String){
+        str2 = "\"" + arguments[i+1] + "\"";
+      }
+      sb.append(str1);
+      sb.append(":");
+      sb.append(str2);
+
+      if(i+2 == arguments.length){
+        sb.append("}");
+      }
+      else{
+        sb.append(",");
+      }
+    }
+    return(sb.toString());
+
+  }*/
+
+  private String buildJson(int clientID, String event, Object ... arguments){
+    String start = "{\"event\":\""+event+"\",\"clientID\":\"" + clientID + "\",";
     StringBuilder sb = new StringBuilder(start);
     if(!(arguments.length % 2 == 0)){
       System.out.println("bad argument list; not an even number");

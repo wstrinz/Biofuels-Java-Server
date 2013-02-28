@@ -10,13 +10,13 @@ require_relative "server_wrapper"
 
 
 if !File.exist?(File.join(scriptloc, "../pipes/javapipe"))
-  puts 'making javapipe'
+  #puts 'making javapipe'
   # File.delete('javapipe')
   `mkfifo "#{scriptloc}"/../pipes/javapipe`
 end
 
 if !File.exist?(File.join(scriptloc,"../pipes/rubypipe"))
-  puts 'making rubypipe'
+  #puts 'making rubypipe'
   # File.delete('rubypipe')
   `mkfifo "#{scriptloc}"/../pipes/rubypipe`
 end

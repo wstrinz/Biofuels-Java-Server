@@ -23,7 +23,8 @@ end
 # gem 'jquery-rails'
 
 gem 'execjs'
-gem 'websocket-rails'
+# gem 'websocket-rails', "~> 0.4.0"
+gem 'websocket-rails', "~> 0.3.0"
 
 gem 'redis'
 

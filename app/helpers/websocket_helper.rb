@@ -28,7 +28,7 @@ module WebsocketHelper
   end
 
   def write_queue(msg)
-    puts "writing #{msg}"
+    # puts "writing #{msg}"
     @red.lpush("toJava", msg)
   end
 

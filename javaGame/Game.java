@@ -8,7 +8,7 @@ public class Game {
   private final String roomName;
   private final boolean hasPassword;
   private final String password;
-  private ConcurrentHashMap<String, Farm> farms;
+  private ConcurrentHashMap<Integer, Farm> farms;
   private long maxPlayers;
   private RoundManager roundManager;
 
@@ -60,7 +60,7 @@ public class Game {
     // TODO Auto-generated method stub
     Farm f = new Farm(newPlayer, 1000);
     f.setClientID(clientID);
-    farms.put(newPlayer, f);
+    farms.put(clientID, f);
   }
 
   public Boolean hasPassword(){
@@ -94,5 +94,10 @@ public class Game {
   public boolean isFull(){
     return(farms.size() >= maxPlayers);
   }
+
+  public void setField(int clientID, int field, Crop crop){
+    farms.get(clientID).getFields()[field].setCrop(crop);
+  }
+
 
 }

@@ -8,7 +8,7 @@ Ext.define('WsConnection',{
   id: '',
   gameChannel: ''
 
-  /*webSocket.on_open = function() {
+  /* webSocket.on_open = function() {
     console.log('the sockets are open')
   };
   webSocket.on_close = function() {
@@ -21,7 +21,7 @@ Ext.define('WsConnection',{
   };
   webSocket.on_error = function() {
     console.log('websocket onError!!');
-  };*/
+  }; */
 });
 
 Ext.Loader.setConfig({

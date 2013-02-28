@@ -32,7 +32,6 @@ Ext.define('BiofuelsModerator.view.NetworkLayer', {
     },*/
     //--------------------------------------------------------------------------
     registerListener: function(eventName, eventProcessor, scope) {
-      console.log('reg listener')
     	var event = {
     		name: eventName,
     		processor: eventProcessor,
