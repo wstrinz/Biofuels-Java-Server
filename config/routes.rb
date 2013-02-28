@@ -5,6 +5,12 @@ GrowingPower::Application.routes.draw do
 
   get "game/moderator"
 
+  # This redirect is a work around for the use of Extjs4 with Rails assets pipeline:
+  # for "test" and "production" mode images are now retrived this way
+  match "/resources/themes/*all" => redirect {|env, req|
+    URI.unescape "/assets/extjs4/resources/themes/#{req.params[:all]}"
+  }, all: /.*/ unless Rails.env == 'development'
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
