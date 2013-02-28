@@ -7,8 +7,8 @@ module WebsocketHelper
     else
       puts 'rails connecting to redis'
       uri = URI.parse(ENV["REDISTOGO_URL"])
-      @red = Redis.new(:host => uri.host, :port => uri.port, :password => uri.password)
-      @blu = Redis.new(:host => uri.host, :port => uri.port, :password => uri.password)
+      #@red = Redis.new(:host => uri.host, :port => uri.port, :password => uri.password)
+      #@blu = Redis.new(:host => uri.host, :port => uri.port, :password => uri.password)
     end
     # #puts "#{File.exist?('~/javapipe')}"
     # Dir.chdir(File.dirname(__FILE__))
@@ -27,12 +27,12 @@ module WebsocketHelper
 
   def write_queue(msg)
     puts "writing #{msg}"
-    @red.lpush("toJava", msg)
+    REDISSEND.lpush("toJava", msg)
   end
 
   def read_queue
     # puts "waiting to read"
-    @blu.brpop("fromJava")[1]
+    REDISREC.brpop("fromJava")[1]
     # puts "read"
   end
 
