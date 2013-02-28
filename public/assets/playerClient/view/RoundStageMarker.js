@@ -1,5 +1,0 @@
-/*
- * File: app/view/RoundStageMarker.js
- */
-//------------------------------------------------------------------------------
-Ext.define("Biofuels.view.RoundStageMarker",{constructor:function(e){},addToSurface:function(e,t,n,r){var i=[{type:"circle",fill:"#000",opacity:"0.5",x:t,y:n,radius:15,zIndex:200},{type:"circle",fill:"#fff",opacity:"0.5",x:t,y:n+2,radius:15,zIndex:200},{type:"circle",fill:"#164028",opacity:"0.75",x:t,y:n+1,radius:14,zIndex:200}],s=e.add(i);this.markerSprites=s;for(var o=0;o<s.length;o++)s[o].show(!0);var u=[{type:"text",text:r,fill:"#000",font:"15px monospace",x:t,y:n+29},{type:"text",text:r,fill:"#fff",font:"15px monospace",x:t-30,y:n+27}];s=e.add(u),this.labelSprites=s;for(var o=0;o<s.length;o++){var a=s[o];a.show(!0),a.setAttributes({x:t-a.getBBox().width*.5},!0)}},detach:function(){var e;for(e=0;e<this.markerSprites.length;e++)this.markerSprites[e].remove(),this.markerSprites[e].destroy();for(e=0;e<this.labelSprites.length;e++)this.labelSprites[e].remove(),this.labelSprites[e].destroy()}});

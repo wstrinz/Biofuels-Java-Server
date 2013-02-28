@@ -1,5 +1,0 @@
-/*
- * File: NetworkLayer.js
- */
-// TODO: would be nice if this could be shared between: player, moderator, global projects?
-Ext.define("BiofuelsGlobal.view.NetworkLayer",{constructor:function(){this.networkEvents=new Array},registerListener:function(e,t,n){var r={name:e,processor:t,scope:n};this.networkEvents.push(r)},openSocket:function(e,t,n){var r=window.MozWebSocket?MozWebSocket:WebSocket,i=this;this.webSocket=new r("ws://"+e+":"+t+n),this.webSocket.onopen=function(){},this.webSocket.onclose=function(){console.log("websocket onClose!!")},this.webSocket.onmessage=function(e){var t=JSON.parse(e.data),n;for(n=0;n<i.networkEvents.length;n++){var r=i.networkEvents[n];t.event.localeCompare(r.name)||r.processor.call(r.scope,t)}},this.webSocket.onerror=function(){console.log("websocket onError!!")}},send:function(e){this.webSocket.send(e)}});
