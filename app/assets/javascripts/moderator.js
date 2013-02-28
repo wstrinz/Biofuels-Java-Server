@@ -4,7 +4,8 @@
 
 Ext.define('WsConnection',{
   singleton: true,
-  webSocket: new WebSocketRails('localhost:3000/websocket'),
+  // webSocket: new WebSocketRails('localhost:3000/websocket'),
+  webSocket: new WebSocketRails('ws://afternoon-rain-3426.herokuapp.com:80/websocket')
   id: '',
   gameChannel: ''
 
