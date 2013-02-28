@@ -27,7 +27,7 @@ Ext.define('Biofuels.view.NetworkLayer', {
 
 
     // var WS = window['MozWebSocket'] ? MozWebSocket : WebSocket;
-    WsConnection.webSocket = new WebSocketRails('localhost:3000/websocket');
+    WsConnection.webSocket = new WebSocketRails('localhost:80/websocket', false);
 
     var self = this;
     WsConnection.webSocket.on_open = function() {
