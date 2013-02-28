@@ -51,6 +51,7 @@ class ServerWrapper
       puts "handling #{str}"
 
       @event_handler.handle(str).each do |msg|
+        # puts "writing #{msg} back"
         if mode=="pipe"
           write_pipe(msg)
         else

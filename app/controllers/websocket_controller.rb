@@ -38,13 +38,14 @@ class WebsocketController < WebsocketRails::BaseController
     # write_pipe(ActiveSupport::JSON.encode(jss))
     if(jss["event"] == "changeSettings")
       send_event(jss["roomName"],ActiveSupport::JSON.encode(jss))
-    else
-      if @mode == "redis"
-        write_queue(ActiveSupport::JSON.encode(jss))
-      else
-        write_pipe(ActiveSupport::JSON.encode(jss))
-      end
     end
+    # else
+    if @mode == "redis"
+      write_queue(ActiveSupport::JSON.encode(jss))
+    else
+      write_pipe(ActiveSupport::JSON.encode(jss))
+    end
+    # end
     # puts "wrote"
   end
 

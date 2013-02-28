@@ -124,6 +124,7 @@ Ext.define('Biofuels.view.NetworkLayer', {
     var sendArray = new Array();
     sendArray.push(WsConnection.webSocket.id);
     sendArray.push(json);
+    // console.log('sending ' + sendArray)
     WsConnection.webSocket.trigger('receive_event', sendArray);
 	}
 

@@ -7,7 +7,7 @@ public class Field {
   private ManagementOptions management;
 
   public Field() {
-    setCrop(Crop.FALLOW);
+    setCrop(Crop.CORN);
     management = new ManagementOptions();
     // TODO Auto-generated constructor stub
   }

@@ -12,6 +12,7 @@ public class EventHandler {
     games = new HashMap<>();
   }
 
+  @SuppressWarnings("unchecked")
   public String[] handle(String event){
     ArrayList<String> replies = new ArrayList<>();
     System.out.println("handle " + event);
@@ -35,7 +36,7 @@ public class EventHandler {
     break;
 
     case "changeSettings":
-      replies.add(event);
+      //replies.add(event);
     break;
 
     case "createRoom":
@@ -78,6 +79,22 @@ public class EventHandler {
       }
       replies.add(buildJson(clientID, "validateUserName","roomResult",roomResult,"needsPassword",needsPass,
           "passwordResult",correctPass,"userNameResult",nameResult));
+    break;
+
+    case "loadFromServer":
+
+
+      JSONArray list = new JSONArray();
+      JSONObject msg = new JSONObject();
+      JSONObject fields = new JSONObject();
+      msg.put("event", "loadFromServer");
+      msg.put("clientID", clientID);
+      list.addAll(games.get(roomName).getFieldsFor(clientID));
+      fields.put("fields", JSONValue.toJSONString(list));
+      msg.putAll(fields);
+      System.out.println(msg.toJSONString());
+      replies.add(msg.toJSONString());
+
     break;
 
     case "joinRoom":

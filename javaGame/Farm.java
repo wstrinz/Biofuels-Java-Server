@@ -15,6 +15,7 @@ public class Farm {
   public Farm(String name, int capital) {
     this.name = name;
     this.capital = capital;
+    fields = new Field[2];
     // TODO Auto-generated constructor stub
   }
 

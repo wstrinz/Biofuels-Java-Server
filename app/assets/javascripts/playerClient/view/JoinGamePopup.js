@@ -243,6 +243,13 @@ Ext.define('Biofuels.view.JoinGamePopup', {
     	console.log('server join room result called!');
      	if (json.result) {
         Biofuels.network.subscribe(json.roomName);
+
+        var message = {
+          event: 'loadFromServer',
+          roomName: json.roomName
+        };
+
+        Biofuels.network.send(JSON.stringify(message));
      		// Ext.ComponentQuery.query('Farm')[0].loadGameInfo();
         this.close();
      	}

@@ -60,7 +60,10 @@ public class Game {
     // TODO Auto-generated method stub
     Farm f = new Farm(newPlayer, 1000);
     f.setClientID(clientID);
+    f.getFields()[0] = new Field();
+    f.getFields()[1] = new Field();
     farms.put(clientID, f);
+
   }
 
   public Boolean hasPassword(){
@@ -97,6 +100,15 @@ public class Game {
 
   public void setField(int clientID, int field, Crop crop){
     farms.get(clientID).getFields()[field].setCrop(crop);
+  }
+
+  public ArrayList<Crop> getFieldsFor(Integer clientID) {
+    // TODO Auto-generated method stub
+    ArrayList<Crop> cropList = new ArrayList<>();
+    for(Field f:farms.get(clientID).getFields()){
+      cropList.add(f.getCrop());
+    }
+    return cropList;
   }
 
 
