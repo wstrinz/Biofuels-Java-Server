@@ -15,10 +15,14 @@ public class EventHandler {
   @SuppressWarnings("unchecked")
   public String[] handle(String event){
     ArrayList<String> replies = new ArrayList<>();
-    System.out.println("handle " + event);
+//    System.out.println("handle " + event);
     JSONObject eventObj = (JSONObject) JSONValue.parse(event);
 
-    Integer clientID = Integer.parseInt((String) eventObj.get("clientID"));
+
+    Integer clientID = -1;
+    if(eventObj.get("clientID") != null) {
+      clientID = Integer.parseInt((String) eventObj.get("clientID"));
+    }
     String roomName = (String) eventObj.get("roomName");
     String farmerName = (String) eventObj.get("userName");
 
