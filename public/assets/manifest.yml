@@ -21,8 +21,8 @@ moderator/view/CreateGamePopup.js: moderator/view/CreateGamePopup-3d23c84ff2c50c
 moderator/view/CreateGamePopup/index.js: moderator/view/CreateGamePopup-3d23c84ff2c50cdf24995715da6addb4.js
 moderator/view/MainViewport.js: moderator/view/MainViewport-0450e73deae18dd8b8ce795f541a4ff0.js
 moderator/view/MainViewport/index.js: moderator/view/MainViewport-0450e73deae18dd8b8ce795f541a4ff0.js
-moderator/view/NetworkLayer.js: moderator/view/NetworkLayer-e5b9d6c8993537521d1d1c4bc4a47e39.js
-moderator/view/NetworkLayer/index.js: moderator/view/NetworkLayer-e5b9d6c8993537521d1d1c4bc4a47e39.js
+moderator/view/NetworkLayer.js: moderator/view/NetworkLayer-e0dd39278610fa5b286f2688d79d8476.js
+moderator/view/NetworkLayer/index.js: moderator/view/NetworkLayer-e0dd39278610fa5b286f2688d79d8476.js
 moderator/view/Viewport.js: moderator/view/Viewport-7e8bb0ae36b68392d6e9f33a40577d7a.js
 moderator/view/Viewport/index.js: moderator/view/Viewport-7e8bb0ae36b68392d6e9f33a40577d7a.js
 playerClient.js: playerClient-9359975c73922da0c74bc329ec535c01.js
