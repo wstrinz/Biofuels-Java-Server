@@ -1,4 +1,4 @@
-GrowingPower::Application.routes.draw do
+FieldsOfFuel::Application.routes.draw do
   get "game/play"
 
   get "game/global"

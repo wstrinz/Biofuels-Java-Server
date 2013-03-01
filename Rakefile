@@ -4,4 +4,4 @@
 
 require File.expand_path('../config/application', __FILE__)
 
-GrowingPower::Application.load_tasks
+FieldsOfFuel::Application.load_tasks
