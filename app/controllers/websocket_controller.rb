@@ -5,34 +5,39 @@ class WebsocketController < WebsocketRails::BaseController
   include WebsocketHelper
 
   def initialize_session
-    @id = 0
-    @mode = "redis"
-    open_pipes(@mode)
+    unless controller_store[:id_num]
+      controller_store[:id_num] = 0
+    end
+    # unless controller_store[:pipes]
+    #   puts "opening pipes"
+    #   pipes = open_pipes("redis")
+    #   puts pipes
+    #   puts "setting pipes to #{{write: pipes[0], read: pipes[1]}}"
+    #   controller_store[:pipes] = {write: pipes[0], read: pipes[1]}
+    # end
   end
 
   def connected
     puts "connection made!"
     Thread.new do
-      watch_pipe
+      watch_pipe("redis")
     end
   end
 
   def send_event(send_channel, msg)
-    # puts "sending #{msg}"
-    if send_channel #.nil?
-      #puts send_channel
+    if send_channel
       WebsocketRails[:"#{send_channel}"].trigger(:event, msg)
     else
-      WebsocketRails[:"#{@current_event_id}"].trigger(:event, msg)     # also a hack
+      puts "no channel specified, skipping #{msg}"
+      # WebsocketRails[:"#{controller_store[:current_event_id]}"].trigger(:event, msg)
     end
 
     # send_message :event, msg
   end
 
   def receive_event
-    @current_event_id = message[0]  #this is temporary; still doesn't work concurrently
+    controller_store[:current_event_id] = message[0]
     jss = ActiveSupport::JSON.decode(message[1])
-    # puts jss
     jss["clientID"] = message[0]
     puts "received #{message}"
     # write_pipe(ActiveSupport::JSON.encode(jss))
@@ -40,27 +45,29 @@ class WebsocketController < WebsocketRails::BaseController
       send_event(jss["roomName"],ActiveSupport::JSON.encode(jss))
     end
     # else
-    if @mode == "redis"
+    #if @mode == "redis"
       write_queue(ActiveSupport::JSON.encode(jss))
-    else
-      write_pipe(ActiveSupport::JSON.encode(jss))
-    end
+    #else
+     # write_pipe(ActiveSupport::JSON.encode(jss))
+    # end
     # end
     # puts "wrote"
   end
 
   def get_new_id
-    trigger_success "#{@id}"
-    @id += 1
+    trigger_success "#{controller_store[:id_num]}"
+    controller_store[:id_num] += 1
   end
 
-  def watch_pipe
+  def watch_pipe(mode)
     loop do
-      if @mode == "redis"
-        str = read_queue
-      else
-        str = read_pipe
-      end
+      # if mode == "redis"
+      # puts "polling"
+      str = read_queue(true)
+      puts str
+      # else
+      #   str = read_pipe
+      # end
       obj = ActiveSupport::JSON.decode(str);
 
       if(obj["event"] == "changeSettings")
@@ -72,6 +79,6 @@ class WebsocketController < WebsocketRails::BaseController
       puts "Sending #{str} to #{send_channel}"
 
       send_event(send_channel,str)
-    end
+      end
   end
 end

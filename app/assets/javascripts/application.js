@@ -14,3 +14,4 @@
 //= require jquery_ujs
 //= require websocket_rails/main
 //= require extjs4/ext-all-debug
+

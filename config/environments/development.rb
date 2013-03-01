@@ -31,6 +31,8 @@ FieldsOfFuel::Application.configure do
 
   config.threadsafe!
 
+  config.middleware.delete Rack::Lock
+
 
   # Do not compress assets
   config.assets.compress = false

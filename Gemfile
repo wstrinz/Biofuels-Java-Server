@@ -28,9 +28,10 @@ gem 'jquery-rails'
 
 gem 'execjs'
 # gem 'websocket-rails', "~> 0.4.0"
-gem 'websocket-rails', "~> 0.3.0"
+gem 'websocket-rails', "~> 0.4.1"
 
 gem 'redis'
+gem 'daemons'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'

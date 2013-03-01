@@ -121,9 +121,9 @@ Ext.define('Biofuels.view.Farm', {
     // console.log('new ' + newFields);
     // var arr = Ext.decode(newFields)
     for(var i = 0;i < newFields.length; i++){
-      console.log(newFields[i]);
+      // console.log(newFields[i]);
       var crop = newFields[i].toLowerCase();
-      console.log("creating " + this.fields.length);
+      // console.log("creating " + this.fields.length);
       if (this.fields.length > i) {
         this.fields[i].fieldVisuals.onPlantingClickHandler(crop);
       }
