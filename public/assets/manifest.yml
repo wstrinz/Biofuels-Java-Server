@@ -57,8 +57,8 @@ playerClient/view/JoinGamePopup.js: playerClient/view/JoinGamePopup-1ae77514168f
 playerClient/view/JoinGamePopup/index.js: playerClient/view/JoinGamePopup-1ae77514168fd192ec4e7bc9bffaa7e3.js
 playerClient/view/MainViewport.js: playerClient/view/MainViewport-5d073c65faaaac8c78bebb7ee073fa0a.js
 playerClient/view/MainViewport/index.js: playerClient/view/MainViewport-5d073c65faaaac8c78bebb7ee073fa0a.js
-playerClient/view/NetworkLayer.js: playerClient/view/NetworkLayer-6d2182fe2b9ba40277d6cdabf6278a57.js
-playerClient/view/NetworkLayer/index.js: playerClient/view/NetworkLayer-6d2182fe2b9ba40277d6cdabf6278a57.js
+playerClient/view/NetworkLayer.js: playerClient/view/NetworkLayer-a1d3b57682b7af1269b7054baf25bb7d.js
+playerClient/view/NetworkLayer/index.js: playerClient/view/NetworkLayer-a1d3b57682b7af1269b7054baf25bb7d.js
 playerClient/view/PlantPopup.js: playerClient/view/PlantPopup-2bcca5370ad7c709cd659f50cb2114a4.js
 playerClient/view/PlantPopup/index.js: playerClient/view/PlantPopup-2bcca5370ad7c709cd659f50cb2114a4.js
 playerClient/view/ProgressPanel.js: playerClient/view/ProgressPanel-e5eab28043b2bd2c474db7ea99c3e60d.js
