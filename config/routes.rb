@@ -1,4 +1,4 @@
-BanroTrubasti::Application.routes.draw do
+KoSomboTrubasti::Application.routes.draw do
   get "game/play"
 
   get "game/global"
