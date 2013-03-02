@@ -4,4 +4,4 @@
 
 require File.expand_path('../config/application', __FILE__)
 
-FieldsOfFuel::Application.load_tasks
+BanroTrubasti::Application.load_tasks

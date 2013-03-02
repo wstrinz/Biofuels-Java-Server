@@ -232,7 +232,7 @@ Ext.define('Biofuels.view.JoinGamePopup', {
     		password: password,
     		userName: userName
     	};
-    	console.log('Trying to join the room!');
+    	// console.log('Trying to join the room!');
     	WsConnection.webSocket.gameChannel = roomName
     	Biofuels.network.send(JSON.stringify(message));
     },
@@ -240,7 +240,7 @@ Ext.define('Biofuels.view.JoinGamePopup', {
     //--------------------------------------------------------------------------
     serverJoinRoomResult: function(json) {
 
-    	console.log('server join room result called!');
+    	// console.log('server join room result called!');
      	if (json.result) {
         Biofuels.network.subscribe(json.roomName);
 

@@ -1,4 +1,4 @@
-FieldsOfFuel::Application.routes.draw do
+BanroTrubasti::Application.routes.draw do
   get "game/play"
 
   get "game/global"
