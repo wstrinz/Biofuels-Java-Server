@@ -4,4 +4,4 @@
 
 require File.expand_path('../config/application', __FILE__)
 
-KoSomboTrubasti::Application.load_tasks
+KoSombo::Application.load_tasks
