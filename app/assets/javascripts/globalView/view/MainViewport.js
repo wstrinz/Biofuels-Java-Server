@@ -32,8 +32,10 @@ Ext.define('BiofuelsGlobal.view.MainViewport', {
 
 	//--------------------------------------------------------------------------
     updateFarmerList: function(json) {
+      console.log("updating farmer list");
+      console.log(json)
 
-    	this.farmerListStore.loadRawData(json, false);
+    	this.farmerListStore.loadRawData(json.Farmers, false);
 
 		// FIXME: not the best place for this...needs to happen after login
     	var roomName = this.getComponent('panel1').getComponent('roomName');

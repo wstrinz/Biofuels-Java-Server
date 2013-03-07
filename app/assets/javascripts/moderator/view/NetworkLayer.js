@@ -141,6 +141,23 @@ Ext.define('BiofuelsModerator.view.NetworkLayer', {
 		};*/
 	},
 
+   subscribe: function(channel){
+    self = this;
+    WsConnection.webSocket.subscribe(channel).bind('event', function(message){
+        // console.log('receive ' + message)
+        // console.log(self.networkEvents)
+
+        var json = JSON.parse(message);
+        var index;
+        for (index = 0; index < self.networkEvents.length; index++) {
+          var ne = self.networkEvents[index];
+          if (!json.event.localeCompare(ne.name)) {
+            ne.processor.call(ne.scope, json);
+          }
+        }
+      });
+  },
+
     //--------------------------------------------------------------------------
 	send: function(json) {
     // console.log('sending')
