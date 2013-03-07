@@ -28,7 +28,6 @@ module WebsocketHelper
   # end
 
   def write_queue(msg)
-    puts "writing #{msg}"
     REDISREAD.lpush("toJava", msg)
   end
 
