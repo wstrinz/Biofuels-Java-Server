@@ -3,7 +3,8 @@
  */
 
 Ext.onReady(function() {
-	var createGame = Ext.create('BiofuelsGlobal.view.JoinGamePopup');
+	// var createGame = Ext.create('BiofuelsGlobal.view.JoinGamePopup');
+  var createGame = Ext.create('BiofuelsModerator.view.ConnectWindow');
 	createGame.show();
 });
 
@@ -68,6 +69,8 @@ Ext.define('BiofuelsGlobal.view.MainViewport', {
         BiofuelsGlobal.network = Ext.create('BiofuelsGlobal.view.NetworkLayer');
 		// 192.168.1.101
         BiofuelsGlobal.network.openSocket('localhost', 8080, '/BiofuelsGame/serverConnect');
+        BiofuelsGlobal.network.checkModel();
+
 
         this.initNetworkEvents();
 

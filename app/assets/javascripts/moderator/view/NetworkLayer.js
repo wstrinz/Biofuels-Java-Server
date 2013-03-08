@@ -51,6 +51,7 @@ Ext.define('BiofuelsModerator.view.NetworkLayer', {
 		var self = this;
     WsConnection.webSocket.on_open = function() {
       console.log('the sockets are open')
+      Ext.getCmp('connectWindow').incCounter()
     };
     WsConnection.webSocket.on_close = function() {
       console.log('WsConnection.websocket onClose!!');
@@ -73,9 +74,9 @@ Ext.define('BiofuelsModerator.view.NetworkLayer', {
 
     var success = function(channelID) {
       console.log('assigned id '+ channelID);
+      Ext.getCmp('connectWindow').incCounter()
 
       WsConnection.webSocket.id = channelID.toString();
-
       var channel = WsConnection.webSocket.subscribe(channelID.toString());
 
       channel.bind('event', function(message){
@@ -156,6 +157,14 @@ Ext.define('BiofuelsModerator.view.NetworkLayer', {
           }
         }
       });
+  },
+
+  checkModel: function(){
+    // console.log("checkModel");
+    var success = function(){
+      Ext.getCmp('connectWindow').incCounter();
+    }
+    WsConnection.webSocket.trigger('check_model', 'blank', success)
   },
 
     //--------------------------------------------------------------------------
