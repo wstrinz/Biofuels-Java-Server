@@ -1,4 +1,5 @@
 require 'websocket_helper'
+require 'net/http'
 
 class WebsocketController < WebsocketRails::BaseController
 
@@ -79,6 +80,16 @@ class WebsocketController < WebsocketRails::BaseController
       puts "Sending #{str} to #{send_channel}"
 
       send_event(send_channel,str)
-      end
+    end
+  end
+
+  def check_model
+    # url = URI.parse('http://localhost:4567/start')
+    url = URI.parse('http://mysterious-cliffs-4762.herokuapp.com/start')
+    req = Net::HTTP::Get.new(url.path)
+    res = Net::HTTP.start(url.host, url.port) {|http|
+      http.request(req)
+    }
+    trigger_success
   end
 end

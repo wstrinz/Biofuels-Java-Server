@@ -2,9 +2,10 @@
  * File: app/view/MainViewport.js
  */
 
- Ext.onReady(function() {
+Ext.onReady(function() {
 	var createGame = Ext.create('Biofuels.view.JoinGamePopup');
-	createGame.show();
+  var connect = Ext.create('Biofuels.view.ConnectWindow');
+	connect.show();
 });
 //------------------------------------------------------------------------------
 Ext.define('Biofuels.view.MainViewport', {
@@ -12,8 +13,9 @@ Ext.define('Biofuels.view.MainViewport', {
 
 	extend: 'Ext.container.Viewport',
     requires: [
-    	'Biofuels.view.NetworkLayer',
-    	'Biofuels.view.JoinGamePopup',
+        'Biofuels.view.ConnectWindow',
+      'Biofuels.view.NetworkLayer',
+      'Biofuels.view.JoinGamePopup',
         'Biofuels.view.FarmHolderPanel',
         'Biofuels.view.FieldHealthPopup',
         'Biofuels.view.InformationPanel',
@@ -21,7 +23,7 @@ Ext.define('Biofuels.view.MainViewport', {
         'Biofuels.view.ContractOfferingPanel',
         'Biofuels.view.SustainabilityPanel',
         'Biofuels.view.ContractHelpWindow',
-        'Biofuels.view.ProgressPanel'
+        'Biofuels.view.ProgressPanel',
     ],
 
     title: 'My Window',
@@ -35,6 +37,7 @@ Ext.define('Biofuels.view.MainViewport', {
         Biofuels.network = Ext.create('Biofuels.view.NetworkLayer');
 		// 192.168.1.101
         Biofuels.network.openSocket('localhost', 9000, '/BiofuelsGame/serverConnect');
+        Biofuels.network.checkModel();
 
         Ext.applyIf(me, {
             items: [{

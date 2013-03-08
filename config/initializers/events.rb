@@ -39,6 +39,8 @@ WebsocketRails::EventMap.describe do
     subscribe :receive_event, :to => WebsocketController, :with_method => :receive_event
 
     subscribe :get_new_id, :to => WebsocketController, :with_method => :get_new_id
+
+    subscribe :check_model, :to => WebsocketController, :with_method => :check_model
   #
   # Here is an example of mapping namespaced events:
   #   namespace :product do

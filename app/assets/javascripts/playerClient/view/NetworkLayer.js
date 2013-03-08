@@ -34,6 +34,10 @@ Ext.define('Biofuels.view.NetworkLayer', {
     var self = this;
     WsConnection.webSocket.on_open = function() {
       console.log('the sockets are open')
+      Ext.getCmp('connectWindow').incCounter()
+      // Ext.get('connectWindow').dom.incCounter()
+      // var loadRecord = Ext.data.StoreManager.lookup('loadStore').getAt(0)
+      // loadRecord.set("data1", loadRecord.get("data1") + 1 )
     };
     WsConnection.webSocket.on_close = function() {
       console.log('WsConnection.websocket onClose!!');
@@ -60,6 +64,8 @@ Ext.define('Biofuels.view.NetworkLayer', {
       WsConnection.webSocket.id = channelID.toString();
 
       var channel = WsConnection.webSocket.subscribe(channelID.toString());
+
+      Ext.getCmp('connectWindow').incCounter();
 
       channel.bind('event', function(message){
         // console.log('receive ' + message)
@@ -119,6 +125,14 @@ Ext.define('Biofuels.view.NetworkLayer', {
           }
         }
       });
+  },
+
+  checkModel: function(){
+    // console.log("checkModel");
+    var success = function(){
+      Ext.getCmp('connectWindow').incCounter();
+    }
+    WsConnection.webSocket.trigger('check_model', 'blank', success)
   },
 
     //--------------------------------------------------------------------------
