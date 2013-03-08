@@ -19,7 +19,7 @@ Ext.define('Biofuels.view.ConnectWindow', {
             storeId: 'loadStore',
             fields: ['data1'],
             data: [
-              {'data1':0}
+              {'data1':1}
             ]
         });
 
@@ -49,9 +49,9 @@ Ext.define('Biofuels.view.ConnectWindow', {
                             position: 'gauge',
                             type: 'Gauge',
                             margin: 5,
-                            maximum: 3,
+                            maximum: 4,
                             minimum: 0,
-                            steps: 3
+                            steps: 4
                         }
                     ],
                     series: [
@@ -70,7 +70,7 @@ Ext.define('Biofuels.view.ConnectWindow', {
     incCounter: function(){
       var store = Ext.data.StoreManager.lookup('loadStore').getAt(0)
       store.set("data1", store.get("data1") + 1 )
-      if(store.get("data1")>2){
+      if(store.get("data1")>3){
         var joinPopup = Ext.create('Biofuels.view.JoinGamePopup');
         joinPopup.show();
         Ext.getCmp('connectWindow').close();
