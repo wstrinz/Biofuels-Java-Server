@@ -30,6 +30,7 @@ Ext.define('BiofuelsGlobal.view.JoinGamePopup', {
 
     height: 180,
     width: 360,
+    id: 'joinPopup',
     layout: {
         type: 'absolute'
     },

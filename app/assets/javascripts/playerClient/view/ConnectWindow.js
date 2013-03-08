@@ -71,7 +71,8 @@ Ext.define('Biofuels.view.ConnectWindow', {
       var store = Ext.data.StoreManager.lookup('loadStore').getAt(0)
       store.set("data1", store.get("data1") + 1 )
       if(store.get("data1")>2){
-
+        var joinPopup = Ext.create('Biofuels.view.JoinGamePopup');
+        joinPopup.show();
         Ext.getCmp('connectWindow').close();
       }
     }
