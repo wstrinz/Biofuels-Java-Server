@@ -27,12 +27,12 @@ Ext.define('BiofuelsModerator.view.ConnectWindow', {
         Ext.applyIf(me, {
             items: [
                 {
-                    xtype: 'textfield',
-                    x: 10,
+                    xtype: 'label',
+                    x: 40,
                     y: 20,
-                    width: 420,
-                    fieldLabel: '',
-                    emptyText: 'Loading...'
+                    id: 'loadingLabel',
+                    width: 320,
+                    text: 'Loading...'
                 },
                 {
                     xtype: 'chart',
@@ -69,7 +69,18 @@ Ext.define('BiofuelsModerator.view.ConnectWindow', {
 
     incCounter: function(){
       var store = Ext.data.StoreManager.lookup('loadStore').getAt(0)
-      store.set("data1", store.get("data1") + 1 )
+      var currentVal = store.get("data1")
+      store.set("data1", currentVal + 1 )
+      if(currentVal==1){
+        Ext.getCmp('loadingLabel').setText("Opening connection to server")
+      }
+      else if(currentVal==2){
+        Ext.getCmp('loadingLabel').setText("Waiting to be assigned channel")
+      }
+      else if(currentVal==3){
+        Ext.getCmp('loadingLabel').setText("Connecting to model")
+      }
+
       if(store.get("data1")>3){
         var joinPopup = Ext.create('BiofuelsModerator.view.CreateGamePopup');
         joinPopup.show();
