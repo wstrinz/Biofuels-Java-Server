@@ -119,14 +119,29 @@ Ext.define('BiofuelsGlobal.view.MainViewport', {
 					}
 				},
 				{
-					xtype: 'panel',
-					x: 190,
-					y: 10,
-					height: 80,
-					width: 440,
-					title: 'Round Progress',
-					titleAlign: 'center'
-				},
+          xtype: 'panel',
+          x: 190,
+          y: 10,
+          height: 80,
+          width: 440,
+          title: 'Round Progress',
+          titleAlign: 'center'
+        },
+    //     {
+				// 	xtype: 'button',
+    //       x: 100,
+    //       y: 100,
+    //       width: 160,
+    //       scale: 'medium',
+    //       text: 'Get Farmers',
+    //       scope: this,
+    //       handler: function() {
+    //         var msg = {
+    //          event: 'getFarmerList',
+    //         };
+    //         BiofuelsGlobal.network.send(JSON.stringify(msg))
+    //       }
+				// },
 				{
 					xtype: 'textfield',
 					itemId: 'roomName',

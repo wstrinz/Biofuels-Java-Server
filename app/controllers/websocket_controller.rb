@@ -8,6 +8,9 @@ class WebsocketController < WebsocketRails::BaseController
   def initialize_session
     unless controller_store[:id_num]
       controller_store[:id_num] = 0
+      Thread.new do
+          watch_pipe("redis")
+        end
     end
     # unless controller_store[:pipes]
     #   puts "opening pipes"
@@ -20,9 +23,7 @@ class WebsocketController < WebsocketRails::BaseController
 
   def connected
     puts "connection made!"
-    Thread.new do
-      watch_pipe("redis")
-    end
+
   end
 
   def send_event(send_channel, msg)
@@ -66,7 +67,8 @@ class WebsocketController < WebsocketRails::BaseController
       # if mode == "redis"
       # puts "polling"
       str = read_queue(true)
-      puts str
+      puts "read queue"
+      puts "got #{str}"
       # else
       #   str = read_pipe
       # end
@@ -85,8 +87,11 @@ class WebsocketController < WebsocketRails::BaseController
   end
 
   def check_model
-    # url = URI.parse('http://localhost:4567/start')
-    url = URI.parse('http://mysterious-cliffs-4762.herokuapp.com/start')
+    if ENV["RAILS_ENV"] == "development"
+      url = URI.parse('http://localhost:4567/start')
+    else
+      url = URI.parse('http://mysterious-cliffs-4762.herokuapp.com/start')
+    end
     req = Net::HTTP::Get.new(url.path)
     res = Net::HTTP.start(url.host, url.port) {|http|
       http.request(req)
