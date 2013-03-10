@@ -85,8 +85,8 @@ class WebsocketController < WebsocketRails::BaseController
   end
 
   def check_model
-    url = URI.parse('http://localhost:4567/start')
-    # url = URI.parse('http://mysterious-cliffs-4762.herokuapp.com/start')
+    # url = URI.parse('http://localhost:4567/start')
+    url = URI.parse('http://mysterious-cliffs-4762.herokuapp.com/start')
     req = Net::HTTP::Get.new(url.path)
     res = Net::HTTP.start(url.host, url.port) {|http|
       http.request(req)
