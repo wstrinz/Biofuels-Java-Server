@@ -4,7 +4,7 @@
 
 Ext.onReady(function() {
 	// var createGame = Ext.create('BiofuelsGlobal.view.JoinGamePopup');
-  var createGame = Ext.create('BiofuelsModerator.view.ConnectWindow');
+  var createGame = Ext.create('BiofuelsGlobal.view.ConnectWindow');
 	createGame.show();
 });
 

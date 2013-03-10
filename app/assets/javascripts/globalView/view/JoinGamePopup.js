@@ -207,6 +207,10 @@ Ext.define('BiofuelsGlobal.view.JoinGamePopup', {
 
      	if (json.result) {
         BiofuelsGlobal.network.subscribe(WsConnection.webSocket.gameChannel);
+        var msg = {
+          event: 'getFarmerList',
+        };
+        BiofuelsGlobal.network.send(JSON.stringify(msg))
      		this.close();
      	}
      	else {

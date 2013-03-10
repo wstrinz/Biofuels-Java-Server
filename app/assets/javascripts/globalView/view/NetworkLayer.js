@@ -173,6 +173,7 @@ Ext.define('BiofuelsGlobal.view.NetworkLayer', {
     // console.log('sending')
     var sendArray = new Array();
     sendArray.push(WsConnection.webSocket.id);
+    sendArray.push(WsConnection.webSocket.gameChannel);
     sendArray.push(json);
     WsConnection.webSocket.trigger('receive_event', sendArray);
   }

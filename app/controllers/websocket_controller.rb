@@ -38,8 +38,9 @@ class WebsocketController < WebsocketRails::BaseController
 
   def receive_event
     controller_store[:current_event_id] = message[0]
-    jss = ActiveSupport::JSON.decode(message[1])
+    jss = ActiveSupport::JSON.decode(message[2])
     jss["clientID"] = message[0]
+    jss["roomID"] = message[1]
     puts "received #{message}"
     # write_pipe(ActiveSupport::JSON.encode(jss))
     if(jss["event"] == "changeSettings")
@@ -84,8 +85,8 @@ class WebsocketController < WebsocketRails::BaseController
   end
 
   def check_model
-    # url = URI.parse('http://localhost:4567/start')
-    url = URI.parse('http://mysterious-cliffs-4762.herokuapp.com/start')
+    url = URI.parse('http://localhost:4567/start')
+    # url = URI.parse('http://mysterious-cliffs-4762.herokuapp.com/start')
     req = Net::HTTP::Get.new(url.path)
     res = Net::HTTP.start(url.host, url.port) {|http|
       http.request(req)

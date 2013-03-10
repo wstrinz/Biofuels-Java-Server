@@ -129,6 +129,8 @@ Ext.define('Biofuels.view.NetworkLayer', {
 
   checkModel: function(){
     // console.log("checkModel");
+
+
     var success = function(){
       Ext.getCmp('connectWindow').incCounter();
     }
@@ -139,6 +141,7 @@ Ext.define('Biofuels.view.NetworkLayer', {
 	send: function(json) {
     var sendArray = new Array();
     sendArray.push(WsConnection.webSocket.id);
+    sendArray.push(WsConnection.webSocket.gameChannel);
     sendArray.push(json);
     // console.log('sending ' + sendArray)
     WsConnection.webSocket.trigger('receive_event', sendArray);
