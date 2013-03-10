@@ -29,6 +29,8 @@ end
 
 gem 'jquery-rails'
 
+gem 'rspec-rails'
+
 gem 'execjs'
 # gem 'websocket-rails', "~> 0.4.0"
 gem 'websocket-rails', "~> 0.4.1"

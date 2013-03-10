@@ -9,8 +9,10 @@ class WebsocketController < WebsocketRails::BaseController
     unless controller_store[:id_num]
       controller_store[:id_num] = 0
       Thread.new do
-          watch_pipe("redis")
-        end
+        puts "starting listener"
+        watch_pipe('redis')
+        # subscribe_to_redis
+      end
     end
     # unless controller_store[:pipes]
     #   puts "opening pipes"
@@ -23,6 +25,7 @@ class WebsocketController < WebsocketRails::BaseController
 
   def connected
     puts "connection made!"
+    send_message :test, "hello!"
 
   end
 
@@ -65,9 +68,9 @@ class WebsocketController < WebsocketRails::BaseController
   def watch_pipe(mode)
     loop do
       # if mode == "redis"
-      # puts "polling"
+      # puts "check queue"
       str = read_queue(true)
-      puts "read queue"
+      # puts "read queue"
       puts "got #{str}"
       # else
       #   str = read_pipe
@@ -98,4 +101,13 @@ class WebsocketController < WebsocketRails::BaseController
     }
     trigger_success
   end
+
+  def subscribe_to_redis
+    REDISREAD.subscribe('rubyonrails', 'ruby-lang') do |on|
+      on.message do |channel, msg|
+      data = JSON.parse(msg)
+      puts "##{channel} - [#{data['user']}]: #{data['msg']}"
+    end
+  end
+end
 end

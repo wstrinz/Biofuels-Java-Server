@@ -28,17 +28,20 @@ module WebsocketHelper
   # end
 
   def write_queue(msg)
-    REDISREAD.lpush("toJava", msg)
+    # REDISREAD.lpush("toJava", msg)
+    REDISWRITE.lpush("toJava", msg)
   end
 
   def read_queue(blocking)
     # puts "waiting to read"
     if blocking==false
 
-      REDISWRITE.rpop("fromJava")
+      # REDISWRITE.rpop("fromJava")
+      REDISREAD.rpop("fromJava")
     else
 
-      REDISWRITE.brpop("fromJava")[1]
+      REDISREAD.brpop("fromJava")[1]
+      # REDISWRITE.brpop("fromJava")[1]
     end
     # puts "read"
   end
