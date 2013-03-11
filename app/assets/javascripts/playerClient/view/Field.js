@@ -14,17 +14,22 @@ Ext.define('Biofuels.view.Field', {
         'Biofuels.view.GrassPlantSprite',
 		'Biofuels.view.ToggleSprite'
 	],
-	
+
 
     constructor: function (config) {
         this.crop = new Array();
+        var farm = Ext.getCmp('Farm')
+        if (Biofuels.view.Farm.fieldNum == null)
+          Biofuels.view.Farm.fieldNum = 0
+        this.fieldNum = Biofuels.view.Farm.fieldNum
+        Biofuels.view.Farm.fieldNum ++
         this.cropType = "none";
     },
-    
+
     //--------------------------------------------------------------------------
     attachTo: function(toSurface, atX, atY) {
-    	
-		var paths = [{        
+
+		var paths = [{
 			type: 'rect',
 			width: 160,
 			height: 120,
@@ -43,26 +48,26 @@ Ext.define('Biofuels.view.Field', {
 			width: 160,
 			height: 120,
 		}];
-		
+
     	this.surface = toSurface;
     	this.atX = atX;
     	this.atY = atY;
-    	
+
   		var result = toSurface.add(paths);
   		this.sprites = result;
 		for (var index = 0; index < result.length; index++) {
 			result[index].show(true);
 		}
-		
+
 		this.addPlantingIcon(toSurface, atX + 5, atY + 105);
 		this.addManagementIcons(toSurface, atX + 55, atY + 105);
     },
-    
+
     //--------------------------------------------------------------------------
     addManagementIcons: function(surface, atX, atY) {
-    	
+
     	this.fertilizer = Ext.create('Biofuels.view.ToggleSprite');
-    	this.fertilizer.addToSurface(surface, [{        
+    	this.fertilizer.addToSurface(surface, [{
 			type: 'image',
 			src: 'resources/fertilizer_no_icon.png',
 			x: atX,
@@ -74,7 +79,7 @@ Ext.define('Biofuels.view.Field', {
 		}], 'resources/fertilizer_no_icon.png', 'resources/fertilizer_yes_icon.png');
 
 		this.till = Ext.create('Biofuels.view.ToggleSprite');
-    	this.till.addToSurface(surface, [{        
+    	this.till.addToSurface(surface, [{
 			type: 'image',
 			src: 'resources/till_no_icon.png',
 			x: atX + 35,
@@ -86,7 +91,7 @@ Ext.define('Biofuels.view.Field', {
 		}], 'resources/till_no_icon.png', 'resources/till_yes_icon.png');
 
 		this.pesticide = Ext.create('Biofuels.view.ToggleSprite');
-    	this.pesticide.addToSurface(surface, [{        
+    	this.pesticide.addToSurface(surface, [{
 			type: 'image',
 			src: 'resources/pesticide_no_icon.png',
 			x: atX + 70,
@@ -96,9 +101,9 @@ Ext.define('Biofuels.view.Field', {
 			height: 30,
 			zIndex: 1000
 		}], 'resources/pesticide_no_icon.png', 'resources/pesticide_yes_icon.png');
-		
+
     },
-    
+
     //--------------------------------------------------------------------------
     showManagementIcons: function() {
     	this.fertilizer.show();
@@ -112,10 +117,10 @@ Ext.define('Biofuels.view.Field', {
     	this.till.hide();
     	this.pesticide.hide();
     },
-    
+
     //--------------------------------------------------------------------------
     addPlantingIcon: function(surface, atX, atY) {
-    	
+
     	var path = [{
 			type: 'image',
 			src: 'resources/planting_icon.png',
@@ -126,20 +131,20 @@ Ext.define('Biofuels.view.Field', {
 			height: 30,
 			zIndex: 1000
     	}];
-    	
+
   		var result = surface.add(path);
   		this.plantingIcon = result[0];
 		this.plantingIcon.show(true);
-		
+
 		this.setPlantingIconListeners();
-		
+
 		this.popup = Ext.create('Biofuels.view.PlantPopup');
         this.popup.createForSurface(this.surface, atX, atY);
     },
 
     //--------------------------------------------------------------------------
 	setPlantingIconListeners: function() {
-		
+
 		this.plantingIcon.on({
 				mouseover: this.onMouseOver,
 				mouseout: this.onMouseOut,
@@ -150,7 +155,7 @@ Ext.define('Biofuels.view.Field', {
 				scope: this
 		});
 	},
-	
+
     //--------------------------------------------------------------------------
     showPlantingIcon: function() {
     	this.plantingIcon.stopAnimation().show(true).animate({
@@ -159,10 +164,10 @@ Ext.define('Biofuels.view.Field', {
     			opacity: 1
     		}
     	});
-    	
+
 		this.setPlantingIconListeners();
     },
-    
+
     //--------------------------------------------------------------------------
     hidePlantingIcon: function() {
     	this.plantingIcon.stopAnimation().animate({
@@ -175,12 +180,12 @@ Ext.define('Biofuels.view.Field', {
     	});
     	this.plantingIcon.clearListeners();
     },
-    
+
     //--------------------------------------------------------------------------
     doHide: function() {
     	this.hide(true);
     },
-    
+
     //--------------------------------------------------------------------------
     onMouseOver: function(evt, target) {
     	this.stopAnimation().animate({
@@ -208,64 +213,92 @@ Ext.define('Biofuels.view.Field', {
 			}
     	});
 	},
-	
+
 	// cropType: grass, corn, none, cancel
     //--------------------------------------------------------------------------
 	onPlantingClickHandler: function(cropType) {
-		if (!cropType.localeCompare("cancel")) {
-			return;
-		}
-		
-		if (this.cropType != cropType) {
-			this.removeOldCrop();
-			if (!cropType.localeCompare("corn")) {
-				this.plantCorn(this.surface);
-			}
-			else if (!cropType.localeCompare("grass")) {
-				this.plantGrass(this.surface);
-			}
-			else if (!cropType.localeCompare("cover")) {
-				this.plantCoverCrop(this.surface);
-			}
-			this.cropType = cropType;
-		}
+    var msg = {
+          event: 'plantField',
+          field: this.fieldNum,
+          crop: cropType
+        };
+    Biofuels.network.send(JSON.stringify(msg))
+    this.plant(cropType)
+
+		// if (!cropType.localeCompare("cancel")) {
+		// 	return;
+		// }
+
+		// if (this.cropType != cropType) {
+		// 	this.removeOldCrop();
+		// 	if (!cropType.localeCompare("corn")) {
+		// 		this.plantCorn(this.surface);
+		// 	}
+		// 	else if (!cropType.localeCompare("grass")) {
+		// 		this.plantGrass(this.surface);
+		// 	}
+		// 	else if (!cropType.localeCompare("cover")) {
+		// 		this.plantCoverCrop(this.surface);
+		// 	}
+		// 	this.cropType = cropType;
+		// }
 	},
-	
+
+  plant: function(cropType){
+    if (!cropType.localeCompare("cancel")) {
+      return;
+    }
+
+    if (this.cropType != cropType) {
+      this.removeOldCrop();
+      if (!cropType.localeCompare("corn")) {
+        this.plantCorn(this.surface);
+      }
+      else if (!cropType.localeCompare("grass")) {
+        this.plantGrass(this.surface);
+      }
+      else if (!cropType.localeCompare("cover")) {
+        this.plantCoverCrop(this.surface);
+      }
+      this.cropType = cropType;
+    }
+  },
+
     //--------------------------------------------------------------------------
     onClick: function(evt, target) {
         this.popup.showPopup(this.onPlantingClickHandler, this);
 	},
-    
+
     //--------------------------------------------------------------------------
 	removeOldCrop: function() {
 		for (var index = 0; index < this.crop.length; index++) {
 			this.crop[index].removeFromSurface();
 		}
 	},
-	
+
     //--------------------------------------------------------------------------
 	showCrop: function() {
 		for (var index = 0; index < this.crop.length; index++) {
 			this.crop[index].sprite.show(true);
 		}
 	},
-	
+
     //--------------------------------------------------------------------------
 	hideCrop: function() {
 		for (var index = 0; index < this.crop.length; index++) {
 			this.crop[index].sprite.hide(true);
 		}
 	},
-	
+
     //--------------------------------------------------------------------------
     plantCorn: function(surface) {
     	var cx = 0;
     	var cy = 0;
-    	
+
 		for (var corns = 0; corns < 16; corns++ ) {
-			var rAtX = cx + this.atX + 12; 
+			var rAtX = cx + this.atX + 12;
 			var rAtY = cy + this.atY - 22;
-			
+
 			var aCorn = Ext.create('Biofuels.view.CornPlantSprite');
 			aCorn.addToSurface(surface, rAtX, rAtY, 1000 + Math.random() * 500);
 
@@ -277,16 +310,16 @@ Ext.define('Biofuels.view.Field', {
 			this.crop.push(aCorn);
 		}
 	},
-	
+
     //--------------------------------------------------------------------------
     plantGrass: function(surface) {
     	var cx = 0;
     	var cy = 0;
-    	
+
 		for (var grass = 0; grass < 14; grass++ ) {
-			var rAtX = cx + this.atX + 12; 
+			var rAtX = cx + this.atX + 12;
 			var rAtY = cy + this.atY - 22;
-			
+
 			var aGrass = Ext.create('Biofuels.view.GrassPlantSprite');
 			aGrass.addToSurface(surface, rAtX, rAtY, 1200 + Math.random() * 800);
 
@@ -299,16 +332,16 @@ Ext.define('Biofuels.view.Field', {
 			this.crop.push(aGrass);
 		}
 	},
-	
+
     //--------------------------------------------------------------------------
     plantCoverCrop: function(surface) {
     	var cx = 0;
     	var cy = 0;
-    	
+
 		for (var cover = 0; cover < 14; cover++ ) {
-			var rAtX = cx + this.atX + 12; 
+			var rAtX = cx + this.atX + 12;
 			var rAtY = cy + this.atY - 22;
-			
+
 			var aGrass = Ext.create('Biofuels.view.CoverCropPlantSprite');
 			aGrass.addToSurface(surface, rAtX, rAtY, 1200 + Math.random() * 800);
 
@@ -320,8 +353,8 @@ Ext.define('Biofuels.view.Field', {
 			}
 			this.crop.push(aGrass);
 		}
-	}       
-	
+	}
+
 
 });
 

@@ -38,6 +38,14 @@ Ext.define('Biofuels.view.Farm', {
     initComponent: function() {
         var me = this;
 
+        this.store1 = Ext.create('Ext.data.JsonStore', {
+            storeId: 'loadStore',
+            fields: ['data1'],
+            data: [
+              {'data1':1}
+            ]
+        });
+
         this.initNetworkEvents();
 
         // specifies the location as the center of the icon
@@ -125,11 +133,11 @@ Ext.define('Biofuels.view.Farm', {
       var crop = newFields[i].toLowerCase();
       // console.log("creating " + this.fields.length);
       if (this.fields.length > i) {
-        this.fields[i].fieldVisuals.onPlantingClickHandler(crop);
+        this.fields[i].fieldVisuals.plant(crop);
       }
       else{
         this.createFields(1);
-        this.fields[i].fieldVisuals.onPlantingClickHandler(crop);
+        this.fields[i].fieldVisuals.plant(crop);
       }
     }
   },
