@@ -8,25 +8,18 @@ class WebsocketController < WebsocketRails::BaseController
   def initialize_session
     unless controller_store[:id_num]
       controller_store[:id_num] = 0
+      Thread.abort_on_exception = true
       Thread.new do
         puts "starting listener"
-        watch_pipe('redis')
-        # subscribe_to_redis
+        # watch_pipe('redis')
+        subscribe_to_redis
       end
     end
-    # unless controller_store[:pipes]
-    #   puts "opening pipes"
-    #   pipes = open_pipes("redis")
-    #   puts pipes
-    #   puts "setting pipes to #{{write: pipes[0], read: pipes[1]}}"
-    #   controller_store[:pipes] = {write: pipes[0], read: pipes[1]}
-    # end
   end
 
   def connected
     puts "connection made!"
     send_message :test, "hello!"
-
   end
 
   def send_event(send_channel, msg)
@@ -45,11 +38,13 @@ class WebsocketController < WebsocketRails::BaseController
     jss = ActiveSupport::JSON.decode(message[2])
     jss["clientID"] = message[0]
     jss["roomID"] = message[1]
+    jss["deviseName"] = "#{current_user.email}"
     puts "received #{message}"
     # write_pipe(ActiveSupport::JSON.encode(jss))
     if(jss["event"] == "changeSettings")
       send_event(jss["roomName"],ActiveSupport::JSON.encode(jss))
     end
+    # puts "current #{current_user.email}"
     # else
     #if @mode == "redis"
       write_queue(ActiveSupport::JSON.encode(jss))
@@ -103,10 +98,13 @@ class WebsocketController < WebsocketRails::BaseController
   end
 
   def subscribe_to_redis
-    REDISREAD.subscribe('rubyonrails', 'ruby-lang') do |on|
+    puts "subscribing"
+    REDISREAD.subscribe(:toRuby) do |on|
       on.message do |channel, msg|
-      data = JSON.parse(msg)
-      puts "##{channel} - [#{data['user']}]: #{data['msg']}"
+        data = JSON.parse(msg)
+        puts "sending #{msg}"
+        send_event(data["clientID"], msg)
+        # puts "##{channel} - [#{data['user']}]: #{data['msg']}"
     end
   end
 end

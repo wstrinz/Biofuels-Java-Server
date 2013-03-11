@@ -38,6 +38,8 @@ gem 'websocket-rails', "~> 0.4.1"
 gem 'redis'
 gem 'daemons'
 
+gem 'devise'
+
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 

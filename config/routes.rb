@@ -1,4 +1,8 @@
 KoSombo::Application.routes.draw do
+  get "player/index"
+
+  devise_for :users
+
   get "game/play"
 
   get "game/global"
