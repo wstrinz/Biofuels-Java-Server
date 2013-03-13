@@ -123,17 +123,20 @@ Ext.define('Biofuels.view.Farm', {
 
   //Load farm data from server
   loadFromServer: function(json){
-    var newFields = json.fields.substring(1, json.fields.length - 1).split(",");
+    var newFields = json.fields //.substring(1, json.fields.length - 1).split(",");
     // console.log("was" + newF);
     // var newFields = newF;
     // console.log('new ' + newFields);
     // var arr = Ext.decode(newFields)
     for(var i = 0;i < newFields.length; i++){
       // console.log(newFields[i]);
-      var crop = newFields[i].toLowerCase();
+      var crop = newFields[i].crop.toLowerCase();
       // console.log("creating " + this.fields.length);
       if (this.fields.length > i) {
         this.fields[i].fieldVisuals.plant(crop);
+        this.fields[i].fieldVisuals.setManagementTechnique("pesticide", newFields[i].pesticide)
+        this.fields[i].fieldVisuals.setManagementTechnique("fertilizer", newFields[i].fertilizer)
+        this.fields[i].fieldVisuals.setManagementTechnique("tillage", newFields[i].tillage)
       }
       else{
         this.createFields(1);

@@ -13,17 +13,17 @@ Ext.define('Biofuels.view.ToggleSprite', {
     	this.stateImages.push(off);
     	this.stateImages.push(on);
     	this.stateValue = 0;
-    	
+
   		var result = surface.add(config);
   		this.sprite = result[0];
   		this.sprite.show(true);
-  		
+
     	this.setListeners();
     },
 
     //-----------------------------------------------------------------------
     setListeners: function() {
-    	
+
 		this.sprite.on({
 				mouseover: this.onMouseOver,
 				mouseout: this.onMouseOut,
@@ -34,7 +34,7 @@ Ext.define('Biofuels.view.ToggleSprite', {
 				scope: this
 		});
     },
-    
+
     //-----------------------------------------------------------------------
     show: function() {
     	this.sprite.stopAnimation().show(true).animate({
@@ -61,12 +61,12 @@ Ext.define('Biofuels.view.ToggleSprite', {
     	});
     	this.sprite.clearListeners();
     },
-    
+
     //-----------------------------------------------------------------------
     doHide: function() {
     	this.sprite.hide(true);
     },
-    
+
     //-----------------------------------------------------------------------
     onMouseOver: function(evt, target) {
 
@@ -84,7 +84,7 @@ Ext.define('Biofuels.view.ToggleSprite', {
 
     //-----------------------------------------------------------------------
     onMouseOut: function(evt, target) {
-    	
+
     	this.stopAnimation().animate({
 			duration: 100,
 			to: {
@@ -96,15 +96,23 @@ Ext.define('Biofuels.view.ToggleSprite', {
 			}
     	});
 	},
-	
+
     //-----------------------------------------------------------------------
     onClick: function(evt, target) {
+      this.changeState()
+      // this.stateValue++; if (this.stateValue > 1) this.stateValue = 0;
+      // this.sprite.setAttributes({
+      //    src: this.stateImages[this.stateValue]
+      // }, true);
+   },
 
-    	this.stateValue++; if (this.stateValue > 1) this.stateValue = 0;
-    	this.sprite.setAttributes({
-    			src: this.stateImages[this.stateValue]
-    	}, true);
-	},
+   changeState: function() {
+      // console.log("click")
+     this.stateValue++; if (this.stateValue > 1) this.stateValue = 0;
+      this.sprite.setAttributes({
+          src: this.stateImages[this.stateValue]
+      }, true);
+   }
 
 
 });

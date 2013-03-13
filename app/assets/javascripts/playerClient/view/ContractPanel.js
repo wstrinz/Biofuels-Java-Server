@@ -1,7 +1,7 @@
 /*
  * File: app/view/ContractPanel.js
  */
-	
+
 //------------------------------------------------------------------------------
 Ext.define('Biofuels.view.ContractPanel', {
 //------------------------------------------------------------------------------
@@ -27,25 +27,25 @@ Ext.define('Biofuels.view.ContractPanel', {
 		type:'help',
 		qtip: 'Contract Help',
 		handler: function(event, target, owner, tool) {
-			
+
 			var help = Ext.create('Biofuels.view.ContractHelpWindow').show();
 		}
     }],
-    
+
     //--------------------------------------------------------------------------
     initNetworkEvents: function() {
     	var app = Biofuels;
-    	
+
         app.network.registerListener('changeSettings', this.changeSettings, this);
     },
 
     //--------------------------------------------------------------------------
     changeSettings: function(json) {
-		
+
 		// TODO: proper management icon state management
 		if (json.contractsOn) {
 			this.show();
-		} 
+		}
 		else {
 			this.hide();
 		}
@@ -56,14 +56,14 @@ Ext.define('Biofuels.view.ContractPanel', {
         var me = this;
 
         this.initNetworkEvents();
-        
+
         var clr = "<font color='#ff8'><b>";
         var cornContractText ="Must provide " + clr + "200</b></font> " +
         						"metric tons of " + clr + "corn</b></font> at " +
-        						clr + "$300</b></font> a metric ton."; 
+        						clr + "$300</b></font> a metric ton.";
         var grassContractText ="Must provide " + clr + "200</b></font> " +
         						"metric tons of " + clr + "perennial grass</b></font> at " +
-        						clr + "$200</b></font> a metric ton."; 
+        						clr + "$200</b></font> a metric ton.";
         Ext.applyIf(me, {
             items: [{
 				xtype: 'contractoffering',
