@@ -98,7 +98,7 @@ Ext.define('Biofuels.view.ProgressPanel', {
 	},
 
   advanceStage: function(json) {
-    console.log("setting stage " + json.stageNumber )
+    // console.log("setting stage " + json.stageNumber )
     Ext.getCmp("stageName").setText("Stage: " + json.stageName + " (" + json.stageNumber + ")")
     // debugger;
     // this.setSeasonStage(2)

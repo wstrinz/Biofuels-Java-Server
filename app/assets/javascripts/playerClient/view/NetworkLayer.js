@@ -114,7 +114,7 @@ Ext.define('Biofuels.view.NetworkLayer', {
   subscribe: function(channel){
     self = this;
     WsConnection.webSocket.subscribe(channel).bind('event', function(message){
-        console.log('receive ' + message)
+        // console.log('receive ' + message)
         // console.log(self.networkEvents)
 
         var json = JSON.parse(message);
