@@ -6,13 +6,13 @@ gem 'rails', '3.2.12'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 
-group :development do
+# group :development do
   gem 'sqlite3'
-end
+# end
 
-group :production do
+# group :production do
   gem 'pg'
-end
+# end
 gem 'activerecord-postgresql-adapter'
 
 # Gems used only for assets and not required
