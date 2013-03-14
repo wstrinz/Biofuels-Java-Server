@@ -28,8 +28,8 @@ Ext.define('Biofuels.view.NetworkLayer', {
 
     // var WS = window['MozWebSocket'] ? MozWebSocket : WebSocket;
 
-    // WsConnection.webSocket = new WebSocketRails('http://sleepy-temple-8942.herokuapp.com:80/websocket', false);
-    WsConnection.webSocket = new WebSocketRails('localhost:3000/websocket');
+    WsConnection.webSocket = new WebSocketRails('http://sleepy-temple-8942.herokuapp.com:80/websocket', false);
+    // WsConnection.webSocket = new WebSocketRails('localhost:3000/websocket');
 
     var self = this;
     WsConnection.webSocket.on_open = function() {
@@ -73,6 +73,7 @@ Ext.define('Biofuels.view.NetworkLayer', {
 
         var json = JSON.parse(message);
         var index;
+        // console.log( self.networkEvents)
         for (index = 0; index < self.networkEvents.length; index++) {
           var ne = self.networkEvents[index];
           if (!json.event.localeCompare(ne.name)) {
@@ -113,7 +114,7 @@ Ext.define('Biofuels.view.NetworkLayer', {
   subscribe: function(channel){
     self = this;
     WsConnection.webSocket.subscribe(channel).bind('event', function(message){
-        // console.log('receive ' + message)
+        console.log('receive ' + message)
         // console.log(self.networkEvents)
 
         var json = JSON.parse(message);

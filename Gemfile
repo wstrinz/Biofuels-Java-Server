@@ -33,7 +33,7 @@ gem 'rspec-rails'
 
 gem 'execjs'
 # gem 'websocket-rails', "~> 0.4.0"
-gem 'websocket-rails', "~> 0.4.1"
+gem 'websocket-rails', "~> 0.4.3"
 
 gem 'redis'
 gem 'daemons'

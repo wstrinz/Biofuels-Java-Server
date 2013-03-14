@@ -71,11 +71,12 @@ Ext.define('BiofuelsModerator.view.ConnectWindow', {
       var store = Ext.data.StoreManager.lookup('loadStore').getAt(0)
       var currentVal = store.get("data1")
       store.set("data1", currentVal + 1 )
+        // Ext.getCmp('loadingLabel').setText("Opening connection to server")
       if(currentVal==1){
-        Ext.getCmp('loadingLabel').setText("Opening connection to server")
+        Ext.getCmp('loadingLabel').setText("Waiting to be assigned channel")
       }
       else if(currentVal==2){
-        Ext.getCmp('loadingLabel').setText("Waiting to be assigned channel")
+        Ext.getCmp('loadingLabel').setText("Connecting to model")
       }
       else if(currentVal==3){
         Ext.getCmp('loadingLabel').setText("Connecting to model")

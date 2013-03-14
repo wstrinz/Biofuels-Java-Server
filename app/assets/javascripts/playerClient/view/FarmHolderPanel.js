@@ -19,6 +19,7 @@ Ext.define('Biofuels.view.FarmHolderPanel', {
     frame: false,
     title: 'Your Farm',
     titleAlign: 'center',
+    id: 'holderPanel',
 
  /*   tools:[{
 		type:'help',
@@ -39,11 +40,17 @@ Ext.define('Biofuels.view.FarmHolderPanel', {
     	var app = Biofuels;
 
         app.network.registerListener('joinRoom', this.joinedRoom, this);
+        app.network.registerListener('getFarmInfo', this.loadFarmInfo, this);
     },
 
     //--------------------------------------------------------------------------
     joinedRoom: function(json) {
+      this.userName = json.userName;
     	this.setTitle(json.userName + "'s Farm");
+    },
+
+    loadFarmInfo: function(json){
+      this.setTitle(this.userName + "'s Farm ($" + json.capital + ")")
     },
 
     //--------------------------------------------------------------------------

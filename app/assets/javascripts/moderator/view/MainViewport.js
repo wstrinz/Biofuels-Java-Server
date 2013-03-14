@@ -85,21 +85,33 @@ Ext.define('BiofuelsModerator.view.MainViewport', {
 						labelWidth: 125
 					},
 					{
+            xtype: 'button',
+            x: 30,
+            y: 170,
+            scale: 'medium',
+            width: 260,
+            text: 'Apply Settings!',
+            scope: this,
+            handler: function() {
+              this.applySettingsChange();
+            }
+          },
+          {
 						xtype: 'button',
 						x: 30,
-						y: 140,
+						y: 285,
 						scale: 'medium',
 						width: 260,
-						text: 'Apply Settings!',
+						text: 'Next Stage',
 						scope: this,
 						handler: function() {
-							this.applySettingsChange();
+							this.advanceStage();
 						}
 					},
 					{
 						xtype: 'button',
 						x: 80,
-						y: 240,
+						y: 220,
 						enableToggle: true,
 						scale: 'large',
 						text: 'Pause'
@@ -107,7 +119,7 @@ Ext.define('BiofuelsModerator.view.MainViewport', {
 					{
 						xtype: 'button',
 						x: 140,
-						y: 240,
+						y: 220,
 						enableToggle: true,
 						scale: 'large',
 						text: 'Final Round'
@@ -137,6 +149,15 @@ Ext.define('BiofuelsModerator.view.MainViewport', {
     	};
       console.log(message);
     	BiofuelsModerator.network.send(JSON.stringify(message));
- 	}
+ 	},
+
+  advanceStage: function(){
+    var message = {
+      event: "advanceStage"
+    };
+
+      BiofuelsModerator.network.send(JSON.stringify(message));
+
+  }
 
 });

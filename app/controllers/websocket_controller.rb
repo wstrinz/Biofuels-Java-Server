@@ -19,7 +19,7 @@ class WebsocketController < WebsocketRails::BaseController
 
   def connected
     puts "connection made!"
-    send_message :test, "hello!"
+    # send_message :test, "hello!"
   end
 
   def send_event(send_channel, msg)
@@ -34,12 +34,12 @@ class WebsocketController < WebsocketRails::BaseController
   end
 
   def receive_event
+    puts "received #{message}"
     controller_store[:current_event_id] = message[0]
     jss = ActiveSupport::JSON.decode(message[2])
     jss["clientID"] = message[0]
     jss["roomID"] = message[1]
     jss["deviseName"] = "#{current_user.email}"
-    puts "received #{message}"
     # write_pipe(ActiveSupport::JSON.encode(jss))
     if(jss["event"] == "changeSettings")
       send_event(jss["roomName"],ActiveSupport::JSON.encode(jss))

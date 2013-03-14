@@ -7,9 +7,9 @@ Ext.define('Biofuels.view.RoundStageMarker', {
 //------------------------------------------------------------------------------
 
     constructor: function (config) {
-    	
+
     },
-    
+
     //--------------------------------------------------------------------------
     addToSurface: function(surface, atX, atY, label) {
 
@@ -38,13 +38,13 @@ Ext.define('Biofuels.view.RoundStageMarker', {
 			radius: 14,
 			zIndex: 200
     	}];
-    	
+
   		var result = surface.add(markerConfig);
   		this.markerSprites = result;
 		for (var index = 0; index < result.length; index++) {
 			result[index].show(true);
 		}
-		
+
     	var labelConfig = [{
     		type: 'text',
     		text: label,
@@ -60,7 +60,7 @@ Ext.define('Biofuels.view.RoundStageMarker', {
     		x: atX-30,
     		y: atY+27
     	}];
-    	
+
   		result = surface.add(labelConfig);
   		this.labelSprites = result;
   		// ensure labels are visible and properly centered

@@ -45,8 +45,8 @@ Ext.define('BiofuelsModerator.view.NetworkLayer', {
 	openSocket: function(ipAddr,port,url) {
 
 		// var WS = window['MozWebSocket'] ? MozWebSocket : WebSocket;
-    // WsConnection.webSocket = new WebSocketRails('http://sleepy-temple-8942.herokuapp.com:80/websocket', false);
-    WsConnection.webSocket = new WebSocketRails('localhost:3000/websocket');
+    WsConnection.webSocket = new WebSocketRails('http://sleepy-temple-8942.herokuapp.com:80/websocket', false);
+    // WsConnection.webSocket = new WebSocketRails('localhost:3000/websocket');
 
 		var self = this;
     WsConnection.webSocket.on_open = function() {
@@ -80,7 +80,6 @@ Ext.define('BiofuelsModerator.view.NetworkLayer', {
       var channel = WsConnection.webSocket.subscribe(channelID.toString());
 
       channel.bind('event', function(message){
-        // console.log('receive ' + message)
         // console.log(self.networkEvents)
 
         var json = JSON.parse(message);
@@ -169,11 +168,11 @@ Ext.define('BiofuelsModerator.view.NetworkLayer', {
 
     //--------------------------------------------------------------------------
 	send: function(json) {
-    // console.log('sending')
     var sendArray = new Array();
     sendArray.push(WsConnection.webSocket.id);
     sendArray.push(WsConnection.webSocket.gameChannel);
     sendArray.push(json);
+    // console.log('sending')
 		WsConnection.webSocket.trigger('receive_event', sendArray);
 	}
 
