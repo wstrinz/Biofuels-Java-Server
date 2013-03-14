@@ -110,7 +110,7 @@ Ext.define('Biofuels.view.ProgressPanel', {
                           field: 'name',
                           display: 'rotate',
                           contrast: true,
-                          font: '7px Arial'
+                          font: '9px Arial'
                       },
                       showInLegend: true,
                       angleField: 'data'
