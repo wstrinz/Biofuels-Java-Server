@@ -181,7 +181,7 @@ Ext.define('Biofuels.view.ProgressPanel', {
 	},
 
   updateRoundChart: function(json){
-    console.log(json)
+    // console.log(json)
     var stages = new Array();
     for (var i = 0; i < json.enabledStages.length; i++) {
       var size = 1
@@ -196,7 +196,7 @@ Ext.define('Biofuels.view.ProgressPanel', {
     };
     // console.log(msg)
     this.roundChartStore.loadRawData((stages), false)
-    console.log(this.roundChartStore)
+    // console.log(this.roundChartStore)
   }
 
 });

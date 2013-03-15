@@ -145,10 +145,19 @@ constructor: function (config) {
 
     //--------------------------------------------------------------------------
     hideManagementIcons: function() {
-    	this.fertilizer.hide();
-    	this.till.hide();
-    	this.pesticide.hide();
+      this.fertilizer.hide();
+      this.till.hide();
+      this.pesticide.hide();
     },
+
+    showPlantingIcon: function() {
+    	this.plantingIcon.show();
+    },
+
+    hidePlantingIcon: function() {
+      this.plantingIcon.hide();
+    },
+
 
     setManagementTechnique: function(technique, state) {
       var targetObj = null;

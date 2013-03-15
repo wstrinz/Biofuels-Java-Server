@@ -31,6 +31,7 @@ Ext.define('Biofuels.view.Farm', {
     	var app = Biofuels;
 
         app.network.registerListener('changeSettings', this.changeSettings, this);
+        app.network.registerListener('advanceStage', this.advanceStage, this);
         app.network.registerListener('loadFromServer', this.loadFromServer, this);
     },
 
@@ -40,9 +41,9 @@ Ext.define('Biofuels.view.Farm', {
 
         this.store1 = Ext.create('Ext.data.JsonStore', {
             storeId: 'loadStore',
-            fields: ['data1'],
+            fields: ['plantStage'],
             data: [
-              {'data1':1}
+              {'plantStage':false}
             ]
         });
 
@@ -143,6 +144,29 @@ Ext.define('Biofuels.view.Farm', {
         this.fields[i].fieldVisuals.plant(crop);
       }
     }
+  },
+
+  advanceStage: function(json){
+    if(json.stageName == "Plant"){
+      // console.log("plant")
+      for (var i = 0; i < this.fields.length; i++) {
+        // console.log("fields")
+
+        this.fields[i].fieldVisuals.showPlantingIcon();
+      };
+
+      this.store1.getAt(0).set('plantStage',true)
+    }
+    else if (this.store1.getAt(0).data.plantStage){
+      this.store1.getAt(0).set('plantStage',false)
+      for (var i = 0; i < this.fields.length; i++) {
+        // console.log("fields")
+
+        this.fields[i].fieldVisuals.hidePlantingIcon();
+      };
+    }
+    // else if(this.store1.loadRawData(['plantStage',true], false)){
+    // }
   },
 
     // Create a new field object (visual representation + underlying data) then
