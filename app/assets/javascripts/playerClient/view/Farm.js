@@ -33,6 +33,7 @@ Ext.define('Biofuels.view.Farm', {
         app.network.registerListener('changeSettings', this.changeSettings, this);
         app.network.registerListener('advanceStage', this.advanceStage, this);
         app.network.registerListener('loadFromServer', this.loadFromServer, this);
+        app.network.registerListener('getFarmHistory', this.refreshHistory, this);
     },
 
 	//--------------------------------------------------------------------------
@@ -169,6 +170,12 @@ Ext.define('Biofuels.view.Farm', {
     // }
   },
 
+  refreshHistory: function(json){
+    for (var i = this.fields.length - 1; i >= 0; i--) {
+      this.fields[i].fieldData.loadFromServer(json.fields[i]);
+    };
+  },
+
     // Create a new field object (visual representation + underlying data) then
     //	attach it to the farm draw surface
 	//--------------------------------------------------------------------------
@@ -255,6 +262,10 @@ Ext.define('Biofuels.view.Farm', {
     onClick: function(evt, target) {
 
     	var years = this.getNumberSeasons();
+      var msg = {
+        event: "getFarmHistory"
+      }
+      Biofuels.network.send(JSON.stringify(msg));
 
     	if (!this.popupWindow) {
     		this.hideCrops();

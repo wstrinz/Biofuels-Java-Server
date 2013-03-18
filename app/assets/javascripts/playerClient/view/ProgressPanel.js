@@ -6,197 +6,116 @@
 Ext.define('Biofuels.view.ProgressPanel', {
 //------------------------------------------------------------------------------
 
-	extend: 'Ext.panel.Panel',
-    alias: 'widget.progressPanel',
-    requires: [
-        'Biofuels.view.RoundStageBar',
-        'Biofuels.view.RoundStageMarker'
-    ],
+  extend: 'Ext.panel.Panel',
+  alias: 'widget.progressPanel',
+  requires: [
+      'Biofuels.view.RoundStageBar',
+      'Biofuels.view.RoundStageMarker',
+      'Ext.util.TaskManager'
+  ],
 
-	title: 'Round Stage',
-	titleAlign: 'center',
-	viewbox: true,
+  title: 'Round Stage',
+  titleAlign: 'center',
+  viewbox: true,
 
-	//--------------------------------------------------------------------------
-    initNetworkEvents: function() {
-    	var app = Biofuels;
+  //--------------------------------------------------------------------------
+  initNetworkEvents: function() {
+      var app = Biofuels;
 
-        app.network.registerListener('changeSettings', this.changeSettings, this);
-        app.network.registerListener('advanceStage', this.advanceStage, this);
-        app.network.registerListener('getGameInfo', this.updateRoundChart, this);
-    },
-
-	//--------------------------------------------------------------------------
-    initComponent: function() {
-        var me = this;
-
-        this.initNetworkEvents();
-
-        this.roundChartStore = Ext.create('Ext.data.Store', {
-            storeId:'roundChartStore',
-            data: [
-                {
-                    name: '',
-                    data: 15,
-                },
-                {
-                    name: '',
-                    data: 10,
-                },
-            ],
-            proxy: {
-                type: 'ajax',
-                reader: {
-                    type: 'json'
-                }
-            },
-            fields: [
-                {
-                    name: 'name',
-                    defaultValue: 5
-                },
-                {
-                    name: 'data',
-                    defaultValue: 2
-                }
-            ],
-              proxy: {
-                type: 'memory',
-                reader: {
-                  type: 'json',
-                  root: 'farmers'
-                }
-              }
-            });
-
-        Ext.applyIf(me, {
-          layout: 'absolute',
-
-            items: [
-    //         {
-				// xtype: 'draw',
-				// width: 500,
-				// height: 80,
-				// layout: 'absolute',
-				// items: [{
-				// 	type: 'rect',
-				// 	width: 500,
-				// 	height: 80,
-				// 	fill: '#163020'
-				//   },
-        // ]
-			   //},
-         {
-            xtype: 'label',
-            id: 'stageName',
-            height: 14,
-            width: 100,
-            text: 'Stage: '
-          },
-
-           {
-              xtype: 'chart',
-              height: 90,
-              width: 120,
-              x: 350,
-              y: -10,
-              animate: true,
-              insetPadding: 10,
-              store: 'roundChartStore',
-              series: [
-                  {
-                      type: 'pie',
-                      label: {
-                          field: 'name',
-                          display: 'rotate',
-                          contrast: true,
-                          font: '9px Arial'
-                      },
-                      showInLegend: true,
-                      angleField: 'data'
-                  }
-              ]
-          },
-
-          /*{
-            xtype: 'label',
-            id: 'stageNumber',
-            height: 14,
-            width: 47,
-            text: 'Stage Number: '
-          }*/
-         ]
-		});
-
-		me.callParent(arguments);
-	},
-
-	//--------------------------------------------------------------------------
-	changeSettings: function(json) {
-    Ext.getCmp("stageName").setText("Stage: " + 0)
-
-		// if (!this.stageBar) {
-		// 	var drawComp = this.child('draw');
-
-		// 	this.stageBar = Ext.create('Biofuels.view.RoundStageBar');
-		// 	this.stageBar.addToSurface(drawComp.surface, 60, 35, 380);
-		// 	this.setSeasonStage(1);
-		// }
-
-		// var markerLabels = new Array();
-		// // TODO: or labels could could just be sent by the server...
-		// if (json.contractsOn) {
-		// 	markerLabels.push('Contract');
-		// }
-		// markerLabels.push('Plant');
-		// if (json.mgmtOptsOn) {
-		// 	markerLabels.push('Manage');
-		// }
-		// markerLabels.push('Grow','Year End');
-
-		// this.stageBar.setMarkers(markerLabels);
-	},
-
-	//--------------------------------------------------------------------------
-	setYear: function(year) {
-		this.stageBar.setYear(year);
-	},
-
-  advanceStage: function(json) {
-    // console.log("setting stage " + json.stageNumber )
-    Ext.getCmp("stageName").setText("Stage: " + json.stageName + " (" + json.stageNumber + ")")
-    var msg = {
-      event: "getGameInfo",
-    }
-    Biofuels.network.send(JSON.stringify(msg));
-    // debugger;
-    // this.setSeasonStage(2)
-    // this.stageBar.setStage(json.stageNumber,1);
+      app.network.registerListener('changeSettings', this.changeSettings, this);
+      app.network.registerListener('advanceStage', this.advanceStage, this);
   },
 
-	//--------------------------------------------------------------------------
-	setSeasonStage: function(stage) {
+  //--------------------------------------------------------------------------
+  initComponent: function() {
+      var me = this;
 
-		this.stageBar.setStage(stage, 500);
-	},
+      this.initNetworkEvents();
 
-  updateRoundChart: function(json){
-    // console.log(json)
-    var stages = new Array();
-    for (var i = 0; i < json.enabledStages.length; i++) {
-      var size = 1
-      if(json.stage == i){
-        size = 1.5
+      Ext.applyIf(me, {
+          items: [{
+              xtype: 'draw',
+              width: 500,
+              height: 80,
+              layout: 'absolute',
+              items: [{
+                  type: 'rect',
+                  width: 500,
+                  height: 80,
+                  fill: '#163020'
+              }]
+          }]
+      });
+
+      me.callParent(arguments);
+  },
+
+  // TODO - FIXME: stageBar can't be created until some time after initComponent
+  //  has created the draw component (like after some layout process happens?)
+  //  So it ended up here as a workaround...since changeSettings typically got called
+  //  quite a bit after the layout so the needed drawComp.surface parm was properly set
+  //  up by then....
+  //--------------------------------------------------------------------------
+  changeSettings: function(json) {
+
+      // FIXME: lame workaround for drawComp.surface not being ready to use in
+      //    initComponent above...
+      if (!this.stageBar) {
+          var drawComp = this.child('draw');
+
+          this.stageBar = Ext.create('Biofuels.view.RoundStageBar');
+          this.stageBar.addToSurface(drawComp.surface, 60, 35, 380);
       }
-      var stage = {
-        name: json.enabledStages[i],
-        data: size
+
+      // TEMP - FIXME: labels/stages should probably just be sent by the server??
+      // create array:     [{label: 'someLabel', active: true, checked: false},
+      //                    {label: 'nextLabel', active: false, checked: false},
+      //                      ...]
+      var markerData = new Array();
+
+      if (json.contractsOn) {
+          markerData.push({label: 'Contract', active: false, checked: true});
       }
-      stages.push(stage);
+      markerData.push({label: 'Plant', active: false, checked: true});
+      if (json.mgmtOptsOn) {
+          markerData.push({label: 'Manage', active: false, checked: true});
+      }
+      markerData.push({label: 'Grow', active: true, checked: false});
+      markerData.push({label: 'Year End', active: false, checked: false});
+
+
+      this.stageBar.setMarkers(markerData);
+  },
+
+  // TODO - FIXME: the year data could maybe be packed into the MarkerData above?
+  //--------------------------------------------------------------------------
+  setYear: function(year) {
+
+    this.stageBar.setYear(year);
+  },
+
+  advanceStage: function(json){
+    var prevMarkers = this.stageBar.markers //.markerData
+    var newMarkers = new Array();
+    for (var i = 0; i < prevMarkers.length; i++) {
+      var thisMarker = prevMarkers[i]
+      // thisMarker.label =
+      if(i==json.stageNumber){
+
+        thisMarker.active = true;
+        thisMarker.checked = false;
+      }
+      else{
+        thisMarker.active = false;
+        if(i > json.stageNumber)
+          thisMarker.checked = false;
+        else
+          thisMarker.checked = true;
+      }
+      newMarkers.push(thisMarker)
     };
-    // console.log(msg)
-    this.roundChartStore.loadRawData((stages), false)
-    // console.log(this.roundChartStore)
+    this.stageBar.setMarkers(newMarkers)
+    // this.stageBar.setStage(json.stageNumber);
   }
 
 });
