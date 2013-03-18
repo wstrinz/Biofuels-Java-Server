@@ -77,6 +77,13 @@ Ext.define('Biofuels.view.RoundStageBar', {
         console.log('clicked on marker: ' + clickedMarker + '!!!');
     },
 
+    sendReady: function() {
+      var msg = {
+        event: "farmerReady"
+      }
+      Biofuels.network.send(JSON.stringify(msg))
+    },
+
     // array in the form of:   [{label: 'someLabel', active: true, checked: false},
     //                          {label: 'nextLabel', active: false, checked: false},
     //                            ...]
@@ -107,7 +114,7 @@ Ext.define('Biofuels.view.RoundStageBar', {
             }
             else if (markerArray[index].active) {
               // Also adds a click handler to get the clicked notification...
-              marker.addMarker(this.testClickerFunc, this);
+              marker.addMarker(this.sendReady, this);
               marker.activateAlert();
             }
         }
