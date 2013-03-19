@@ -74,7 +74,7 @@ Ext.define('Biofuels.view.ProgressPanel', {
       var markerData = new Array();
 
       if (json.contractsOn) {
-          markerData.push({label: 'Contract', active: true, checked: true});
+          markerData.push({label: 'Contract', active: true, checked: false});
           markerData.push({label: 'Plant', active: false, checked: false});
       }
       else{

@@ -62,6 +62,7 @@ Ext.define('Biofuels.view.JoinGamePopup', {
 				allowBlank: false,
 				blankText: 'Required',
 				enforceMaxLength: true,
+        hasfocus:true,
 				maxLength: 16,
 				validator: Ext.bind(this.dirtyChange, this)
 			},
@@ -166,6 +167,8 @@ Ext.define('Biofuels.view.JoinGamePopup', {
 
     	// -- Room
     	var led = this.getComponent('roomLed');
+      if (led == null)
+        return
     	var roomMatched = json.roomResult;
     	if (roomMatched) {
     		led.setSrc('resources/greenLed.png');

@@ -64,7 +64,8 @@ Ext.define('Biofuels.view.ToggleSprite', {
 
     //-----------------------------------------------------------------------
     doHide: function() {
-    	this.sprite.hide(true);
+      // this.sprite.hide(true);
+    	this.hide(true);
     },
 
     //-----------------------------------------------------------------------
