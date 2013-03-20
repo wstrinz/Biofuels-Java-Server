@@ -86,7 +86,6 @@ Ext.define('Biofuels.view.FieldOverlay', {
 						"h120";
 		var testGridBg = "M" + (this.yieldPos.x) + " " + (atY + 15) +
 						"v85 h120 v-85z";
-
 		this.yieldGridBG = surface.add([{
 			type: 'path',
 			path: testGridBg,
@@ -95,7 +94,6 @@ Ext.define('Biofuels.view.FieldOverlay', {
 			opacity: 0.5,
 			zIndex: 4000
 		}]);
-
 		this.yieldGrid = surface.add([{
 			type: 'path',
 			path: testGrid1,

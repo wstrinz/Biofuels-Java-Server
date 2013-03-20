@@ -29,18 +29,29 @@ module WebsocketHelper
 
   def write_queue(msg)
     # REDISREAD.lpush("toJava", msg)
-    REDISWRITE.lpush("toJava", msg)
+    if ENV["RAILS_ENV"] == "development"
+      redis = REDISLOCALW
+    else
+      redis = REDISWRITE
+    end
+    redis.lpush("toJava", msg)
   end
 
   def read_queue(blocking)
     # puts "waiting to read"
+    if ENV["RAILS_ENV"] == "development"
+      redis = REDISLOCALR
+    else
+      redis = REDISREAD
+    end
+
     if blocking==false
 
       # REDISWRITE.rpop("fromJava")
-      REDISREAD.rpop("fromJava")
+      redis.rpop("fromJava")
     else
 
-      REDISREAD.brpop("fromJava")[1]
+      redis.brpop("fromJava")[1]
       # REDISWRITE.brpop("fromJava")[1]
     end
     # puts "read"

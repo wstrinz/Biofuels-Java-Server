@@ -1,7 +1,7 @@
 /*
  * File: app/view/ContractHelpWindow.js
  */
-	
+
 //------------------------------------------------------------------------------
 Ext.define('Biofuels.view.InformationPanel', {
 //------------------------------------------------------------------------------
@@ -9,14 +9,14 @@ Ext.define('Biofuels.view.InformationPanel', {
 	extend: 'Ext.panel.Panel',
     alias: 'widget.informationPanel',
 
-    
+
 	title: 'Information About Your Farm',
 	titleAlign: 'center',
-   
+
 	//--------------------------------------------------------------------------
     initNetworkEvents: function() {
     	var app = Biofuels;
-    	
+
         app.network.registerListener('joinRoom', this.joinedRoom, this);
     },
 
@@ -27,11 +27,11 @@ Ext.define('Biofuels.view.InformationPanel', {
 
     //--------------------------------------------------------------------------
     initComponent: function() {
-    	
+
         var me = this;
 
         this.initNetworkEvents();
-        
+
         Ext.applyIf(me, {
             items: [{
 				xtype: 'contractPanel'
@@ -41,6 +41,7 @@ Ext.define('Biofuels.view.InformationPanel', {
 			},
 			{
 				xtype: 'panel',
+        id: 'yieldsPanel',
 				title: 'Yields',
 				titleAlign: 'center',
 				layout: {
@@ -55,15 +56,16 @@ Ext.define('Biofuels.view.InformationPanel', {
 					text: 'Some Label Text'
 				}],
 				collapsed: true
-			}, 
+			},
 			{
 				xtype: 'panel',
+        id: 'otherPanel',
 				title: 'Other Metrics',
 				titleAlign: 'center',
 				collapsed: true
 			}]
 		});
-		
+
         me.callParent(arguments);
     }
 

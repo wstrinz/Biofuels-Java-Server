@@ -76,6 +76,7 @@ Ext.define('Biofuels.view.Farm', {
 		this.createFields(count);
 
 		// TODO: proper management icon state management
+    // console.log("farmSettings " + json.mgmtOptsOn)
 		if (json.mgmtOptsOn) {
 			this.showFieldManagementIcons();
 		}
@@ -149,12 +150,10 @@ Ext.define('Biofuels.view.Farm', {
 
   advanceStage: function(json){
     if(json.stageName == "Plant"){
-      // console.log("plant")
       //reload field data for testing purposes
 
 
       for (var i = 0; i < this.fields.length; i++) {
-        // console.log("fields")
 
         this.fields[i].fieldVisuals.showPlantingIcon();
       };
@@ -181,6 +180,21 @@ Ext.define('Biofuels.view.Farm', {
   },
 
   refreshHistory: function(json){
+    // var yieldPanel = Ext.getCmp("yieldsPanel")
+    var yieldPanel = Ext.getCmp("otherPanel")
+    var yieldPanelString = ""
+    for (var i = 0; i < json.fields.length; i++) {
+      yieldPanelString += "<p> Field " + i + "</p>"
+      var thisFieldHistory = json.fields[i]
+      for (var j = 0; j < thisFieldHistory.length; j++) {
+         var thisYear = thisFieldHistory[j]
+         yieldPanelString += "<p> Crop: " + thisYear.crop + "\t Yield: " + thisYear.yield +
+         "\t SOC: " + thisYear.SOM + "</p>"
+       };
+       yieldPanelString += "\n"
+    };
+    console.log(yieldPanel)
+    yieldPanel.update(yieldPanelString)
     for (var i = this.fields.length - 1; i >= 0; i--) {
       this.fields[i].fieldData.loadFromServer(json.fields[i]);
     };

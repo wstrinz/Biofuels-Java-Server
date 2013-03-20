@@ -98,8 +98,13 @@ class WebsocketController < WebsocketRails::BaseController
   end
 
   def subscribe_to_redis
+    if ENV["RAILS_ENV"] == "development"
+      redis = REDISLOCALR
+    else
+      redis = REDISREAD
+    end
     puts "subscribing"
-    REDISREAD.subscribe(:toRuby) do |on|
+    redis.subscribe(:toRuby) do |on|
       on.message do |channel, msg|
         data = JSON.parse(msg)
         puts "sending #{msg}"

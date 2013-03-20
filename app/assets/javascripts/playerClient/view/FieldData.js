@@ -157,8 +157,8 @@ Ext.define('Biofuels.view.FieldData', {
       this.seasons.push({
         crop: serverCrop,
         soil: serverSeasons[i].SOM,
-        fertilizer: false,
-        till: true,
+        fertilizer: serverSeasons[i].fertilizer,
+        till: serverSeasons[i].till,
       })
     };
     // console.log(this.seasons)
