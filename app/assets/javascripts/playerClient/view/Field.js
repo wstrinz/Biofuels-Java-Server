@@ -286,6 +286,7 @@ constructor: function (config) {
       };
       Biofuels.network.send(JSON.stringify(msg))
       this.plant(cropType)
+      this.fadeCrops()
 
 		// if (!cropType.localeCompare("cancel")) {
 		// 	return;
@@ -364,6 +365,8 @@ constructor: function (config) {
        var aCorn = Ext.create('Biofuels.view.CornPlantSprite');
        aCorn.addToSurface(surface, rAtX, rAtY, 1000 + Math.random() * 500);
 
+
+
        cx += 35;
        if (cx >= 120) {
         cx = 0;
@@ -405,7 +408,7 @@ constructor: function (config) {
        var rAtY = cy + this.atY - 22;
 
        var aGrass = Ext.create('Biofuels.view.CoverCropPlantSprite');
-       aGrass.addToSurface(surface, rAtX, rAtY, 1200 + Math.random() * 800);
+       // aGrass.addToSurface(surface, rAtX, rAtY, 1200 + Math.random() * 800);
 
        cx += 35;
        if (cx > 105) {
@@ -414,8 +417,25 @@ constructor: function (config) {
         cy += 30;
       }
       this.crop.push(aGrass);
+
     }
-  }
+  },
+
+  fadeCrops: function(){
+    for (var i = 0; i < this.crop.length; i++) {
+       // console.log(this.crop[i])
+       this.crop[i].setOpacity(0.25)
+       // console.log(this.crop[i])
+     };
+  },
+  unfadeCrops: function(){
+       // console.log("unfading")
+    for (var i = 0; i < this.crop.length; i++) {
+       this.crop[i].setOpacity(0.99)
+       // console.log(this.crop[i])
+     };
+  },
+
 
 
 });

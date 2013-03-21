@@ -127,14 +127,9 @@ Ext.define('Biofuels.view.Farm', {
   //Load farm data from server
   loadFromServer: function(json){
     var newFields = json.fields //.substring(1, json.fields.length - 1).split(",");
-    // console.log("was" + newF);
-    // var newFields = newF;
-    // console.log('new ' + newFields);
     // var arr = Ext.decode(newFields)
     for(var i = 0;i < newFields.length; i++){
-      // console.log(newFields[i]);
       var crop = newFields[i].crop.toLowerCase();
-      // console.log("creating " + this.fields.length);
       if (this.fields.length > i) {
         this.fields[i].fieldVisuals.plant(crop);
         this.fields[i].fieldVisuals.setManagementTechnique("pesticide", newFields[i].pesticide)
@@ -170,6 +165,11 @@ Ext.define('Biofuels.view.Farm', {
     }
 
     if(json.stageName == "Grow"){
+      for (var i = 0; i < this.fields.length; i++) {
+
+        this.fields[i].fieldVisuals.unfadeCrops();
+      };
+      // aCorn.setOpacity(0.5);
       var msg = {
         event: "getFarmHistory"
       }
@@ -180,9 +180,46 @@ Ext.define('Biofuels.view.Farm', {
   },
 
   refreshHistory: function(json){
-    // var yieldPanel = Ext.getCmp("yieldsPanel")
-    var yieldPanel = Ext.getCmp("otherPanel")
+    var yieldPanel = Ext.getCmp("yieldsPanel")
+    var otherPanel = Ext.getCmp("otherPanel")
     var yieldPanelString = ""
+
+    var histStore1 = Ext.data.StoreManager.lookup('historyStore')
+    histStore1.loadData([],false);
+    var histStore2 = Ext.data.StoreManager.lookup('historyStore2')
+    histStore2.loadData([],false);
+
+    var histStores = [histStore1, histStore2];
+
+
+    for (var i = 0; i < json.fields.length; i++) {
+      yieldPanelString += "<p> Field " + i + "</p>"
+      var thisFieldHistory = json.fields[i]
+      for (var j = 0; j < thisFieldHistory.length; j++) {
+        var thisYear = thisFieldHistory[j]
+
+        if (thisYear.crop == "CORN"){
+           var dataPoint = {
+              "year": j,
+              "corn": thisYear.yield,
+           }
+        }
+        else if(thisYear.crop == "GRASS"){
+          var dataPoint = {
+              "year": j,
+              "grass": thisYear.yield,
+          }
+        }
+        else{
+          var dataPoint = {
+              "year": j,
+          }
+        }
+         histStores[i].loadRawData(dataPoint, true)
+       };
+       yieldPanelString += "\n"
+    };
+
     for (var i = 0; i < json.fields.length; i++) {
       yieldPanelString += "<p> Field " + i + "</p>"
       var thisFieldHistory = json.fields[i]
@@ -193,11 +230,14 @@ Ext.define('Biofuels.view.Farm', {
        };
        yieldPanelString += "\n"
     };
-    console.log(yieldPanel)
-    yieldPanel.update(yieldPanelString)
+    // console.log(otherPanel)
+    otherPanel.update(yieldPanelString)
     for (var i = this.fields.length - 1; i >= 0; i--) {
       this.fields[i].fieldData.loadFromServer(json.fields[i]);
     };
+
+
+
   },
 
     // Create a new field object (visual representation + underlying data) then

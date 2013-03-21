@@ -7,8 +7,8 @@ Ext.define('Biofuels.view.CoverCropPlantSprite', {
 //------------------------------------------------------------------------------
 
     constructor: function (config) {
-    	
-    	this.randomSpriteConfigList = Array([{        
+
+    	this.randomSpriteConfigList = Array([{
 			type: 'image',
 			src: 'resources/alfalfa_plant.png',
 			width: 30,
@@ -16,25 +16,25 @@ Ext.define('Biofuels.view.CoverCropPlantSprite', {
 			zIndex: 750
 		}]);
     },
-    
+
     //--------------------------------------------------------------------------
     addToSurface: function(surface, atX, atY, duration) {
 
 		var randomSpriteConfig = this.randomSpriteConfigList[
 				Math.floor(Math.random() * this.randomSpriteConfigList.length)];
-		
+
 		if (this.sprite) {
 			this.removeFromSurface();
 		}
-		
+
   		var result = surface.add(randomSpriteConfig);
   		this.sprite = result[0];
 		this.sprite.setAttributes({
 			translate: {
-				x: atX, 
+				x: atX,
 				y: atY
 			}}, false);
-		
+
 		this.sprite.animate({
 			duration: duration,
 			from: {
@@ -44,7 +44,7 @@ Ext.define('Biofuels.view.CoverCropPlantSprite', {
 				},
 				translate: {
 					x: atX,
-					y: atY + 20 * 0.8 
+					y: atY + 20 * 0.8
 				}
 			},
 			to: {
@@ -62,14 +62,23 @@ Ext.define('Biofuels.view.CoverCropPlantSprite', {
 
     //--------------------------------------------------------------------------
     removeFromSurface: function() {
-    	
+
     	if (!this.sprite) {
     		return;
     	}
-    	
+
     	this.sprite.remove();
     	this.sprite.destroy();
     	this.sprite = null;
+    },
+    setOpacity: function(opa){
+      // console.log(this.sprite)
+      if (!this.sprite) {
+        return;
+      }
+      this.sprite.setAttributes({
+        opacity: opa
+      })
     }
 
 });

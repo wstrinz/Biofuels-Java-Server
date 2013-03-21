@@ -101,6 +101,7 @@ Ext.define('Biofuels.view.ProgressPanel', {
   advanceStage: function(json){
     var prevMarkers = this.stageBar.markers //.markerData
     var newMarkers = new Array();
+    this.setYear(json.year)
     for (var i = 0; i < prevMarkers.length; i++) {
       var thisMarker = prevMarkers[i]
       // thisMarker.label =
