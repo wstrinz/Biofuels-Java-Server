@@ -71,6 +71,7 @@ Ext.define('Biofuels.view.CoverCropPlantSprite', {
     	this.sprite.destroy();
     	this.sprite = null;
     },
+
     setOpacity: function(opa){
       // console.log(this.sprite)
       if (!this.sprite) {
@@ -79,6 +80,26 @@ Ext.define('Biofuels.view.CoverCropPlantSprite', {
       this.sprite.setAttributes({
         opacity: opa
       })
+    },
+
+    growABit: function(){
+      if(!this.sprite) return;
+      this.sprite.animate({
+        duration: 50,
+        from: {
+          scale: {
+            x: 1,
+            y: 1
+          },
+
+        },
+        to: {
+          scale: {
+            x: 1.2,
+            y: 1.2
+          },
+        }
+      });
     }
 
 });

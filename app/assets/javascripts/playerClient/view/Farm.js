@@ -147,6 +147,7 @@ Ext.define('Biofuels.view.Farm', {
   advanceStage: function(json){
     if(json.stageName == "Plant"){
       //reload field data for testing purposes
+      this.grown = false;
       for (var i = 0; i < this.fields.length; i++) {
 
         this.fields[i].fieldVisuals.showPlantingIcon();
@@ -178,15 +179,19 @@ Ext.define('Biofuels.view.Farm', {
     }
 
     if(json.stageName == "Grow"){
-      for (var i = 0; i < this.fields.length; i++) {
+      if (!this.grown){
+            for (var i = 0; i < this.fields.length; i++) {
 
-        this.fields[i].fieldVisuals.unfadeCrops();
-      };
-      var msg = {
-        event: "getFarmHistory"
-      }
-      Biofuels.network.send(JSON.stringify(msg));
-    }
+              // this.fields[i].fieldVisuals.unfadeCrops();
+              this.fields[i].fieldVisuals.growCrops();
+            };
+            var msg = {
+              event: "getFarmHistory"
+            }
+            Biofuels.network.send(JSON.stringify(msg));
+          }
+          this.grown = true;
+        }
     // else if(this.store1.loadRawData(['plantStage',true], false)){
     // }
   },

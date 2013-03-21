@@ -436,6 +436,14 @@ constructor: function (config) {
      };
   },
 
+  growCrops: function(){
+    this.unfadeCrops();
+    for (var i = 0; i < this.crop.length; i++) {
+       this.crop[i].growABit();
+       // console.log(this.crop[i])
+     };
+  }
+
 
 
 });

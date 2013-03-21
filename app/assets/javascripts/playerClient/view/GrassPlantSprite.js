@@ -84,5 +84,24 @@ Ext.define('Biofuels.view.GrassPlantSprite', {
       this.sprite.setAttributes({
         opacity: opa
       }, true)
+    },
+    growABit: function(){
+      if(!this.sprite) return;
+      this.sprite.animate({
+        duration: 5500,
+        from: {
+          scale: {
+            x: 1,
+            y: 1
+          },
+
+        },
+        to: {
+          scale: {
+            x: 1.2,
+            y: 1.2
+          },
+        }
+      });
     }
 });
