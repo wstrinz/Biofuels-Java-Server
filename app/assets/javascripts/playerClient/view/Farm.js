@@ -33,6 +33,7 @@ Ext.define('Biofuels.view.Farm', {
         app.network.registerListener('changeSettings', this.changeSettings, this);
         app.network.registerListener('advanceStage', this.advanceStage, this);
         app.network.registerListener('loadFromServer', this.loadFromServer, this);
+        app.network.registerListener('getFarmInfo', this.loadFarmInfo, this);
         app.network.registerListener('getFarmHistory', this.refreshHistory, this);
     },
 
@@ -61,7 +62,7 @@ Ext.define('Biofuels.view.Farm', {
 				width: this.FARM_WIDTH,
 				height: this.FARM_HEIGHT,
 				fill: '#385'
-			}]
+			}],
 		});
 
         me.callParent(arguments);
@@ -146,22 +147,34 @@ Ext.define('Biofuels.view.Farm', {
   advanceStage: function(json){
     if(json.stageName == "Plant"){
       //reload field data for testing purposes
-
-
       for (var i = 0; i < this.fields.length; i++) {
 
         this.fields[i].fieldVisuals.showPlantingIcon();
       };
 
-      this.store1.getAt(0).set('plantStage',true)
+      // this.store1.getAt(0).set('plantStage',true)
     }
-    else if (this.store1.getAt(0).data.plantStage){
-      this.store1.getAt(0).set('plantStage',false)
+    else{
       for (var i = 0; i < this.fields.length; i++) {
-        // console.log("fields")
-
         this.fields[i].fieldVisuals.hidePlantingIcon();
       };
+    }
+    // else if (this.store1.getAt(0).data.plantStage){
+    //   this.store1.getAt(0).set('plantStage',false)
+    //   for (var i = 0; i < this.fields.length; i++) {
+    //     // console.log("fields")
+
+    //     this.fields[i].fieldVisuals.hidePlantingIcon();
+    //   };
+    // }
+    if(json.stageName == "Manage"){
+      this.showFieldManagementIcons()
+    }
+    else{
+      this.hideFieldManagementIcons()
+      // for (var i = 0; i < this.fields.length; i++) {
+      //   this.fields[i].fieldVisuals.hideManagementIcons()
+      // };
     }
 
     if(json.stageName == "Grow"){
@@ -169,7 +182,6 @@ Ext.define('Biofuels.view.Farm', {
 
         this.fields[i].fieldVisuals.unfadeCrops();
       };
-      // aCorn.setOpacity(0.5);
       var msg = {
         event: "getFarmHistory"
       }
@@ -177,6 +189,10 @@ Ext.define('Biofuels.view.Farm', {
     }
     // else if(this.store1.loadRawData(['plantStage',true], false)){
     // }
+  },
+
+  loadFarmInfo: function(json){
+    this.phosphorous = json.phosphorous
   },
 
   refreshHistory: function(json){
@@ -220,6 +236,7 @@ Ext.define('Biofuels.view.Farm', {
        yieldPanelString += "\n"
     };
 
+    yieldPanelString += "<p> Phosphorous: " + this.phosphorous + "</p>"
     for (var i = 0; i < json.fields.length; i++) {
       yieldPanelString += "<p> Field " + i + "</p>"
       var thisFieldHistory = json.fields[i]

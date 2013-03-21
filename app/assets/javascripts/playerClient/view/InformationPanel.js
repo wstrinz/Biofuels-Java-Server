@@ -13,17 +13,20 @@ Ext.define('Biofuels.view.InformationPanel', {
 	title: 'Information About Your Farm',
 	titleAlign: 'center',
 
+
 	//--------------------------------------------------------------------------
     initNetworkEvents: function() {
     	var app = Biofuels;
 
         app.network.registerListener('joinRoom', this.joinedRoom, this);
+        // app.network.registerListener('getFarmInfo', this.loadFarmInfo, this);
     },
 
     //--------------------------------------------------------------------------
     joinedRoom: function(json) {
     	this.setTitle("Information About " + json.userName + "'s Farm");
     },
+
 
     //--------------------------------------------------------------------------
     initComponent: function() {
@@ -84,14 +87,14 @@ Ext.define('Biofuels.view.InformationPanel', {
         id: 'yieldsPanel',
 				title: 'Yields',
 				titleAlign: 'center',
-				layout: {
-					type: 'hbox',
-					padding: 8,
-				},
+				// layout: {
+				// 	type: 'hbox',
+				// 	padding: 8,
+				// },
 				items: [{
           xtype: 'chart',
           height: 224,
-          width: 225,
+          width: 450,
           animate: true,
           store: 'historyStore',
           insetPadding: 20,
@@ -162,7 +165,7 @@ Ext.define('Biofuels.view.InformationPanel', {
         {
           xtype: 'chart',
           height: 224,
-          width: 225,
+          width: 450,
           animate: true,
           store: 'historyStore2',
           layout: 'fit',
@@ -237,6 +240,7 @@ Ext.define('Biofuels.view.InformationPanel', {
 			{
 				xtype: 'panel',
         id: 'otherPanel',
+        autoScroll: true,
 				title: 'Other Metrics',
 				titleAlign: 'center',
 				collapsed: true

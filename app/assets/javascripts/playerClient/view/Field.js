@@ -424,14 +424,14 @@ constructor: function (config) {
   fadeCrops: function(){
     for (var i = 0; i < this.crop.length; i++) {
        // console.log(this.crop[i])
-       this.crop[i].setOpacity(0.25)
+       this.crop[i].setOpacity(0.35)
        // console.log(this.crop[i])
      };
   },
   unfadeCrops: function(){
        // console.log("unfading")
     for (var i = 0; i < this.crop.length; i++) {
-       this.crop[i].setOpacity(0.99)
+       this.crop[i].setOpacity(1)
        // console.log(this.crop[i])
      };
   },
