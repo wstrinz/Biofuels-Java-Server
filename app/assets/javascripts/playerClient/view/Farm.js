@@ -194,6 +194,12 @@ Ext.define('Biofuels.view.Farm', {
         }
     // else if(this.store1.loadRawData(['plantStage',true], false)){
     // }
+    
+    if(json.stageName == "Round Wrap Up"){
+			for (var i = 0; i < this.fields.length; i++) {
+				this.fields[i].fieldVisuals.harvestCrops();
+			};
+    }
   },
 
   loadFarmInfo: function(json){
