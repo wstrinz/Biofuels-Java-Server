@@ -7,7 +7,7 @@ Ext.define('Biofuels.view.ToggleSprite', {
 //------------------------------------------------------------------------------
 
     //--------------------------------------------------------------------------
-    addToSurface: function(surface, config, off, on) {
+    addToSurface: function(surface, config, off, on, startShown) {
 
     	this.stateImages = new Array();
     	this.stateImages.push(off);
@@ -16,9 +16,14 @@ Ext.define('Biofuels.view.ToggleSprite', {
 
   		var result = surface.add(config);
   		this.sprite = result[0];
-  		this.sprite.show(true);
-
-    	this.setListeners();
+  		
+  		if (typeof startShown != 'undefined' && startShown) { 
+  			this.sprite.show(true);
+  			this.setListeners();
+  		}
+  		else {
+  			this.sprite.show(false);
+  		}
     },
 
     //-----------------------------------------------------------------------
@@ -110,9 +115,10 @@ Ext.define('Biofuels.view.ToggleSprite', {
    changeState: function() {
       // console.log("click")
      this.stateValue++; if (this.stateValue > 1) this.stateValue = 0;
+     // changing state of hidden sprites is fine, but don't force show a hidden sprite
       this.sprite.setAttributes({
           src: this.stateImages[this.stateValue]
-      }, true);
+      }, this.sprite.attr.hidden);
    }
 
 
