@@ -6,9 +6,10 @@
 Ext.define('Biofuels.view.CornPlantSprite', {
 //------------------------------------------------------------------------------
 
-    constructor: function (config) {
+	extend: 'Biofuels.view.BasePlantSprite',
 
-    	this.randomSpriteConfigList = Array([{
+	constructor: function (config) {
+		this.randomSpriteConfigList = Array([{
 			type: 'image',
 			src: 'resources/corn_plant.png',
 			width: 30,
@@ -22,94 +23,9 @@ Ext.define('Biofuels.view.CornPlantSprite', {
 			height: 50,
 			zIndex: 750
 		}]);
-    },
-
-    //--------------------------------------------------------------------------
-    addToSurface: function(surface, atX, atY, duration) {
-
-		var randomSpriteConfig = this.randomSpriteConfigList[
-				Math.floor(Math.random() * this.randomSpriteConfigList.length)];
-
-		if (this.sprite) {
-			this.removeFromSurface();
-		}
-
-  		var result = surface.add(randomSpriteConfig);
-  		this.sprite = result[0];
-		this.sprite.setAttributes({
-			translate: {
-				x: atX,
-				y: atY
-			}}, false);
-
-		this.sprite.animate({
-			duration: duration,
-			from: {
-				scale: {
-					x: 0.2,
-					y: 0.2
-				},
-				translate: {
-					x: atX,
-					y: atY + 20 * 0.8
-				}
-			},
-			to: {
-				scale: {
-					x: 1,
-					y: 1
-				},
-				translate: {
-					x: atX,
-					y: atY
-				}
-			}
-		});
-    },
-
-    //--------------------------------------------------------------------------
-    removeFromSurface: function() {
-
-    	if (!this.sprite) {
-    		return;
-    	}
-
-    	this.sprite.remove();
-    	this.sprite.destroy();
-    	this.sprite = null;
-    },
-
-    setOpacity: function(opa){
-      // console.log(this.sprite)
-      if (!this.sprite) {
-        // console.log("no sprite")
-        this.removeFromSurface();
-        return;
-      }
-      // console.log("setting " + opa)
-      this.sprite.setAttributes({
-        opacity: opa
-      }, true)
-    },
-
-    growABit: function(){
-      if(!this.sprite) return;
-      this.sprite.animate({
-        duration: 5500,
-        from: {
-          scale: {
-            x: 1,
-            y: 1
-          },
-
-        },
-        to: {
-          scale: {
-            x: 1.2,
-            y: 1.2
-          },
-        }
-      });
-    }
-
+	
+		this.harvestedSprite = 'resources/corn_plant_harvested.png';
+	}
+	
 });
+
