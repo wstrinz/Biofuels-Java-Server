@@ -406,7 +406,7 @@ Ext.define('Biofuels.view.Field', {
 	//--------------------------------------------------------------------------
   harvestCrops: function() {
 		for (var i = 0; i < this.crop.length; i++) {
-			this.crop[i].scheduleHarvest(i*75);
+			this.crop[i].scheduleHarvest(i*50);
 		};
   }
 

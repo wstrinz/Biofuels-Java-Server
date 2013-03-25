@@ -99,10 +99,7 @@ Ext.define('Biofuels.view.BasePlantSprite', {
 	scheduleHarvest: function(delay) {
 		if(!this.sprite) return;
 	
-			this.harvest();
-			// Boo...this doesn't seem to work. Flooding the delayedTask Mgr??
-//		var task = new Ext.util.DelayedTask(this.harvest, this);
-//		task.delay(delay);
+			Ext.defer(this.harvest, delay, this);
 	}
 
 
