@@ -70,6 +70,7 @@ Ext.define('Biofuels.view.MainViewport', {
 						height: 700,
 						layout: {
 							type: 'accordion',
+              titleCollapse: false,
 							multi: true
 						}
 					}]

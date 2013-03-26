@@ -192,9 +192,17 @@ Ext.define('Biofuels.view.Farm', {
           }
           this.grown = true;
         }
+
+    if(json.stageName == "Round Wrap Up"){
+      var msg = {
+        event: "getFarmInfo"
+      }
+      Biofuels.network.send(JSON.stringify(msg));
+    }
     // else if(this.store1.loadRawData(['plantStage',true], false)){
     // }
   },
+
 
   loadFarmInfo: function(json){
     this.phosphorous = json.phosphorous
@@ -253,7 +261,7 @@ Ext.define('Biofuels.view.Farm', {
        yieldPanelString += "\n"
     };
     // console.log(otherPanel)
-    otherPanel.update(yieldPanelString)
+    // otherPanel.update(yieldPanelString)
     for (var i = this.fields.length - 1; i >= 0; i--) {
       this.fields[i].fieldData.loadFromServer(json.fields[i]);
     };

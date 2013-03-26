@@ -40,7 +40,7 @@ Ext.define('Biofuels.view.FarmHolderPanel', {
     	var app = Biofuels;
 
         app.network.registerListener('joinRoom', this.joinedRoom, this);
-        app.network.registerListener('getFarmInfo', this.loadFarmInfo, this);
+        // app.network.registerListener('getFarmInfo', this.loadFarmInfo, this);
     },
 
     //--------------------------------------------------------------------------
