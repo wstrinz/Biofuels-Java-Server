@@ -1,6 +1,7 @@
 /*
- * File: app.js
+ * File: playerClient.js
  */
+
 
 Ext.define('WsConnection',{
   singleton: true,
