@@ -50,10 +50,10 @@ Ext.define('Biofuels.view.MainViewport', {
 				items: [{
 					xtype: 'panel',
 					layout: 'column',
-					width: 1000,
+					width: 1100,
 					items: [{
 						xtype: 'panel',
-						columnWidth: 0.5,
+						columnWidth: 0.45,
 						layout: 'fit',
 						items: [{
 							xtype: 'progressPanel',
@@ -66,7 +66,7 @@ Ext.define('Biofuels.view.MainViewport', {
 						}]
 					},{
 						xtype: 'informationPanel',
-						columnWidth: 0.5,
+						columnWidth: 0.55,
 						height: 700,
 						layout: {
 							type: 'accordion',

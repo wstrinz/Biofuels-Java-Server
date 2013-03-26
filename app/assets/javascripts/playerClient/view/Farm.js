@@ -198,9 +198,11 @@ Ext.define('Biofuels.view.Farm', {
         event: "getFarmInfo"
       }
       Biofuels.network.send(JSON.stringify(msg));
+
+			for (var i = 0; i < this.fields.length; i++) {
+				this.fields[i].fieldVisuals.harvestCrops();
+			};
     }
-    // else if(this.store1.loadRawData(['plantStage',true], false)){
-    // }
   },
 
 
