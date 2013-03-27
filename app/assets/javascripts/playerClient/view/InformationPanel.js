@@ -188,7 +188,7 @@ Ext.define('Biofuels.view.InformationPanel', {
       Ext.data.StoreManager.lookup('farmEnergyStore').loadRawData(energyData, true)
       Ext.data.StoreManager.lookup('economicsStore').loadRawData(econData, true)
 
-    }
+    },
 
     initComponent: function() {
         var me = this;
