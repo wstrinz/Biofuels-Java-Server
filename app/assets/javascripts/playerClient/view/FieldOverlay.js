@@ -14,7 +14,6 @@ Ext.define('Biofuels.view.FieldOverlay', {
     	this.atX = atX;
     	this.atY = atY;
 
-    	this.soilScalar = 1.5;
     	this.yieldPos = {
     		x: atX + 20,
     		y: atY + 55
@@ -70,67 +69,106 @@ Ext.define('Biofuels.view.FieldOverlay', {
 			zIndex: 3000
 		}]);
 
-		var testPath = "M" + (atX + 20) + " " + (this.yieldPos.y) +
-				"L";
-
-		var seasonStep = 120 / (this.fieldData.seasons.length-1);
-
-		for (var index = 0; index < this.fieldData.seasons.length; index++) {
-			testPath += (this.yieldPos.x + seasonStep * index)  + " " +
-				(this.yieldPos.y + this.fieldData.seasons[index].soil * -this.soilScalar) + " ";
-		}
-
-		var testGrid1 = "M" + (this.yieldPos.x) + " " + (atY + 15) +
-						"v85 h120 v-85";
-		var testGrid2 = "M" + (this.yieldPos.x) + " " + (this.yieldPos.y) +
-						"h120";
-		var testGridBg = "M" + (this.yieldPos.x) + " " + (atY + 15) +
-						"v85 h120 v-85z";
-
-		this.yieldGridBG = surface.add([{
-			type: 'path',
-			path: testGridBg,
-			'stroke-width': 0,
-			fill: '#ffa',
-			opacity: 0.5,
-			zIndex: 4000
-		}]);
-
-		this.yieldGrid = surface.add([{
-			type: 'path',
-			path: testGrid1,
-			stroke: '#000',
-			'stroke-width': 1,
-			opacity: 0.6,
-			zIndex: 4500
-		},{
-			type: 'path',
-			path: testGrid2,
-			stroke: '#000',
-			'stroke-width': 1,
-			opacity: 0.6,
-			zIndex: 4500
-		}]);
-
-
-		this.yieldPath = surface.add([{
-			type: 'path',
-			path: testPath,
-			stroke: "#fff",
-			'stroke-width': 2,
-			zIndex: 5000
-		}]);
-
-		this.yieldMarker = surface.add([{
-			type: 'circle',
-			radius: 3,
-			stroke: '#ed3',
-			'stroke-width': 1,
-			fill: '#346',
-			x: (this.yieldPos.x),
-			y: (this.yieldPos.y),
-			zIndex: 6000
-		}]);
+		this.fieldHistoryStore = Ext.create('Ext.data.JsonStore', {
+				storeId: 'historyStore',
+				fields: ['year','corn','grass'],
+				data: [
+					{'year':0, 'corn':1, 'grass':10},
+					{'year':1, 'corn':20, 'grass':30},
+					{'year':2, 'corn':10, 'grass':50},
+				]
+					// {
+					//   x: [0,1,2,3,4],
+					// },
+					// {
+					//   grass: [0, 10, 20, 30],
+					// },
+					// {
+					//   corn: [30, 20, 10, 10]
+					// },
+		});
+		
+		this.chart = Ext.create('Ext.chart.Chart',
+		{
+				// FIXME: yeah, basically render it to the FarmHolderPanel...
+				renderTo: surface.el.dom.parentElement.parentElement,
+				animate: true,
+				height: 135,
+				width: 160,
+				// Overlay magic starts here...float, no shadow, place at x, y, etc
+				floating: true,
+				shadow: false,
+				x: atX + 10,
+				y: atY + 10,
+				store: 'historyStore',
+				insetPadding: 1, 
+				axes: [{
+						type: 'Category',
+						fields: ['year'],
+						position: 'bottom',
+						title: 'Year',
+						label: {
+							padding: 0 // only helps a bit with getting title up closer to the year #'s
+						}
+				},
+				{
+					type: 'Numeric',
+						fields: ['corn','grass'],
+						position: 'left',
+						title: 'yield'
+				}],
+				series: [{
+					type: 'line',
+					highlight: {
+						 size: 4,
+						 radius: 6
+					},
+					tips: {
+						trackMouse: true,
+						width: 90,
+						height: 55,
+						layout: 'fit',
+						renderer: function(storeItem, item) {
+							this.setTitle("year: " + storeItem.get("year") + " yield: " + storeItem.get("corn"));
+						},
+					},
+					axis: 'left',
+					xField: 'year',
+					yField: 'corn',
+					title: 'corn',
+					style: {
+						fill: "#F9EA01",
+						stroke: "#F9EA01"
+					},
+					smooth: 3
+				},
+				{
+					type: 'line',
+					highlight: {
+						 size: 4,
+						 radius: 6
+					},
+					tips: {
+						trackMouse: true,
+						width: 90,
+						height: 55,
+						layout: 'fit',
+						renderer: function(storeItem, item) {
+							this.setTitle("year: " + storeItem.get("year") + " yield: " + storeItem.get("grass"));
+						},
+					},
+					axis: 'left',
+					xField: 'year',
+					yField: 'grass',
+					title: 'grass',
+					style: {
+						fill: "#008000",
+						stroke: "#008000"
+					},
+					smooth: 3
+				}]
+			});
+			this.chart.hide();
     },
 
     //--------------------------------------------------------------------------
@@ -165,22 +203,12 @@ Ext.define('Biofuels.view.FieldOverlay', {
 
     //--------------------------------------------------------------------------
     showYields: function() {
-
-    	this.animateShow(this.yieldGrid[0], 	100, 0.6);
-    	this.animateShow(this.yieldGrid[1], 	100, 0.3);
-    	this.animateShow(this.yieldGridBG[0], 	100, 0.5);
-    	this.animateShow(this.yieldPath[0], 	100, 1);
-    	this.animateShow(this.yieldMarker[0], 	100, 1);
+    	this.chart.show();
     },
 
     //--------------------------------------------------------------------------
     hideYields: function() {
-
-    	this.animateHide(this.yieldGrid[0]);
-    	this.animateHide(this.yieldGrid[1]);
-    	this.animateHide(this.yieldGridBG[0]);
-    	this.animateHide(this.yieldPath[0]);
-    	this.animateHide(this.yieldMarker[0]);
+    	this.chart.hide();
     },
 
     //--------------------------------------------------------------------------
@@ -285,17 +313,6 @@ Ext.define('Biofuels.view.FieldOverlay', {
     	this.cropSprite[0].setAttributes({
     			src: this.cropSprites[season.crop]
     		}, true);
-
-		var seasonStep = 120 / (this.fieldData.seasons.length-1);
-
-    	this.yieldMarker[0].stopAnimation().animate({
-			duration: 200,
-			to: {
-				x: (this.yieldPos.x + seasonStep * newYear),
-				y: (this.yieldPos.y + season.soil * -this.soilScalar),
-				opacity: 1
-    		}
-    	});
 
 		// fertilizer
     	var targetOpacity = 0;
