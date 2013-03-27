@@ -148,6 +148,7 @@ Ext.define('Biofuels.view.Farm', {
     if(json.stageName == "Plant"){
       //reload field data for testing purposes
       this.grown = false;
+      this.wrappedup = false;
       for (var i = 0; i < this.fields.length; i++) {
 
         this.fields[i].fieldVisuals.showPlantingIcon();
@@ -160,14 +161,7 @@ Ext.define('Biofuels.view.Farm', {
         this.fields[i].fieldVisuals.hidePlantingIcon();
       };
     }
-    // else if (this.store1.getAt(0).data.plantStage){
-    //   this.store1.getAt(0).set('plantStage',false)
-    //   for (var i = 0; i < this.fields.length; i++) {
-    //     // console.log("fields")
 
-    //     this.fields[i].fieldVisuals.hidePlantingIcon();
-    //   };
-    // }
     if(json.stageName == "Manage"){
       this.showFieldManagementIcons()
     }
@@ -191,24 +185,26 @@ Ext.define('Biofuels.view.Farm', {
         }
 
     if(json.stageName == "Round Wrap Up"){
-      var msg = {
-        event: "getFarmInfo"
-      }
-      Biofuels.network.send(JSON.stringify(msg));
+      if(!this.wrappedup){
+            var msg = {
+              event: "getFarmInfo"
+            }
+            Biofuels.network.send(JSON.stringify(msg));
 
-      var msg = {
-        event: "getFarmHistory"
-      }
-      Biofuels.network.send(JSON.stringify(msg));
+            var msg = {
+              event: "getFarmHistory"
+            }
+            Biofuels.network.send(JSON.stringify(msg));
+            var msg = {
+              event: "getLatestFarmerHistory"
+            }
+            Biofuels.network.send(JSON.stringify(msg));
 
-      var msg = {
-        event: "getFarmerHistory"
-      }
-      Biofuels.network.send(JSON.stringify(msg));
-
-			for (var i = 0; i < this.fields.length; i++) {
-				this.fields[i].fieldVisuals.harvestCrops();
-			};
+            for (var i = 0; i < this.fields.length; i++) {
+              this.fields[i].fieldVisuals.harvestCrops();
+            };
+            this.wrappedup = true;
+          }
     }
   },
 
