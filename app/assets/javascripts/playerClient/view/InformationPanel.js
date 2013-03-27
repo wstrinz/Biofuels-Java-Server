@@ -109,8 +109,8 @@ Ext.define('Biofuels.view.InformationPanel', {
 
         var econData = {
           'year': thisYear.year,
-          'corn': Math.round(thisYear.cornYield * CORNPRICE* 100) / 100,
-          'grass': Math.round(thisYear.grassYield * GRASSPRICE* 100) / 100,
+          'corn': Math.round(thisYear.cornYield * CORNPRICE * 100) / 100,
+          'grass': Math.round(thisYear.grassYield * GRASSPRICE * 100) / 100,
         }
 
 /*
@@ -284,7 +284,7 @@ Ext.define('Biofuels.view.InformationPanel', {
                                     stacked: true,
                                     tips: {
                                       trackMouse: true,
-                                      width: 135,
+                                      width: 115,
                                       height: 70,
                                       layout: 'fit',
                                       renderer: function(storeItem, item) {

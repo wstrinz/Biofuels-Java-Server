@@ -10,26 +10,8 @@ Ext.define('BiofuelsGlobal.view.NetworkLayer', {
     constructor: function() {
       this.networkEvents = new Array();
 
-      /*var channel = webSocket.subscribe('bla');
-
-      channel.bind('event', function(message){
-        console.log('blatest success')
-      });*/
     },
 
-    /*receiveEvent: function(message){
-      var self = this;
-      console.log('receive ' + message)
-      console.log(this)
-      var json = JSON.parse(message);
-      var index;
-      for (index = 0; index < this.networkEvents.length; index++) {
-        var ne = this.networkEvents[index];
-        if (!json.event.localeCompare(ne.name)) {
-          ne.processor.call(ne.scope, json);
-        }
-      }
-    },*/
     //--------------------------------------------------------------------------
     registerListener: function(eventName, eventProcessor, scope) {
       var event = {
@@ -44,9 +26,8 @@ Ext.define('BiofuelsGlobal.view.NetworkLayer', {
     //--------------------------------------------------------------------------
   openSocket: function(ipAddr,port,url) {
 
-    // var WS = window['MozWebSocket'] ? MozWebSocket : WebSocket;
-    WsConnection.webSocket = new WebSocketRails('http://sleepy-temple-8942.herokuapp.com:80/websocket', false);
-    // WsConnection.webSocket = new WebSocketRails('localhost:3000/websocket');
+    // WsConnection.webSocket = new WebSocketRails('http://sleepy-temple-8942.herokuapp.com:80/websocket', false);
+    WsConnection.webSocket = new WebSocketRails('localhost:3000/websocket');
 
     var self = this;
     WsConnection.webSocket.on_open = function() {
@@ -83,8 +64,8 @@ Ext.define('BiofuelsGlobal.view.NetworkLayer', {
       channel.bind('event', function(message){
         // console.log('receive ' + message)
         // console.log(self.networkEvents)
-
         var json = JSON.parse(message);
+        Ext.getCmp('progressArea').setValue(Ext.getCmp('progressArea').getValue() + "\n\n" + json.event + "\n\t" + message)
         var index;
         for (index = 0; index < self.networkEvents.length; index++) {
           var ne = self.networkEvents[index];
@@ -148,8 +129,8 @@ Ext.define('BiofuelsGlobal.view.NetworkLayer', {
   WsConnection.webSocket.subscribe(channel).bind('event', function(message){
       // console.log('receive ' + message)
       // console.log(self.networkEvents)
-
       var json = JSON.parse(message);
+      Ext.getCmp('progressArea').setValue(Ext.getCmp('progressArea').getValue() + "\n\n" + json.event + "\n\t" + message)
       var index;
       for (index = 0; index < self.networkEvents.length; index++) {
         var ne = self.networkEvents[index];

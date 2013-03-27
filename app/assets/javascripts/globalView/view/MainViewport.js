@@ -33,8 +33,8 @@ Ext.define('BiofuelsGlobal.view.MainViewport', {
 
 	//--------------------------------------------------------------------------
     updateFarmerList: function(json) {
-      console.log("updating farmer list");
-      console.log(json)
+      // console.log("updating farmer list");
+      // console.log(json)
 
     	this.farmerListStore.loadRawData(json.Farmers, false);
 
@@ -120,12 +120,22 @@ Ext.define('BiofuelsGlobal.view.MainViewport', {
 				},
 				{
           xtype: 'panel',
+          id: 'Round Progress',
           x: 190,
           y: 10,
-          height: 80,
+          height: 500,
           width: 440,
           title: 'Round Progress',
-          titleAlign: 'center'
+          titleAlign: 'center',
+          layout: 'fit',
+
+          items: [
+          {
+            xtype: 'textarea',
+            id: 'progressArea',
+            fieldLabel: '',
+            autoScroll: true,
+          }]
         },
     //     {
 				// 	xtype: 'button',
@@ -161,7 +171,26 @@ Ext.define('BiofuelsGlobal.view.MainViewport', {
 					fieldLabel: 'Password',
 					labelAlign: 'right',
 					labelWidth: 80
-				}]
+				},
+        {
+          xtype: 'button',
+          x: 720,
+          y: 75,
+          text: 'Refresh',
+          handler: function (){
+            BiofuelsGlobal.network.send(JSON.stringify({event:'getFarmerList'}))
+          }
+        },
+        {
+          xtype: 'button',
+          x: 720,
+          y: 100,
+          text: 'Clear Log',
+          handler: function (){
+            Ext.getCmp('progressArea').setValue('');
+          }
+        },
+        ]
 			}]
         });
 
