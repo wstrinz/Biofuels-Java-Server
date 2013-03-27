@@ -129,13 +129,14 @@ Ext.define('Biofuels.view.InformationPanel', {
 
     updateGraphs: function(json){
 
+      console.log("ugraphs");
       const CORNENERGY_S = 37601;
       const CORNENERGY_I = 17700;
       const GRASSENERGY = 17700;
       const CORNPRICE = 200;
       const GRASSPRICE = 100;
 
-      var thisYear = json.year;
+      var thisYear = json.yearInfo;
       var envData = {
         'year': thisYear.year,
         'rank': thisYear.environmentRank,
@@ -211,9 +212,9 @@ Ext.define('Biofuels.view.InformationPanel', {
             fields: ['year','soil','water', 'rank'],
 
             data: [
-              {'year':0, 'soil':10, 'water':20, 'rank':3},
+              /*{'year':0, 'soil':10, 'water':20, 'rank':3},
               {'year':1, 'soil':20, 'water':40, 'rank':1},
-              {'year':2, 'soil':30, 'water':10, 'rank':2},
+              {'year':2, 'soil':30, 'water':10, 'rank':2},*/
             ]
         });
 
@@ -222,9 +223,9 @@ Ext.define('Biofuels.view.InformationPanel', {
             fields: ['year','environment','economy', 'energy', 'rank'],
 
             data: [
-              {'year':0, 'environment':10, 'economy':20, 'energy':20, 'rank':3},
+              /*{'year':0, 'environment':10, 'economy':20, 'energy':20, 'rank':3},
               {'year':1, 'environment':20, 'economy':40, 'energy':40, 'rank':1},
-              {'year':2, 'environment':30, 'economy':10, 'energy':10, 'rank':2},
+              {'year':2, 'environment':30, 'economy':10, 'energy':10, 'rank':2},*/
             ]
         });
 
@@ -233,9 +234,9 @@ Ext.define('Biofuels.view.InformationPanel', {
             fields: ['year','corn','grass'],
 
             data: [
-              {'year':0, 'corn':1, 'grass':20},
+              /*{'year':0, 'corn':1, 'grass':20},
               {'year':1, 'corn':25, 'grass':4},
-              {'year':2, 'corn':8, 'grass':10},
+              {'year':2, 'corn':8, 'grass':10},*/
             ]
         });
 
@@ -244,9 +245,9 @@ Ext.define('Biofuels.view.InformationPanel', {
             fields: ['year','corn','grass'],
 
             data: [
-              {'year':0, 'corn':14, 'grass':30},
+              /*{'year':0, 'corn':14, 'grass':30},
               {'year':1, 'corn':2, 'grass':9},
-              {'year':2, 'corn':82, 'grass':40},
+              {'year':2, 'corn':82, 'grass':40},*/
             ]
         });
 
@@ -255,9 +256,9 @@ Ext.define('Biofuels.view.InformationPanel', {
             fields: ['year','corn','grass'],
 
             data: [
-              {'year':0, 'corn':14, 'grass':30},
+             /* {'year':0, 'corn':14, 'grass':30},
               {'year':1, 'corn':2, 'grass':9},
-              {'year':2, 'corn':82, 'grass':40},
+              {'year':2, 'corn':82, 'grass':40},*/
             ]
         });
 
