@@ -14,7 +14,7 @@ Ext.define('Biofuels.view.Field', {
 		'Biofuels.view.GrassPlantSprite',
 		'Biofuels.view.ToggleSprite'
 	],
-	
+
   //--------------------------------------------------------------------------
 	constructor: function (config) {
 		this.crop = new Array();
@@ -25,6 +25,16 @@ Ext.define('Biofuels.view.Field', {
 		this.fieldNum = Biofuels.view.Farm.fieldNum
 		Biofuels.view.Farm.fieldNum ++
 		this.cropType = "none";
+
+    this.fieldHistoryStore = Ext.create('Ext.data.JsonStore', {
+      fields: ['year','corn','grass'],
+      data: [
+        {'year':0, 'corn':1, 'grass':10},
+        {'year':1, 'corn':20, 'grass':30},
+        {'year':2, 'corn':10, 'grass':50},
+        ]
+    });
+
 	},
 
 	//--------------------------------------------------------------------------
@@ -48,17 +58,17 @@ Ext.define('Biofuels.view.Field', {
 			width: 160,
 			height: 120,
 		}];
-		
+
 		this.surface = toSurface;
 		this.atX = atX;
 		this.atY = atY;
-		
+
 		var result = toSurface.add(paths);
 		this.sprites = result;
 		for (var index = 0; index < result.length; index++) {
 			result[index].show(true);
 		}
-		
+
 		this.addPlantingIcon(toSurface, atX + 5, atY + 105);
 		this.addManagementIcons(toSurface, atX + 55, atY + 105);
 	},
@@ -87,7 +97,7 @@ Ext.define('Biofuels.view.Field', {
 			x: atX,
 			y: atY,
 			opacity: 1,
-			
+
 			width: 30,
 			height: 30,
 			zIndex: 1000
@@ -141,7 +151,7 @@ Ext.define('Biofuels.view.Field', {
 		this.till.show();
 		this.pesticide.show();
 	},
-	
+
 	//--------------------------------------------------------------------------
 	hideManagementIcons: function() {
 		this.fertilizer.hide();
@@ -192,13 +202,13 @@ Ext.define('Biofuels.view.Field', {
 			height: 30,
 			zIndex: 1000
 		}];
-		
+
 		var result = surface.add(path);
 		this.plantingIcon = result[0];
-		
-		this.plantingIcon.show(true);		
+
+		this.plantingIcon.show(true);
 		this.setPlantingIconListeners();
-		
+
 		this.popup = Ext.create('Biofuels.view.PlantPopup');
 		this.popup.createForSurface(this.surface, atX, atY);
 	},
@@ -210,7 +220,7 @@ Ext.define('Biofuels.view.Field', {
 			mouseout: this.onMouseOut,
 			scope: this.plantingIcon
 		});
-		
+
 		this.plantingIcon.on({
 			click: this.onClick,
 			scope: this
@@ -313,7 +323,7 @@ Ext.define('Biofuels.view.Field', {
 	onClick: function(evt, target) {
 		this.popup.showPopup(this.onPlantingClickHandler, this);
 	},
-	
+
 	//--------------------------------------------------------------------------
 	removeOldCrop: function() {
 		for (var index = 0; index < this.crop.length; index++) {
@@ -321,21 +331,21 @@ Ext.define('Biofuels.view.Field', {
 		}
 		this.crop.length = 0;
 	},
-	
+
 	//--------------------------------------------------------------------------
 	showCrop: function() {
 		for (var index = 0; index < this.crop.length; index++) {
 			this.crop[index].sprite.show(true);
 		}
 	},
-	
+
 	//--------------------------------------------------------------------------
 	hideCrop: function() {
 		for (var index = 0; index < this.crop.length; index++) {
 			this.crop[index].sprite.hide(true);
 		}
 	},
-   
+
 	//--------------------------------------------------------------------------
 	plantPatternRows: function(surface, createType) {
 		var cx = 0, cy = 0;
@@ -343,10 +353,10 @@ Ext.define('Biofuels.view.Field', {
 		for (var plants = 0; plants < 16; plants++ ) {
 			var rAtX = cx + this.atX + 12;
 			var rAtY = cy + this.atY - 22;
-			
+
 			var aPlant = Ext.create(createType);
 			aPlant.addToSurface(surface, rAtX, rAtY, 1000 + Math.random() * 500);
-			
+
 			cx += 35;
 			if (cx >= 120) {
 				cx = 0;
@@ -363,10 +373,10 @@ Ext.define('Biofuels.view.Field', {
 		for (var plants = 0; plants < 14; plants++ ) {
 			var rAtX = cx + this.atX + 12;
 			var rAtY = cy + this.atY - 22;
-			
+
 			var aPlant = Ext.create(createType);
 			aPlant.addToSurface(surface, rAtX, rAtY, 1200 + Math.random() * 800);
-			
+
 			cx += 35;
 			if (cx > 105) {
 				cx -= 140;
@@ -376,7 +386,7 @@ Ext.define('Biofuels.view.Field', {
 			this.crop.push(aPlant);
 		}
 	},
-    
+
 	//--------------------------------------------------------------------------
   fadeCrops: function(){
 		for (var i = 0; i < this.crop.length; i++) {
@@ -385,7 +395,7 @@ Ext.define('Biofuels.view.Field', {
 			// console.log(this.crop[i])
 		};
   },
-  
+
 	//--------------------------------------------------------------------------
   unfadeCrops: function(){
 		// console.log("unfading")
@@ -402,7 +412,7 @@ Ext.define('Biofuels.view.Field', {
 			this.crop[i].grow(4000);
 		};
   },
-  
+
 	//--------------------------------------------------------------------------
   harvestCrops: function() {
 		for (var i = 0; i < this.crop.length; i++) {

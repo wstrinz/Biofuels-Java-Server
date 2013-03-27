@@ -222,19 +222,22 @@ Ext.define('Biofuels.view.Farm', {
     var logPanel = Ext.getCmp("LogPanel")
     var yieldPanelString = ""
 
-    var histStore1 = Ext.data.StoreManager.lookup('historyStore')
-    histStore1.removeAll();
-    // histStore1.loadData([],false);
-    var histStore2 = Ext.data.StoreManager.lookup('historyStore2')
-    histStore2.removeAll();
-    // histStore2.loadData([],false);
+    // var histStore1 = Ext.data.StoreManager.lookup('historyStore')
+    // histStore1.removeAll();
+    // // histStore1.loadData([],false);
+    // var histStore2 = Ext.data.StoreManager.lookup('historyStore2')
+    // histStore2.removeAll();
+    // // histStore2.loadData([],false);
 
-    var histStores = [histStore1, histStore2];
+    // var histStores = [histStore1, histStore2];
 
 
     for (var i = 0; i < json.fields.length; i++) {
       yieldPanelString += "<p> Field " + i + "</p>"
       var thisFieldHistory = json.fields[i]
+      var fieldsStore = this.fields[i].fieldChart.fieldHistoryStore
+      fieldsStore.removeAll();
+      // console.log(fieldsStore)
       for (var j = 0; j < thisFieldHistory.length; j++) {
         var thisYear = thisFieldHistory[j]
 
@@ -255,7 +258,7 @@ Ext.define('Biofuels.view.Farm', {
               "year": j,
           }
         }
-         histStores[i].loadRawData(dataPoint, true)
+         fieldsStore.loadRawData(dataPoint, true)
        };
        yieldPanelString += "\n"
     };
@@ -273,6 +276,7 @@ Ext.define('Biofuels.view.Farm', {
     };
     // console.log(logPanel)
     logPanel.update(yieldPanelString)
+
     for (var i = this.fields.length - 1; i >= 0; i--) {
       this.fields[i].fieldData.loadFromServer(json.fields[i]);
     };

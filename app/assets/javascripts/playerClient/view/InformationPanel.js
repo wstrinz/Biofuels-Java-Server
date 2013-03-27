@@ -119,15 +119,7 @@ Ext.define('Biofuels.view.InformationPanel', {
         var me = this;
 
         // var bdisp = Ext.create('Biofuels.view.DisplayBox');
-        this.fieldHistoryStore = Ext.create('Ext.data.JsonStore', {
-            storeId: 'historyStore',
-            fields: ['year','corn','grass'],
-            data: [
-              {'year':0, 'corn':1, 'grass':10},
-              {'year':1, 'corn':20, 'grass':30},
-              {'year':2, 'corn':10, 'grass':50},
-            ]
-        });
+
 
         this.fieldHistoryStore2 = Ext.create('Ext.data.JsonStore', {
             storeId: 'historyStore2',

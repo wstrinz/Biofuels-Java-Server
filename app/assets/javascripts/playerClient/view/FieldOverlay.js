@@ -70,13 +70,12 @@ Ext.define('Biofuels.view.FieldOverlay', {
 		}]);
 
 		this.fieldHistoryStore = Ext.create('Ext.data.JsonStore', {
-				storeId: 'historyStore',
 				fields: ['year','corn','grass'],
-				data: [
-					{'year':0, 'corn':1, 'grass':10},
+/*				data: [
+					{'year':0, 'corn':50, 'grass':50},
 					{'year':1, 'corn':20, 'grass':30},
 					{'year':2, 'corn':10, 'grass':50},
-				]
+				]*/
 					// {
 					//   x: [0,1,2,3,4],
 					// },
@@ -87,7 +86,7 @@ Ext.define('Biofuels.view.FieldOverlay', {
 					//   corn: [30, 20, 10, 10]
 					// },
 		});
-		
+
 		this.chart = Ext.create('Ext.chart.Chart',
 		{
 				// FIXME: yeah, basically render it to the FarmHolderPanel...
@@ -100,8 +99,8 @@ Ext.define('Biofuels.view.FieldOverlay', {
 				shadow: false,
 				x: atX + 10,
 				y: atY + 10,
-				store: 'historyStore',
-				insetPadding: 1, 
+				store: this.fieldHistoryStore,
+				insetPadding: 1,
 				axes: [{
 						type: 'Category',
 						fields: ['year'],
