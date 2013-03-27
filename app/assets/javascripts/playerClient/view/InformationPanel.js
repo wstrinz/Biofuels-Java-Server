@@ -284,8 +284,8 @@ Ext.define('Biofuels.view.InformationPanel', {
                                     stacked: true,
                                     tips: {
                                       trackMouse: true,
-                                      width: 115,
-                                      height: 70,
+                                      width: 95,
+                                      height: 90,
                                       layout: 'fit',
                                       renderer: function(storeItem, item) {
                                         this.setTitle("\n energy: " + storeItem.get("energy") + "\n economy: " + storeItem.get("economy") + "environment: " + storeItem.get("environment"));
