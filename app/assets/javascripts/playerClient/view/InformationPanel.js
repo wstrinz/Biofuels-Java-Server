@@ -205,6 +205,7 @@ Ext.define('Biofuels.view.InformationPanel', {
                       {
                         xtype: 'dispbox',
                         blable: 'Score',
+                        btip: ' = (Environmental Score + Economic Score + Energy Score) / 3',
                         id: 'sustainability-score'
                       },
                       {
@@ -269,11 +270,11 @@ Ext.define('Biofuels.view.InformationPanel', {
                                     stacked: true,
                                     tips: {
                                       trackMouse: true,
-                                      width: 130,
-                                      height: 100,
+                                      width: 135,
+                                      height: 70,
                                       layout: 'fit',
                                       renderer: function(storeItem, item) {
-                                        this.setTitle("environment: " + storeItem.get("environment") + " economy: " + storeItem.get("economy") + " energy: " + storeItem.get("energy"));
+                                        this.setTitle("environment: " + storeItem.get("environment") + "\n economy: " + storeItem.get("economy") + "\n energy: " + storeItem.get("energy"));
                                       },
                                     },
                                 }
@@ -481,7 +482,8 @@ Ext.define('Biofuels.view.InformationPanel', {
                       {
                         xtype: 'dispbox',
                         blable: 'Score',
-                        id: 'energy-score'
+                        id: 'energy-score',
+                        btip: ' = Energy Produced / Maximum Energy',
                       },
                       {
                         xtype: 'tbspacer', width: 135
@@ -552,7 +554,7 @@ Ext.define('Biofuels.view.InformationPanel', {
                                             height: 55,
                                             layout: 'fit',
                                             renderer: function(storeItem, item) {
-                                              this.setTitle("year: " + storeItem.get("year") + " yield: " + storeItem.get("grass"));
+                                              this.setTitle("year: " + storeItem.get("year") + "\n yield: " + storeItem.get("grass"));
                                             },
                                           },
                                       },
@@ -573,7 +575,7 @@ Ext.define('Biofuels.view.InformationPanel', {
                                             height: 55,
                                             layout: 'fit',
                                             renderer: function(storeItem, item) {
-                                              this.setTitle("year: " + storeItem.get("year") + " yield: " + storeItem.get("corn"));
+                                              this.setTitle("year: " + storeItem.get("year") + "\n yield: " + storeItem.get("corn"));
                                             },
                                           },
                                       },
@@ -633,7 +635,7 @@ Ext.define('Biofuels.view.InformationPanel', {
                                             height: 55,
                                             layout: 'fit',
                                             renderer: function(storeItem, item) {
-                                              this.setTitle("year: " + storeItem.get("year") + " energy(MJ): " + storeItem.get("grass"));
+                                              this.setTitle("year: " + storeItem.get("year") + "\n energy(MJ): " + storeItem.get("grass"));
                                             },
                                           },
                                       },
@@ -654,7 +656,7 @@ Ext.define('Biofuels.view.InformationPanel', {
                                             height: 55,
                                             layout: 'fit',
                                             renderer: function(storeItem, item) {
-                                              this.setTitle("year: " + storeItem.get("year") + " energy(MJ): " + storeItem.get("corn"));
+                                              this.setTitle("year: " + storeItem.get("year") + "\n energy(MJ): " + storeItem.get("corn"));
                                             },
                                           },
                                       },
@@ -680,7 +682,8 @@ Ext.define('Biofuels.view.InformationPanel', {
                       {
                         xtype: 'dispbox',
                         blable: 'Score',
-                        id: 'environment-score'
+                        id: 'environment-score',
+                        btip: ' = [ (Avg Soil Health / Max Soil Health) + Phosphorous Score ] / 2',
                       },
                       {
                         xtype: 'tbspacer', width: 135
@@ -743,11 +746,11 @@ Ext.define('Biofuels.view.InformationPanel', {
                                       stacked: true,
                                       tips: {
                                         trackMouse: true,
-                                        width: 110,
-                                        height: 80,
+                                        width: 90,
+                                        height: 60,
                                         layout: 'fit',
                                         renderer: function(storeItem, item) {
-                                          this.setTitle("water: " + storeItem.get("water") + " soil: " + storeItem.get("soil"));
+                                          this.setTitle("water: " + storeItem.get("water") + "\n soil: " + storeItem.get("soil"));
                                         },
                                       },
                                   }

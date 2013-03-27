@@ -5,6 +5,7 @@ Ext.define('Biofuels.view.DisplayBox', {
   height: 35,
   width: 60,
   blable: 'defal',
+  btip: '',
 
   layout: {
       type: 'absolute'
@@ -13,6 +14,7 @@ Ext.define('Biofuels.view.DisplayBox', {
 
   initComponent: function() {
     var me = this;
+
 
     Ext.applyIf(me, {
     items: [
@@ -42,6 +44,7 @@ Ext.define('Biofuels.view.DisplayBox', {
       height: 15,
       width: me.width,
       text: me.blable,
+      tooltip: me.btip,
       style: {
         background: 'transparent',
       },
@@ -50,6 +53,7 @@ Ext.define('Biofuels.view.DisplayBox', {
         this.el.setStyle({
            background: 'transparent'
         })
+        // this.setTooltip('asdf');
         // Ext.getCmp('theLabel').setText('bla')
       }
     }
