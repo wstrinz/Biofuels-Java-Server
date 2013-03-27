@@ -331,6 +331,9 @@ Ext.define('Biofuels.view.InformationPanel', {
                                 xtype: 'chart',
                                 theme: 'Category5',
                                 store: 'economicsStore',
+                                legend: {
+                                  position: 'right'
+                                },
                                 axes: [{
                                     type: 'Numeric',
                                     position: 'left',
