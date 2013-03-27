@@ -13,75 +13,14 @@
  * Do NOT hand edit this file.
  */
 
-Ext.define('Biofuels.view.DisplayBox', {
-  extend: 'Ext.container.Container',
-  alias : 'widget.dispbox',
-  border: 1,
-  height: 35,
-  width: 60,
-  blable: 'defal',
 
-  layout: {
-      type: 'absolute'
-  },
-
-
-  initComponent: function() {
-    var me = this;
-
-    Ext.applyIf(me, {
-    items: [
-    {
-      xtype: 'panel',
-      x: 0,
-      y: 0,
-      height: 20,
-      width: me.width,
-      header: false,
-      title: 'My Panel',
-
-      items: [
-          {
-              xtype: 'label',
-              height: 14,
-              width: 40,
-              text: me.blable,
-          }
-      ]
-    },
-    {
-      xtype: 'button',
-      padding: '0 0 0 0',
-      x: 0,
-      y: 19,
-      height: 15,
-      width: me.width,
-      text: me.blable,
-      style: {
-        background: 'transparent',
-      },
-      handler: function(){
-        // console.log(this)
-        this.el.setStyle({
-           background: 'transparent'
-        })
-        // Ext.getCmp('theLabel').setText('bla')
-      }
-    }
-    ],
-    })
-    me.callParent(arguments)
-  },
-
-  setText: function(text){
-    this.items.items[0].items.items[0].setText(text)
-  }
-
-});
 
 Ext.define('Biofuels.view.InformationPanel', {
     extend: 'Ext.panel.Panel',
     alias: 'widget.informationPanel',
+    requires: [
+        'Biofuels.view.DisplayBox',
+    ],
 
 /*    height: 587,
     width: 689,*/
@@ -98,6 +37,7 @@ Ext.define('Biofuels.view.InformationPanel', {
 
         app.network.registerListener('joinRoom', this.joinedRoom, this);
         app.network.registerListener('getFarmInfo', this.refreshRanks, this);
+        app.network.registerListener('getFarmerHistory', this.refreshGraphs, this);
         // app.network.registerListener('getFarmInfo', this.loadFarmInfo, this);
     },
 
@@ -117,6 +57,64 @@ Ext.define('Biofuels.view.InformationPanel', {
       Ext.getCmp("energy-rank").setText(json.energyRank)
     },
 
+    refreshGraphs: function(json){
+      Ext.data.StoreManager.lookup('environmentHistoryStore').removeAll();
+      Ext.data.StoreManager.lookup('sustainabilityStore').removeAll();
+      Ext.data.StoreManager.lookup('farmYieldStore').removeAll();
+      Ext.data.StoreManager.lookup('farmEnergyStore').removeAll();
+
+      const CORNENERGY_S = 37601;
+      const CORNENERGY_I = 17700;
+      const GRASSENERGY = 17700;
+
+      for (var i = 0; i < json.years.length; i++) {
+        var thisYear = json.years[i];
+        var envData = {
+          'year': thisYear.year,
+          'rank': thisYear.environmentRank,
+          'soil': thisYear.soilSubscore,
+          'water': thisYear.waterSubscore,
+        }
+
+        var sustainData = {
+          'year': thisYear.year,
+          'rank': thisYear.sustainabilityRank,
+          'environment': thisYear.environmentScore,
+          'economy': thisYear.economicsScore,
+          'energy': thisYear.energyScore,
+        }
+
+        var yieldData = {
+          'year': thisYear.year,
+        }
+        if(thisYear.cornYield > 0){
+          yieldData.corn = thisYear.cornYield;
+        }
+        if(thisYear.grassYield > 0){
+          yieldData.grass = thisYear.grassYield;
+        }
+
+        var energyData = {
+          'year': thisYear.year,
+        }
+        if(thisYear.cornYield > 0){
+          energyData.corn = CORNENERGY_S * thisYear.cornYield + CORNENERGY_I;
+        }
+        if(thisYear.grassYield > 0){
+          energyData.grass = GRASSENERGY *  thisYear.grassYield;
+        }
+/*
+        if(thisYear.grassYield > 0){
+          yieldData.grass = thisYear.grassYield
+        }*/
+
+        Ext.data.StoreManager.lookup('environmentHistoryStore').loadRawData(envData, true)
+        Ext.data.StoreManager.lookup('sustainabilityStore').loadRawData(sustainData, true)
+        Ext.data.StoreManager.lookup('farmYieldStore').loadRawData(yieldData, true)
+        Ext.data.StoreManager.lookup('farmEnergyStore').loadRawData(energyData, true)
+      };
+    },
+
     initComponent: function() {
         var me = this;
 
@@ -129,15 +127,6 @@ Ext.define('Biofuels.view.InformationPanel', {
               {'year':1, 'corn':20, 'grass':30},
               {'year':2, 'corn':10, 'grass':50},
             ]
-              // {
-              //   x: [0,1,2,3,4],
-              // },
-              // {
-              //   grass: [0, 10, 20, 30],
-              // },
-              // {
-              //   corn: [30, 20, 10, 10]
-              // },
         });
 
         this.fieldHistoryStore2 = Ext.create('Ext.data.JsonStore', {
@@ -148,28 +137,70 @@ Ext.define('Biofuels.view.InformationPanel', {
               {'year':1, 'corn':20, 'grass':40},
               {'year':2, 'corn':30, 'grass':10},
             ]
-              // {
-              //   x: [0,1,2,3,4],
-              // },
-              // {
-              //   grass: [0, 10, 20, 30],
-              // },
-              // {
-              //   corn: [30, 20, 10, 10]
-              // },
         });
+
+        this.environmentStore = Ext.create('Ext.data.JsonStore', {
+            storeId: 'environmentHistoryStore',
+            fields: ['year','soil','water', 'rank'],
+
+            data: [
+              {'year':0, 'soil':10, 'water':20, 'rank':3},
+              {'year':1, 'soil':20, 'water':40, 'rank':1},
+              {'year':2, 'soil':30, 'water':10, 'rank':2},
+            ]
+        });
+
+        this.sustainabilityStore = Ext.create('Ext.data.JsonStore', {
+            storeId: 'sustainabilityStore',
+            fields: ['year','environment','economy', 'energy', 'rank'],
+
+            data: [
+              {'year':0, 'environment':10, 'economy':20, 'energy':20, 'rank':3},
+              {'year':1, 'environment':20, 'economy':40, 'energy':40, 'rank':1},
+              {'year':2, 'environment':30, 'economy':10, 'energy':10, 'rank':2},
+            ]
+        });
+
+        this.farmYieldStore = Ext.create('Ext.data.JsonStore', {
+            storeId: 'farmYieldStore',
+            fields: ['year','corn','grass'],
+
+            data: [
+              {'year':0, 'corn':1, 'grass':20},
+              {'year':1, 'corn':25, 'grass':4},
+              {'year':2, 'corn':8, 'grass':10},
+            ]
+        });
+
+        this.farmEnergyStore = Ext.create('Ext.data.JsonStore', {
+            storeId: 'farmEnergyStore',
+            fields: ['year','corn','grass'],
+
+            data: [
+              {'year':0, 'corn':14, 'grass':30},
+              {'year':1, 'corn':2, 'grass':9},
+              {'year':2, 'corn':82, 'grass':40},
+            ]
+        });
+
+
 
         this.initNetworkEvents();
 
         Ext.applyIf(me, {
             items: [
 
+            //========================================================
+            // Sustainability Panel
+            //========================================================
                 {
                     xtype: 'panel',
                     collapsed: false,
                     title: 'Sustainability',
                     cls: 'my-panel',
                     collapseFirst: false,
+                    layout: 'fit',
+
                     tools: [
                       {
                         xtype: 'dispbox',
@@ -187,33 +218,81 @@ Ext.define('Biofuels.view.InformationPanel', {
                       {
                         xtype: 'tbspacer', width: 50
                       },
-/*                      {
-                          xtype: 'button',
-                          x: 10,
-                          y: 20,
-                          height: 20,
-                          width: 35,
-                          text: 'hi',
-                          style: {
-                            background: 'transparent'
-                          },
-                          handler: function(){
-                            // console.log(this.el)
-                            Ext.getCmp('thedisp').setText('meh');
-                            this.el.setStyle({
-                               background: 'transparent'
-                            })
-                            this.setText('hello')
-                            //Ext.getCmp('theLabel').setText('bla')
-                          }
-                      },*/
+                    ],
+                    items: [
+                    {
+                      xtype: 'container',
+                      layout: 'fit',
+                      items: [
+                          {
+                            xtype: 'chart',
+                            // height: 226,
+                            // width: 404,
+                            animate: true,
+                            insetPadding: 20,
+                            store: 'sustainabilityStore',
+                            theme: 'Category4',
+                            legend: {
+                              position: 'right'
+                            },
+                            axes: [
+                                {
+                                    type: 'Category',
+                                    fields: [
+                                        'year'
+                                    ],
+                                    position: 'bottom',
+                                    title: 'Year'
+                                },
+                                {
+                                    type: 'Numeric',
+                                    fields: [
+                                        'y'
+                                    ],
+                                    position: 'left',
+                                    title: 'Score'
+                                }
+                            ],
+                            series: [
+                                {
+                                    type: 'column',
+                                    label: {
+                                        display: 'outside',
+                                        field: 'rank',
+                                    },
+                                    xField: 'year',
+                                    yField: [
+                                        'environment',
+                                        'economy',
+                                        'energy',
+                                    ],
+                                    stacked: true,
+                                    tips: {
+                                      trackMouse: true,
+                                      width: 130,
+                                      height: 100,
+                                      layout: 'fit',
+                                      renderer: function(storeItem, item) {
+                                        this.setTitle("environment: " + storeItem.get("environment") + " economy: " + storeItem.get("economy") + " energy: " + storeItem.get("energy"));
+                                      },
+                                    },
+                                }
+                              ]
+                            }
+                          ]
+                        }
                     ]
                 },
+
+                //========================================================
+                // Economics Panel
+                //========================================================
                 {
                     xtype: 'panel',
                     collapsed: true,
                     collapseFirst: false,
                     title: 'Economics',
+                    // layout: 'fit',
                     tools: [
                       {
                         xtype: 'dispbox',
@@ -236,10 +315,14 @@ Ext.define('Biofuels.view.InformationPanel', {
                     {
                       xtype: 'chart',
                       height: 224,
-                      width: 450,
+                      width: 300,
                       animate: true,
                       store: 'historyStore',
+                      theme: 'Category5',
                       insetPadding: 20,
+                      legend: {
+                        position: 'top'
+                      },
                       axes: [{
                               type: 'Category',
                               fields: ['year'],
@@ -307,11 +390,15 @@ Ext.define('Biofuels.view.InformationPanel', {
                             {
                               xtype: 'chart',
                               height: 224,
-                              width: 450,
+                              width: 300,
                               animate: true,
                               store: 'historyStore2',
+                              theme: 'Category5',
                               layout: 'fit',
                               insetPadding: 20,
+                              legend: {
+                                position: 'top'
+                              },
                               axes: [{
                                       type: 'Category',
                                       fields: ['year'],
@@ -377,16 +464,23 @@ Ext.define('Biofuels.view.InformationPanel', {
                                     ]
                               },
                             ],
-                },
-                {
+                    },
+
+                    //========================================================
+                    // Energy Panel
+                    //========================================================
+
+                    {
                     xtype: 'panel',
                     collapsed: true,
                     collapseFirst: false,
                     title: 'Energy',
+                    layout: 'fit',
+
                     tools: [
                       {
                         xtype: 'dispbox',
-                        blable: 'gJ',
+                        blable: 'Score',
                         id: 'energy-score'
                       },
                       {
@@ -400,13 +494,188 @@ Ext.define('Biofuels.view.InformationPanel', {
                       {
                         xtype: 'tbspacer', width: 50
                       },
-                    ]
-                },
+                    ],
+                    items: [
+                    {
+                      xtype: 'tabpanel',
+                      layout: 'fit',
+                      activeTab: 0,
+                      items: [
+                        {
+                          xtype: 'panel',
+                          title: 'Yield',
+                          layout: 'fit',
+                          items: [
+                              {
+                                  xtype: 'chart',
+                                  animate: true,
+                                  theme: 'Category5',
+                                  insetPadding: 20,
+                                  store: 'farmYieldStore',
+                                  legend: {
+                                    position: 'bottom'
+                                  },
+                                  axes: [
+                                      {
+                                          type: 'Category',
+                                          fields: [
+                                              'year'
+                                          ],
+                                          position: 'bottom',
+                                          title: 'Year'
+                                      },
+                                      {
+                                          type: 'Numeric',
+                                          fields: [
+                                              'corn',
+                                              'grass'
+                                          ],
+                                          position: 'left',
+                                          title: 'Yield'
+                                      }
+                                  ],
+                                  series: [
+                                      {
+                                          type: 'line',
+                                          highlight: {
+                                             size: 4,
+                                             radius: 6
+                                          },
+                                          xField: 'year',
+                                          yField: [
+                                              'grass'
+                                          ],
+                                          smooth: 3,
+                                          tips: {
+                                            trackMouse: true,
+                                            width: 90,
+                                            height: 55,
+                                            layout: 'fit',
+                                            renderer: function(storeItem, item) {
+                                              this.setTitle("year: " + storeItem.get("year") + " yield: " + storeItem.get("grass"));
+                                            },
+                                          },
+                                      },
+                                      {
+                                          type: 'line',
+                                          highlight: {
+                                             size: 4,
+                                             radius: 6
+                                          },
+                                          xField: 'year',
+                                          yField: [
+                                              'corn'
+                                          ],
+                                          smooth: 3,
+                                          tips: {
+                                            trackMouse: true,
+                                            width: 90,
+                                            height: 55,
+                                            layout: 'fit',
+                                            renderer: function(storeItem, item) {
+                                              this.setTitle("year: " + storeItem.get("year") + " yield: " + storeItem.get("corn"));
+                                            },
+                                          },
+                                      },
+
+                                  ]
+                              }
+                          ]
+                        },
+                        {
+                          xtype: 'panel',
+                          title: 'Energy',
+                          layout: 'fit',
+                          items: [
+                              {
+                                  xtype: 'chart',
+                                  animate: true,
+                                  insetPadding: 20,
+                                  theme: 'Category5',
+                                  store: 'farmEnergyStore',
+                                  legend: {
+                                    position: 'bottom'
+                                  },
+                                  axes: [
+                                      {
+                                          type: 'Category',
+                                          fields: [
+                                              'year'
+                                          ],
+                                          position: 'bottom',
+                                          title: 'Year'
+                                      },
+                                      {
+                                          type: 'Numeric',
+                                          fields: [
+                                              'corn',
+                                              'grass'
+                                          ],
+                                          position: 'left',
+                                          title: 'Energy'
+                                      }
+                                  ],
+                                  series: [
+                                      {
+                                          type: 'line',
+                                          highlight: {
+                                             size: 4,
+                                             radius: 6
+                                          },
+                                          xField: 'year',
+                                          yField: [
+                                              'grass'
+                                          ],
+                                          smooth: 3,
+                                          tips: {
+                                            trackMouse: true,
+                                            width: 90,
+                                            height: 55,
+                                            layout: 'fit',
+                                            renderer: function(storeItem, item) {
+                                              this.setTitle("year: " + storeItem.get("year") + " energy(MJ): " + storeItem.get("grass"));
+                                            },
+                                          },
+                                      },
+                                      {
+                                          type: 'line',
+                                          highlight: {
+                                             size: 4,
+                                             radius: 6
+                                          },
+                                          xField: 'year',
+                                          yField: [
+                                              'corn'
+                                          ],
+                                          smooth: 3,
+                                          tips: {
+                                            trackMouse: true,
+                                            width: 90,
+                                            height: 55,
+                                            layout: 'fit',
+                                            renderer: function(storeItem, item) {
+                                              this.setTitle("year: " + storeItem.get("year") + " energy(MJ): " + storeItem.get("corn"));
+                                            },
+                                          },
+                                      },
+                                  ]
+                              }
+                            ]
+                        }
+                      ]
+                    }
+                  ]
+              },
+
+                //========================================================
+                // Environment Panel
+                //========================================================
                 {
                     xtype: 'panel',
                     collapsed: true,
                     collapseFirst: false,
                     title: 'Environment',
+                    layout: 'fit',
                     tools: [
                       {
                         xtype: 'dispbox',
@@ -424,13 +693,80 @@ Ext.define('Biofuels.view.InformationPanel', {
                       {
                         xtype: 'tbspacer', width: 50
                       },
-                    ]
+                    ],
+                    items: [
+                      {
+                        xtype: 'container',
+                        layout: 'fit',
+                        items: [
+                            {
+                              xtype: 'chart',
+                              // height: 226,
+                              // width: 404,
+                              animate: true,
+                              insetPadding: 20,
+                              store: 'environmentHistoryStore',
+                              theme: 'Category5',
+                              legend: {
+                                position: 'right'
+                              },
+                              axes: [
+                                  {
+                                      type: 'Category',
+                                      fields: [
+                                          'year'
+                                      ],
+                                      position: 'bottom',
+                                      title: 'Year'
+                                  },
+                                  {
+                                      type: 'Numeric',
+                                      fields: [
+                                          'y'
+                                      ],
+                                      position: 'left',
+                                      title: 'Score'
+                                  }
+                              ],
+                              series: [
+                                  {
+                                      type: 'column',
+                                      label: {
+                                          display: 'outside',
+                                          field: 'rank',
+                                      },
+                                      xField: 'year',
+                                      yField: [
+                                          'soil',
+                                          'water',
+                                      ],
+                                      stacked: true,
+                                      tips: {
+                                        trackMouse: true,
+                                        width: 110,
+                                        height: 80,
+                                        layout: 'fit',
+                                        renderer: function(storeItem, item) {
+                                          this.setTitle("water: " + storeItem.get("water") + " soil: " + storeItem.get("soil"));
+                                        },
+                                      },
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
                 },
+                //========================================================
+                // Log Panel
+                //========================================================
                 {
                     xtype: 'panel',
                     collapseFirst: false,
                     collapsed: true,
-                    title: 'Log'
+                    title: 'Log',
+                    id: 'LogPanel',
+                    autoScroll: true,
                 }
             ]
         });

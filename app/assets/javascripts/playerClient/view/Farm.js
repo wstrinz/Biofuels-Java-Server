@@ -185,10 +185,7 @@ Ext.define('Biofuels.view.Farm', {
               // this.fields[i].fieldVisuals.unfadeCrops();
               this.fields[i].fieldVisuals.growCrops();
             };
-            var msg = {
-              event: "getFarmHistory"
-            }
-            Biofuels.network.send(JSON.stringify(msg));
+
           }
           this.grown = true;
         }
@@ -196,6 +193,16 @@ Ext.define('Biofuels.view.Farm', {
     if(json.stageName == "Round Wrap Up"){
       var msg = {
         event: "getFarmInfo"
+      }
+      Biofuels.network.send(JSON.stringify(msg));
+
+      var msg = {
+        event: "getFarmHistory"
+      }
+      Biofuels.network.send(JSON.stringify(msg));
+
+      var msg = {
+        event: "getFarmerHistory"
       }
       Biofuels.network.send(JSON.stringify(msg));
 
@@ -212,13 +219,15 @@ Ext.define('Biofuels.view.Farm', {
 
   refreshHistory: function(json){
     var yieldPanel = Ext.getCmp("yieldsPanel")
-    var otherPanel = Ext.getCmp("otherPanel")
+    var logPanel = Ext.getCmp("LogPanel")
     var yieldPanelString = ""
 
     var histStore1 = Ext.data.StoreManager.lookup('historyStore')
-    histStore1.loadData([],false);
+    histStore1.removeAll();
+    // histStore1.loadData([],false);
     var histStore2 = Ext.data.StoreManager.lookup('historyStore2')
-    histStore2.loadData([],false);
+    histStore2.removeAll();
+    // histStore2.loadData([],false);
 
     var histStores = [histStore1, histStore2];
 
@@ -262,8 +271,8 @@ Ext.define('Biofuels.view.Farm', {
        };
        yieldPanelString += "\n"
     };
-    // console.log(otherPanel)
-    // otherPanel.update(yieldPanelString)
+    // console.log(logPanel)
+    logPanel.update(yieldPanelString)
     for (var i = this.fields.length - 1; i >= 0; i--) {
       this.fields[i].fieldData.loadFromServer(json.fields[i]);
     };

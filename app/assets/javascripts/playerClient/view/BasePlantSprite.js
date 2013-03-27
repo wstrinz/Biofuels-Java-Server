@@ -61,7 +61,6 @@ Ext.define('Biofuels.view.BasePlantSprite', {
     // regrow switchgrass
     var randomSpriteConfig = this.randomSpriteConfigList[0][
       Math.floor(Math.random() * this.randomSpriteConfigList[0].length)];
-    console.log(randomSpriteConfig)
     this.sprite.setAttributes({
       src: randomSpriteConfig.src,
       scale: {
