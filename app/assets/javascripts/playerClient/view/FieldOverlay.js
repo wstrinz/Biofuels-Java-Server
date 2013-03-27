@@ -97,8 +97,8 @@ Ext.define('Biofuels.view.FieldOverlay', {
 				// Overlay magic starts here...float, no shadow, place at x, y, etc
 				floating: true,
 				shadow: false,
-				x: atX + 10,
-				y: atY + 10,
+				x: atX * 1.1124 + 5,
+        y: atY * 1.1217 + 5,
 				store: this.fieldHistoryStore,
 				insetPadding: 1,
 				axes: [{
