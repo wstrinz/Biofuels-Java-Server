@@ -38,6 +38,7 @@ Ext.define('Biofuels.view.InformationPanel', {
         app.network.registerListener('joinRoom', this.joinedRoom, this);
         app.network.registerListener('getFarmInfo', this.refreshRanks, this);
         app.network.registerListener('getFarmerHistory', this.refreshGraphs, this);
+        app.network.registerListener('getLatestFarmerHistory', this.updateGraphs, this);
         // app.network.registerListener('getFarmInfo', this.loadFarmInfo, this);
     },
 
@@ -125,6 +126,69 @@ Ext.define('Biofuels.view.InformationPanel', {
         Ext.data.StoreManager.lookup('economicsStore').loadRawData(econData, true)
       };
     },
+
+    updateGraphs: function(json){
+
+      const CORNENERGY_S = 37601;
+      const CORNENERGY_I = 17700;
+      const GRASSENERGY = 17700;
+      const CORNPRICE = 200;
+      const GRASSPRICE = 100;
+
+      var thisYear = json.year;
+      var envData = {
+        'year': thisYear.year,
+        'rank': thisYear.environmentRank,
+        'soil': Math.round(thisYear.soilSubscore * 100) / 100,
+        'water': Math.round(thisYear.waterSubscore * 100) / 100,
+      }
+
+      var sustainData = {
+        'year': thisYear.year,
+        'rank': thisYear.sustainabilityRank,
+        'environment': Math.round(thisYear.environmentScore * 100) / 100,
+        'economy': Math.round(thisYear.economicsScore * 100) / 100,
+        'energy': Math.round(thisYear.energyScore * 100) / 100,
+      }
+
+      var yieldData = {
+        'year': thisYear.year,
+      }
+      if(thisYear.cornYield > 0){
+        yieldData.corn = Math.round(thisYear.cornYield * 100) / 100;
+      }
+      if(thisYear.grassYield > 0){
+        yieldData.grass = Math.round(thisYear.grassYield * 100) / 100;
+      }
+
+      var energyData = {
+        'year': thisYear.year,
+      }
+      if(thisYear.cornYield > 0){
+        energyData.corn = Math.round((CORNENERGY_S * thisYear.cornYield + CORNENERGY_I) * 100) / 100;
+      }
+      if(thisYear.grassYield > 0){
+        energyData.grass = Math.round((GRASSENERGY *  thisYear.grassYield) * 100) / 100;
+      }
+
+      var econData = {
+        'year': thisYear.year,
+        'corn': Math.round(thisYear.cornYield * CORNPRICE * 100) / 100,
+        'grass': Math.round(thisYear.grassYield * GRASSPRICE * 100) / 100,
+      }
+
+/*
+      if(thisYear.grassYield > 0){
+        yieldData.grass = thisYear.grassYield
+      }*/
+
+      Ext.data.StoreManager.lookup('environmentHistoryStore').loadRawData(envData, true)
+      Ext.data.StoreManager.lookup('sustainabilityStore').loadRawData(sustainData, true)
+      Ext.data.StoreManager.lookup('farmYieldStore').loadRawData(yieldData, true)
+      Ext.data.StoreManager.lookup('farmEnergyStore').loadRawData(energyData, true)
+      Ext.data.StoreManager.lookup('economicsStore').loadRawData(econData, true)
+
+    }
 
     initComponent: function() {
         var me = this;
