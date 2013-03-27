@@ -47,13 +47,13 @@ Ext.define('Biofuels.view.InformationPanel', {
     },
 
     refreshRanks: function(json){
-      Ext.getCmp("sustainability-score").setText(json.sustainabilityScore)
+      Ext.getCmp("sustainability-score").setText(Math.round(json.sustainabilityScore * 100) / 100)
       Ext.getCmp("sustainability-rank").setText(json.sustainabilityRank)
-      Ext.getCmp("economics-score").setText(json.economicsScore)
+      Ext.getCmp("economics-score").setText(Math.round(json.economicsScore * 100) / 100)
       Ext.getCmp("economics-rank").setText(json.economicsRank)
-      Ext.getCmp("environment-score").setText(json.environmentScore)
+      Ext.getCmp("environment-score").setText(Math.round(json.environmentScore * 100) / 100)
       Ext.getCmp("environment-rank").setText(json.environmentRank)
-      Ext.getCmp("energy-score").setText(json.energyScore)
+      Ext.getCmp("energy-score").setText(Math.round(json.energyScore * 100) / 100)
       Ext.getCmp("energy-rank").setText(json.energyRank)
     },
 
@@ -72,36 +72,36 @@ Ext.define('Biofuels.view.InformationPanel', {
         var envData = {
           'year': thisYear.year,
           'rank': thisYear.environmentRank,
-          'soil': thisYear.soilSubscore,
-          'water': thisYear.waterSubscore,
+          'soil': Math.round(thisYear.soilSubscore * 100) / 100,
+          'water': Math.round(thisYear.waterSubscore * 100) / 100,
         }
 
         var sustainData = {
           'year': thisYear.year,
           'rank': thisYear.sustainabilityRank,
-          'environment': thisYear.environmentScore,
-          'economy': thisYear.economicsScore,
-          'energy': thisYear.energyScore,
+          'environment': Math.round(thisYear.environmentScore * 100) / 100,
+          'economy': Math.round(thisYear.economicsScore * 100) / 100,
+          'energy': Math.round(thisYear.energyScore * 100) / 100,
         }
 
         var yieldData = {
           'year': thisYear.year,
         }
         if(thisYear.cornYield > 0){
-          yieldData.corn = thisYear.cornYield;
+          yieldData.corn = Math.round(thisYear.cornYield * 100) / 100;
         }
         if(thisYear.grassYield > 0){
-          yieldData.grass = thisYear.grassYield;
+          yieldData.grass = Math.round(thisYear.grassYield * 100) / 100;
         }
 
         var energyData = {
           'year': thisYear.year,
         }
         if(thisYear.cornYield > 0){
-          energyData.corn = CORNENERGY_S * thisYear.cornYield + CORNENERGY_I;
+          energyData.corn = Math.round((CORNENERGY_S * thisYear.cornYield + CORNENERGY_I) * 100) / 100;
         }
         if(thisYear.grassYield > 0){
-          energyData.grass = GRASSENERGY *  thisYear.grassYield;
+          energyData.grass = Math.round((GRASSENERGY *  thisYear.grassYield) * 100) / 100;
         }
 /*
         if(thisYear.grassYield > 0){
