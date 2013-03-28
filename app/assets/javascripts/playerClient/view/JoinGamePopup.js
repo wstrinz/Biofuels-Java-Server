@@ -254,10 +254,10 @@ Ext.define('Biofuels.view.JoinGamePopup', {
 
         Biofuels.network.send(JSON.stringify(message));
 
-        var msg = {
+        /*var msg = {
           event: "getFarmerHistory"
         }
-        Biofuels.network.send(JSON.stringify(msg));
+        Biofuels.network.send(JSON.stringify(msg));*/
 
         /*var msg = {
           event: "getFarmHistory"
