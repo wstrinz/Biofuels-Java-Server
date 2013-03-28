@@ -525,7 +525,7 @@ Ext.define('Biofuels.view.InformationPanel', {
                                           },
                                           xField: 'year',
                                           yField: [
-                                              'grass'
+                                              'grass', 'corn'
                                           ],
                                           smooth: 3,
                                           tips: {
@@ -534,11 +534,12 @@ Ext.define('Biofuels.view.InformationPanel', {
                                             height: 55,
                                             layout: 'fit',
                                             renderer: function(storeItem, item) {
-                                              this.setTitle("year: " + storeItem.get("year") + "\n yield: " + storeItem.get("grass"));
+                                              this.setTitle("year: " + storeItem.get("year") + "\n grass: " + storeItem.get("grass")) +
+                                               "\n corn: " + storeItem.get("corn");
                                             },
                                           },
                                       },
-                                      {
+                                      /*{
                                           type: 'line',
                                           highlight: {
                                              size: 4,
@@ -558,7 +559,7 @@ Ext.define('Biofuels.view.InformationPanel', {
                                               this.setTitle("year: " + storeItem.get("year") + "\n yield: " + storeItem.get("corn"));
                                             },
                                           },
-                                      },
+                                      },*/
 
                                   ]
                               }
