@@ -129,7 +129,6 @@ Ext.define('Biofuels.view.InformationPanel', {
 
     updateGraphs: function(json){
 
-      console.log("ugraphs");
       const CORNENERGY_S = 37601;
       const CORNENERGY_I = 17700;
       const GRASSENERGY = 17700;
@@ -396,6 +395,7 @@ Ext.define('Biofuels.view.InformationPanel', {
                                 xtype: 'chart',
                                 theme: 'Category5',
                                 store: 'economicsStore',
+                                animate: true,
                                 legend: {
                                   position: 'right'
                                 },

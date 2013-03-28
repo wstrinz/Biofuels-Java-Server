@@ -279,7 +279,7 @@ Ext.define('Biofuels.view.FieldOverlay', {
     //--------------------------------------------------------------------------
     setCurrentSeason: function(year) {
       if (this.fieldData.seasons.length == 0){
-        console.log("no seasons!")
+        // console.log("no seasons!")
         return;
       }
 

@@ -35,6 +35,7 @@ Ext.define('Biofuels.view.Farm', {
         app.network.registerListener('loadFromServer', this.loadFromServer, this);
         app.network.registerListener('getFarmInfo', this.loadFarmInfo, this);
         app.network.registerListener('getFarmHistory', this.refreshHistory, this);
+        app.network.registerListener('getLatestFieldHistory', this.updateFieldHistory, this);
     },
 
 	//--------------------------------------------------------------------------
@@ -191,10 +192,15 @@ Ext.define('Biofuels.view.Farm', {
             }
             Biofuels.network.send(JSON.stringify(msg));
 
-            var msg = {
+            /*var msg = {
               event: "getFarmHistory"
+            }*/
+
+            var msg = {
+              event: "getLatestFieldHistory",
             }
             Biofuels.network.send(JSON.stringify(msg));
+
             var msg = {
               event: "getLatestFarmerHistory"
             }
@@ -211,6 +217,38 @@ Ext.define('Biofuels.view.Farm', {
 
   loadFarmInfo: function(json){
     this.phosphorous = json.phosphorous
+  },
+
+  updateFieldHistory: function(json){
+    console.log("upfield")
+    for (var i = 0; i < json.fields.length; i++) {
+      // yieldPanelString += "<p> Field " + i + "</p>"
+      var thisYear = json.fields[i]
+      var fieldsStore = this.fields[i].fieldChart.fieldHistoryStore
+
+      // console.log(fieldsStore)
+
+        if (thisYear.crop == "CORN"){
+           var dataPoint = {
+              "year": thisYear.year,
+              "corn": thisYear.yield,
+           }
+        }
+        else if(thisYear.crop == "GRASS"){
+          var dataPoint = {
+              "year": thisYear.year,
+              "grass": thisYear.yield,
+          }
+        }
+        else{
+          var dataPoint = {
+              "year": thisYear.year,
+          }
+        }
+         fieldsStore.loadRawData(dataPoint, true)
+     };
+
+
   },
 
   refreshHistory: function(json){
