@@ -176,7 +176,6 @@ Ext.define('Biofuels.view.Farm', {
     if(json.stageName == "Grow"){
       if (!this.grown){
             for (var i = 0; i < this.fields.length; i++) {
-
               // this.fields[i].fieldVisuals.unfadeCrops();
               this.fields[i].fieldVisuals.growCrops();
             };
@@ -201,6 +200,9 @@ Ext.define('Biofuels.view.Farm', {
             }
             Biofuels.network.send(JSON.stringify(msg));
 
+            /*var msg = {
+              event: "getFarmerHistory"
+            }*/
             var msg = {
               event: "getLatestFarmerHistory"
             }
@@ -220,7 +222,6 @@ Ext.define('Biofuels.view.Farm', {
   },
 
   updateFieldHistory: function(json){
-    console.log("upfield")
     for (var i = 0; i < json.fields.length; i++) {
       // yieldPanelString += "<p> Field " + i + "</p>"
       var thisYear = json.fields[i]
@@ -247,8 +248,6 @@ Ext.define('Biofuels.view.Farm', {
         }
          fieldsStore.loadRawData(dataPoint, true)
      };
-
-
   },
 
   refreshHistory: function(json){

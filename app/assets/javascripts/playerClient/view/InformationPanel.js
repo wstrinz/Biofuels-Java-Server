@@ -128,7 +128,7 @@ Ext.define('Biofuels.view.InformationPanel', {
     },
 
     updateGraphs: function(json){
-
+      // console.log("graphs")
       const CORNENERGY_S = 37601;
       const CORNENERGY_I = 17700;
       const GRASSENERGY = 17700;
@@ -138,6 +138,7 @@ Ext.define('Biofuels.view.InformationPanel', {
       var thisYear = json.yearInfo;
       var envData = {
         'year': thisYear.year,
+        'id': thisYear.year,
         'rank': thisYear.environmentRank,
         'soil': Math.round(thisYear.soilSubscore * 100) / 100,
         'water': Math.round(thisYear.waterSubscore * 100) / 100,
@@ -145,6 +146,7 @@ Ext.define('Biofuels.view.InformationPanel', {
 
       var sustainData = {
         'year': thisYear.year,
+        'id': thisYear.year,
         'rank': thisYear.sustainabilityRank,
         'environment': Math.round(thisYear.environmentScore * 100) / 100,
         'economy': Math.round(thisYear.economicsScore * 100) / 100,
@@ -153,6 +155,7 @@ Ext.define('Biofuels.view.InformationPanel', {
 
       var yieldData = {
         'year': thisYear.year,
+        'id': thisYear.year,
       }
       if(thisYear.cornYield > 0){
         yieldData.corn = Math.round(thisYear.cornYield * 100) / 100;
@@ -163,6 +166,7 @@ Ext.define('Biofuels.view.InformationPanel', {
 
       var energyData = {
         'year': thisYear.year,
+        'id': thisYear.year,
       }
       if(thisYear.cornYield > 0){
         energyData.corn = Math.round((CORNENERGY_S * thisYear.cornYield + CORNENERGY_I) * 100) / 100;
@@ -175,6 +179,7 @@ Ext.define('Biofuels.view.InformationPanel', {
         'year': thisYear.year,
         'corn': Math.round(thisYear.cornYield * CORNPRICE * 100) / 100,
         'grass': Math.round(thisYear.grassYield * GRASSPRICE * 100) / 100,
+        'id': thisYear.year,
       }
 
 /*
@@ -220,7 +225,6 @@ Ext.define('Biofuels.view.InformationPanel', {
         this.sustainabilityStore = Ext.create('Ext.data.JsonStore', {
             storeId: 'sustainabilityStore',
             fields: ['year','environment','economy', 'energy', 'rank'],
-
             data: [
               /*{'year':0, 'environment':10, 'economy':20, 'energy':20, 'rank':3},
               {'year':1, 'environment':20, 'economy':40, 'energy':40, 'rank':1},
@@ -231,6 +235,8 @@ Ext.define('Biofuels.view.InformationPanel', {
         this.farmYieldStore = Ext.create('Ext.data.JsonStore', {
             storeId: 'farmYieldStore',
             fields: ['year','corn','grass'],
+
+
 
             data: [
               /*{'year':0, 'corn':1, 'grass':20},
