@@ -200,12 +200,12 @@ Ext.define('Biofuels.view.Farm', {
             }
             Biofuels.network.send(JSON.stringify(msg));
 
-            var msg = {
-              event: "getFarmerHistory"
-            }
             /*var msg = {
-              event: "getLatestFarmerHistory"
+              event: "getFarmerHistory"
             }*/
+            var msg = {
+              event: "getLatestFarmerHistory"
+            }
             Biofuels.network.send(JSON.stringify(msg));
 
             for (var i = 0; i < this.fields.length; i++) {
