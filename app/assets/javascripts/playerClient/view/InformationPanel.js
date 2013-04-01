@@ -48,13 +48,13 @@ Ext.define('Biofuels.view.InformationPanel', {
     },
 
     refreshRanks: function(json){
-      Ext.getCmp("sustainability-score").setText(Math.round(json.sustainabilityScore * 100) / 100)
+      Ext.getCmp("sustainability-score").setText(Math.round(json.sustainabilityScore * 100) / 10)
       Ext.getCmp("sustainability-rank").setText(json.sustainabilityRank)
-      Ext.getCmp("economics-score").setText(Math.round(json.economicsScore * 100) / 100)
+      Ext.getCmp("economics-score").setText(Math.round(json.economicsScore * 100) / 10)
       Ext.getCmp("economics-rank").setText(json.economicsRank)
-      Ext.getCmp("environment-score").setText(Math.round(json.environmentScore * 100) / 100)
+      Ext.getCmp("environment-score").setText(Math.round(json.environmentScore * 100) / 10)
       Ext.getCmp("environment-rank").setText(json.environmentRank)
-      Ext.getCmp("energy-score").setText(Math.round(json.energyScore * 100) / 100)
+      Ext.getCmp("energy-score").setText(Math.round(json.energyScore * 100) / 10)
       Ext.getCmp("energy-rank").setText(json.energyRank)
     },
 
