@@ -148,10 +148,6 @@ Ext.define('Biofuels.view.Farm', {
   advanceStage: function(json){
     if(json.stageName == "Plant"){
       //reload field data for testing purposes
-            var msg = {
-              event: "getCurrentSettings"
-            }
-            Biofuels.network.send(JSON.stringify(msg));
 
       this.grown = false;
       this.wrappedup = false;
