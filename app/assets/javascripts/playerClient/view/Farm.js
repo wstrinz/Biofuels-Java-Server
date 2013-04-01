@@ -146,9 +146,16 @@ Ext.define('Biofuels.view.Farm', {
   },
 
   advanceStage: function(json){
+    // console.log(json.stageName)
+    if(json.stageName == "Accept/Reject Contracts"){
+      Ext.getCmp('theContractPanel').show()
+    }
+    else{
+      Ext.getCmp('theContractPanel').hide()
+    }
+
     if(json.stageName == "Plant"){
       //reload field data for testing purposes
-
       this.grown = false;
       this.wrappedup = false;
       for (var i = 0; i < this.fields.length; i++) {

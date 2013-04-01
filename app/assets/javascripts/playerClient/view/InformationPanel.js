@@ -19,7 +19,7 @@ Ext.define('Biofuels.view.InformationPanel', {
     extend: 'Ext.panel.Panel',
     alias: 'widget.informationPanel',
     requires: [
-        'Biofuels.view.DisplayBox',
+        'Biofuels.view.DisplayBox','Biofuels.view.ContractPanel'
     ],
 
 /*    height: 587,
@@ -50,7 +50,7 @@ Ext.define('Biofuels.view.InformationPanel', {
     refreshRanks: function(json){
       Ext.getCmp("sustainability-score").setText(Math.round(json.sustainabilityScore * 100) / 10)
       Ext.getCmp("sustainability-rank").setText(json.sustainabilityRank)
-      Ext.getCmp("economics-score").setText(Math.round(json.economicsScore * 100) / 10)
+      Ext.getCmp("economics-score").setText(Math.round(json.economicsScore * 100) / 100)
       Ext.getCmp("economics-rank").setText(json.economicsRank)
       Ext.getCmp("environment-score").setText(Math.round(json.environmentScore * 100) / 10)
       Ext.getCmp("environment-rank").setText(json.environmentRank)
@@ -210,7 +210,7 @@ Ext.define('Biofuels.view.InformationPanel', {
               {'year':2, 'corn':30, 'grass':10},
             ]
         });*/
-
+        // this. contractPanel = Ext.create()
         this.environmentStore = Ext.create('Ext.data.JsonStore', {
             storeId: 'environmentHistoryStore',
             fields: ['year','soil','water', 'rank'],
@@ -273,6 +273,10 @@ Ext.define('Biofuels.view.InformationPanel', {
 
         Ext.applyIf(me, {
             items: [
+            {
+              xtype: 'contractPanel',
+              id: 'theContractPanel'
+            },
 
             //========================================================
             // Sustainability Panel

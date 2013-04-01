@@ -43,12 +43,12 @@ Ext.define('Biofuels.view.ContractPanel', {
     changeSettings: function(json) {
 
 		// TODO: proper management icon state management
-		if (json.contractsOn) {
-			this.show();
-		}
-		else {
-			this.hide();
-		}
+		// if (json.contractsOn) {
+		// 	this.show();
+		// }
+		// else {
+		// 	this.hide();
+		// }
     },
 
     //--------------------------------------------------------------------------
@@ -77,13 +77,14 @@ Ext.define('Biofuels.view.ContractPanel', {
 				imageSource: 'resources/simple_grass_icon.png',
 				contractText: grassContractText
 			},
-			{
-				xtype: 'button',
-				margins: '5 5 5 5',
-				padding: '',
-				scale: 'large',
-				text: 'Finish Contract Acceptance Phase'
-			}]
+			// {
+			// 	xtype: 'button',
+			// 	margins: '5 5 5 5',
+			// 	padding: '',
+			// 	scale: 'large',
+			// 	text: 'Finish Contract Acceptance Phase'
+			// }
+      ]
         });
 
         me.callParent(arguments);
