@@ -405,6 +405,14 @@ Ext.define('Biofuels.view.Field', {
 		};
   },
 
+
+  growAndHarvestCrops: function(){
+    this.growCrops();
+    for (var i = 0; i < this.crop.length; i++) {
+      this.crop[i].scheduleHarvest(4000 + i*50);
+    };
+  },
+
 	//--------------------------------------------------------------------------
   growCrops: function(){
 		this.unfadeCrops();

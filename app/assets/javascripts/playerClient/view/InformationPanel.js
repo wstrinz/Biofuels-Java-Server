@@ -76,8 +76,8 @@ Ext.define('Biofuels.view.InformationPanel', {
         var envData = {
           'year': thisYear.year,
           'rank': thisYear.environmentRank,
-          'soil': Math.round(thisYear.soilSubscore * 100) / 100,
-          'water': Math.round(thisYear.waterSubscore * 100) / 100,
+          'soil fertility': Math.round(thisYear.soilSubscore * 100) / 100,
+          'water quality': Math.round(thisYear.waterSubscore * 100) / 100,
         }
 
         var sustainData = {
@@ -140,8 +140,8 @@ Ext.define('Biofuels.view.InformationPanel', {
         'year': thisYear.year,
         'id': thisYear.year,
         'rank': thisYear.environmentRank,
-        'soil': Math.round(thisYear.soilSubscore * 100) / 100,
-        'water': Math.round(thisYear.waterSubscore * 100) / 100,
+        'soil fertility': Math.round(thisYear.soilSubscore * 100) / 100,
+        'water quality': Math.round(thisYear.waterSubscore * 100) / 100,
       }
 
       var sustainData = {
@@ -213,12 +213,12 @@ Ext.define('Biofuels.view.InformationPanel', {
         // this. contractPanel = Ext.create()
         this.environmentStore = Ext.create('Ext.data.JsonStore', {
             storeId: 'environmentHistoryStore',
-            fields: ['year','soil','water', 'rank'],
+            fields: ['year','soil fertility','water quality', 'rank'],
 
             data: [
-              /*{'year':0, 'soil':10, 'water':20, 'rank':3},
-              {'year':1, 'soil':20, 'water':40, 'rank':1},
-              {'year':2, 'soil':30, 'water':10, 'rank':2},*/
+              /*{'year':0, 'soil fertility':10, 'water quality':20, 'rank':3},
+              {'year':1, 'soil fertility':20, 'water quality':40, 'rank':1},
+              {'year':2, 'soil fertility':30, 'water quality':10, 'rank':2},*/
             ]
         });
 
@@ -725,17 +725,17 @@ Ext.define('Biofuels.view.InformationPanel', {
                                       },
                                       xField: 'year',
                                       yField: [
-                                          'soil',
-                                          'water',
+                                          'soil fertility',
+                                          'water quality',
                                       ],
                                       stacked: true,
                                       tips: {
                                         trackMouse: true,
-                                        width: 90,
+                                        width: 140,
                                         height: 60,
                                         layout: 'fit',
                                         renderer: function(storeItem, item) {
-                                          this.setTitle("water: " + storeItem.get("water") + "\n soil: " + storeItem.get("soil"));
+                                          this.setTitle("water quality: " + storeItem.get("water quality") + "\n soil fertility: " + storeItem.get("soil fertility"));
                                         },
                                       },
                                   }
