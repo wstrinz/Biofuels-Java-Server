@@ -205,11 +205,14 @@ Ext.define('Biofuels.view.Farm', {
               event: "getFarmHistory"
             }*/
 
-            var msg = {
-              event: "getLatestFieldHistory",
-            }
-            Biofuels.network.send(JSON.stringify(msg));
+            for (var i = 0; i < this.fields.length; i++) {
 
+              var msg = {
+                event: "getLatestFieldHistory",
+                field: i,
+              }
+              Biofuels.network.send(JSON.stringify(msg));
+            };
             /*var msg = {
               event: "getFarmerHistory"
             }*/
@@ -232,9 +235,10 @@ Ext.define('Biofuels.view.Farm', {
   },
 
   updateFieldHistory: function(json){
-    for (var i = 0; i < json.fields.length; i++) {
+    var i = json.fieldNum
+    // for (var i = 0; i < json.fields.length; i++) {
       // yieldPanelString += "<p> Field " + i + "</p>"
-      var thisYear = json.fields[i]
+      var thisYear = json.fields[0]
       var fieldsStore = this.fields[i].fieldChart.fieldHistoryStore
 
       // console.log(fieldsStore)
@@ -256,8 +260,11 @@ Ext.define('Biofuels.view.Farm', {
               "year": thisYear.year,
           }
         }
+
+        console.log(fieldsStore)
+        console.log(dataPoint)
          fieldsStore.loadRawData(dataPoint, true)
-     };
+     // };
   },
 
   refreshHistory: function(json){
