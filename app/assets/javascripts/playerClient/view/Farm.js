@@ -134,7 +134,7 @@ Ext.define('Biofuels.view.Farm', {
       var crop = newFields[i].crop.toLowerCase();
       if (this.fields.length > i) {
         this.fields[i].fieldVisuals.plant(crop);
-        this.fields[i].fieldVisuals.setManagementTechnique("pesticide", newFields[i].pesticide)
+        // this.fields[i].fieldVisuals.setManagementTechnique("pesticide", newFields[i].pesticide)
         this.fields[i].fieldVisuals.setManagementTechnique("fertilizer", newFields[i].fertilizer)
         this.fields[i].fieldVisuals.setManagementTechnique("tillage", newFields[i].tillage)
       }
@@ -261,8 +261,8 @@ Ext.define('Biofuels.view.Farm', {
           }
         }
 
-        console.log(fieldsStore)
-        console.log(dataPoint)
+        // console.log(fieldsStore)
+        // console.log(dataPoint)
          fieldsStore.loadRawData(dataPoint, true)
      // };
   },

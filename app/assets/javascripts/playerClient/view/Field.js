@@ -131,17 +131,17 @@ Ext.define('Biofuels.view.Field', {
 			message.value = (this.stateValue == 1)
 			Biofuels.network.send(JSON.stringify(message));
 		}
-		this.pesticide.addToSurface(surface, [{
-			type: 'image',
-			src: 'resources/pesticide_no_icon.png',
-			state: false,
-			x: atX + 70,
-			y: atY,
-			opacity: 1,
-			width: 30,
-			height: 30,
-			zIndex: 1000
-	 }], 'resources/pesticide_no_icon.png', 'resources/pesticide_yes_icon.png');
+		// this.pesticide.addToSurface(surface, [{
+		// 	type: 'image',
+		// 	src: 'resources/pesticide_no_icon.png',
+		// 	state: false,
+		// 	x: atX + 70,
+		// 	y: atY,
+		// 	opacity: 1,
+		// 	width: 30,
+		// 	height: 30,
+		// 	zIndex: 1000
+	 // }], 'resources/pesticide_no_icon.png', 'resources/pesticide_yes_icon.png');
 
 	},
 
@@ -149,14 +149,14 @@ Ext.define('Biofuels.view.Field', {
 	showManagementIcons: function() {
 		this.fertilizer.show();
 		this.till.show();
-		this.pesticide.show();
+		// this.pesticide.show();
 	},
 
 	//--------------------------------------------------------------------------
 	hideManagementIcons: function() {
 		this.fertilizer.hide();
 		this.till.hide();
-		this.pesticide.hide();
+		// this.pesticide.hide();
 	},
 
 	//--------------------------------------------------------------------------
@@ -176,17 +176,19 @@ Ext.define('Biofuels.view.Field', {
 			var targetObj = this.fertilizer;
 		}
 		else if(technique=="pesticide"){
-			var targetObj = this.pesticide;
+      var targetObj = null;
+			// var targetObj = this.pesticide;
 		}
 		else if(technique=="tillage"){
 			var targetObj = this.till;
 		}
 		// console.log(technique + " " + state + " is " + (targetObj.stateValue == 1))
 
-		if((targetObj.stateValue == 1) != state){
-			// console.log("changing")
-			targetObj.changeState();
-		}
+		if(targetObj){
+      if((targetObj.stateValue == 1) != state){
+        targetObj.changeState();
+      }
+    }
 		// console.log(technique + " is " + (targetObj.stateValue == 1))
 	},
 
