@@ -147,6 +147,7 @@ Ext.define('Biofuels.view.Farm', {
 
   advanceStage: function(json){
     // console.log(json.stageName)
+    this.currentStage = json.stageName
     if(json.stageName == "Accept/Reject Contracts"){
       Ext.getCmp('theContractPanel').show()
     }
@@ -433,8 +434,19 @@ Ext.define('Biofuels.view.Farm', {
 
     		this.popupWindow.on({
 				close: function(window, eOpts) {
-					this.showCrops();
-					this.showFieldManagementIcons();
+          console.log(this.currentStage)
+					if(this.currentStage == "Plant"){
+            for (var i = 0; i < this.fields.length; i++) {
+              this.fields[i].fieldVisuals.showPlantingIcon()
+            };
+          }
+
+          this.showCrops();
+
+					if(this.currentStage == "Manage"){
+            this.showFieldManagementIcons();
+          }
+
 					this.popupWindow = null;
 					this.healthIcon.show(true);
 					this.hideFieldHealth();
@@ -513,7 +525,6 @@ Ext.define('Biofuels.view.Farm', {
 
 		for (var index = 0; index < this.fields.length; index++ ) {
 			var field = this.fields[index].fieldVisuals;
-			field.showPlantingIcon();
 			field.showCrop();
 		}
 	},
