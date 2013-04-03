@@ -36,6 +36,7 @@ Ext.define('Biofuels.view.Farm', {
         app.network.registerListener('getFarmInfo', this.loadFarmInfo, this);
         app.network.registerListener('getFarmHistory', this.refreshHistory, this);
         app.network.registerListener('getLatestFieldHistory', this.updateFieldHistory, this);
+        // app.network.registerListener('fieldHistorySequence', this.loadFieldHistorySeq, this);
     },
 
 	//--------------------------------------------------------------------------
@@ -126,6 +127,36 @@ Ext.define('Biofuels.view.Farm', {
 		}
     },
 
+/*  loadFieldHistorySeq: function(json){
+    fieldNum = json.
+    for (var i = 0; i < json.fields.length; i++) {
+      // yieldPanelString += "<p> Field " + i + "</p>"
+      var thisYear = json.fields[i]
+      var fieldsStore = this.fields[i].fieldChart.fieldHistoryStore
+
+      // console.log(fieldsStore)
+
+        if (thisYear.crop == "CORN"){
+           var dataPoint = {
+              "year": thisYear.year,
+              "corn": thisYear.yield,
+           }
+        }
+        else if(thisYear.crop == "GRASS"){
+          var dataPoint = {
+              "year": thisYear.year,
+              "grass": thisYear.yield,
+          }
+        }
+        else{
+          var dataPoint = {
+              "year": thisYear.year,
+          }
+        }
+         fieldsStore.loadRawData(dataPoint, true)
+     };
+  },*/
+
   //Load farm data from server
   loadFromServer: function(json){
     var newFields = json.fields //.substring(1, json.fields.length - 1).split(",");
@@ -207,6 +238,7 @@ Ext.define('Biofuels.view.Farm', {
 
             var msg = {
               event: "getLatestFieldHistory",
+              field: 0
             }
             Biofuels.network.send(JSON.stringify(msg));
 
@@ -232,32 +264,7 @@ Ext.define('Biofuels.view.Farm', {
   },
 
   updateFieldHistory: function(json){
-    for (var i = 0; i < json.fields.length; i++) {
-      // yieldPanelString += "<p> Field " + i + "</p>"
-      var thisYear = json.fields[i]
-      var fieldsStore = this.fields[i].fieldChart.fieldHistoryStore
 
-      // console.log(fieldsStore)
-
-        if (thisYear.crop == "CORN"){
-           var dataPoint = {
-              "year": thisYear.year,
-              "corn": thisYear.yield,
-           }
-        }
-        else if(thisYear.crop == "GRASS"){
-          var dataPoint = {
-              "year": thisYear.year,
-              "grass": thisYear.yield,
-          }
-        }
-        else{
-          var dataPoint = {
-              "year": thisYear.year,
-          }
-        }
-         fieldsStore.loadRawData(dataPoint, true)
-     };
   },
 
   refreshHistory: function(json){

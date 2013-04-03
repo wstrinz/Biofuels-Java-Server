@@ -83,9 +83,9 @@ Ext.define('Biofuels.view.InformationPanel', {
         var sustainData = {
           'year': thisYear.year,
           'rank': thisYear.sustainabilityRank,
-          'environment': Math.round(thisYear.environmentScore * 100) / 100,
-          'economy': Math.round(thisYear.economicsScore * 100) / 100,
-          'energy': Math.round(thisYear.energyScore * 100) / 100,
+          'environment': Math.round(thisYear.environmentScore * 100) / 3,
+          'economy': Math.round(thisYear.economicsScore * 100) / 3,
+          'energy': Math.round(thisYear.energyScore * 100) / 3,
         }
 
         var yieldData = {
@@ -148,9 +148,9 @@ Ext.define('Biofuels.view.InformationPanel', {
         'year': thisYear.year,
         'id': thisYear.year,
         'rank': thisYear.sustainabilityRank,
-        'environment': Math.round(thisYear.environmentScore * 100) / 100,
-        'economy': Math.round(thisYear.economicsScore * 100) / 100,
-        'energy': Math.round(thisYear.energyScore * 100) / 100,
+        'environment': Math.round(thisYear.environmentScore * 100 / 3) ,
+        'economy': Math.round(thisYear.economicsScore * 100 / 3) ,
+        'energy': Math.round(thisYear.energyScore * 100 / 3) ,
       }
 
       var yieldData = {
@@ -224,13 +224,19 @@ Ext.define('Biofuels.view.InformationPanel', {
 
         this.sustainabilityStore = Ext.create('Ext.data.JsonStore', {
             storeId: 'sustainabilityStore',
-            fields: ['year','environment','economy', 'energy', 'rank'],
+            fields: ['year','id','environment','economy', 'energy', 'rank'],
             data: [
-              /*{'year':0, 'environment':10, 'economy':20, 'energy':20, 'rank':3},
-              {'year':1, 'environment':20, 'economy':40, 'energy':40, 'rank':1},
-              {'year':2, 'environment':30, 'economy':10, 'energy':10, 'rank':2},*/
+              /*{'year':0, 'id':0, 'environment':10, 'economy':20, 'energy':20, 'rank':3},
+              {'year':1, 'id':1, 'environment':20, 'economy':40, 'energy':40, 'rank':1},
+              {'year':2, 'id':2, 'environment':30, 'economy':10, 'energy':10, 'rank':2},*/
             ]
         });
+
+     /*   this.sustainabilityStore.on('add', function(store, newRecordsArray, indexWhereRecordsAdded ){
+            //
+        });
+        this.sustainabilityStore.loadData( newDataArray, true );*/
+
 
         this.farmYieldStore = Ext.create('Ext.data.JsonStore', {
             storeId: 'farmYieldStore',
@@ -336,7 +342,9 @@ Ext.define('Biofuels.view.InformationPanel', {
                                 {
                                     type: 'Numeric',
                                     fields: [
-                                        'y'
+                                        'environment',
+                                        'economy',
+                                        'energy',
                                     ],
                                     position: 'left',
                                     title: 'Score'
@@ -358,7 +366,7 @@ Ext.define('Biofuels.view.InformationPanel', {
                                     stacked: true,
                                     tips: {
                                       trackMouse: true,
-                                      width: 105,
+                                      width: 125,
                                       height: 90,
                                       layout: 'fit',
                                       renderer: function(storeItem, item) {
