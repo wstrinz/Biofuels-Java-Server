@@ -270,7 +270,7 @@ Ext.define('Biofuels.view.InformationPanel', {
             ]
         });
 
-        this.EconStore = Ext.create('Ext.data.JsonStore', {
+        this.econStore = Ext.create('Ext.data.JsonStore', {
             storeId: 'economicsStore',
             fields: ['year','corn','grass'],
 
@@ -280,6 +280,15 @@ Ext.define('Biofuels.view.InformationPanel', {
               {'year':2, 'corn':82, 'grass':40},*/
             ]
         });
+
+      this.econStore.loadRawData([
+          {'year':1, 'id': 1, },
+          {'year':2, 'id': 2, },
+          {'year':3, 'id': 3, },
+          {'year':4, 'id': 4, },
+          {'year':5, 'id': 5, },
+        ], true);
+
 
 
 
@@ -451,7 +460,9 @@ Ext.define('Biofuels.view.InformationPanel', {
                                     }
                                 }],
                                 series: [{
-                                    type: 'area',
+                                    type: 'column',
+                                    xField: 'year',
+                                    stacked: true,
                                     axis: 'left',
                                     xField: 'year',
                                     yField: ['grass', 'corn'],
@@ -723,7 +734,7 @@ Ext.define('Biofuels.view.InformationPanel', {
                               animate: true,
                               insetPadding: 20,
                               store: 'environmentHistoryStore',
-                              theme: 'Category5',
+                              theme: 'Category2',
                               legend: {
                                 position: 'right'
                               },
