@@ -288,6 +288,7 @@ Ext.define('Biofuels.view.InformationPanel', {
                     cls: 'my-panel',
                     collapseFirst: false,
                     layout: 'fit',
+                    bodyStyle: 'background-color: #89a',
 
                     tools: [
                       {
@@ -382,6 +383,8 @@ Ext.define('Biofuels.view.InformationPanel', {
                     collapseFirst: false,
                     title: 'Economics',
                     layout: 'fit',
+                    bodyStyle: 'background-color: #89a',
+
                     tools: [
                       {
                         xtype: 'dispbox',
@@ -461,6 +464,7 @@ Ext.define('Biofuels.view.InformationPanel', {
                     collapseFirst: false,
                     title: 'Energy',
                     layout: 'fit',
+                    bodyStyle: 'background-color: #89a',
 
                     tools: [
                       {
@@ -491,6 +495,8 @@ Ext.define('Biofuels.view.InformationPanel', {
                           xtype: 'panel',
                           title: 'Yield',
                           layout: 'fit',
+                          bodyStyle: 'background-color: #89a',
+
                           items: [
                               {
                                   xtype: 'chart',
@@ -573,6 +579,8 @@ Ext.define('Biofuels.view.InformationPanel', {
                           xtype: 'panel',
                           title: 'Energy',
                           layout: 'fit',
+                          bodyStyle: 'background-color: #89a',
+
                           items: [
                               {
                                   xtype: 'chart',
@@ -663,6 +671,8 @@ Ext.define('Biofuels.view.InformationPanel', {
                     collapseFirst: false,
                     title: 'Environment',
                     layout: 'fit',
+                    bodyStyle: 'background-color: #89a',
+
                     tools: [
                       {
                         xtype: 'dispbox',
