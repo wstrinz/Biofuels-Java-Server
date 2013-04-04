@@ -83,14 +83,15 @@ Ext.define('Biofuels.view.InformationPanel', {
         var sustainData = {
           'year': thisYear.year,
           'rank': thisYear.sustainabilityRank,
-          'environment': Math.round(thisYear.environmentScore * 100) / 100,
-          'economy': Math.round(thisYear.economicsScore * 100) / 100,
-          'energy': Math.round(thisYear.energyScore * 100) / 100,
+          'environment': Math.round(thisYear.environmentScore * 100 / 3),
+          'economy': Math.round(thisYear.economicsScore * 100 / 3),
+          'energy': Math.round(thisYear.energyScore * 100 / 3),
         }
-
+        console.log(sustainData)
         var yieldData = {
           'year': thisYear.year,
         }
+
         if(thisYear.cornYield > 0){
           yieldData.corn = Math.round(thisYear.cornYield * 100) / 100;
         }
@@ -148,9 +149,9 @@ Ext.define('Biofuels.view.InformationPanel', {
         'year': thisYear.year,
         'id': thisYear.year,
         'rank': thisYear.sustainabilityRank,
-        'environment': Math.round(thisYear.environmentScore * 100) / 100,
-        'economy': Math.round(thisYear.economicsScore * 100) / 100,
-        'energy': Math.round(thisYear.energyScore * 100) / 100,
+        'environment': Math.round(thisYear.environmentScore * 100 / 3),
+        'economy': Math.round(thisYear.economicsScore * 100 / 3),
+        'energy': Math.round(thisYear.energyScore * 100 / 3),
       }
 
       var yieldData = {
@@ -337,8 +338,12 @@ Ext.define('Biofuels.view.InformationPanel', {
                                 {
                                     type: 'Numeric',
                                     fields: [
-                                        'y'
+                                      'environment',
+                                      'economy',
+                                      'energy',
                                     ],
+                                    minimum: 0,
+                                    maximum: 100,
                                     position: 'left',
                                     title: 'Score'
                                 }
