@@ -203,19 +203,6 @@ Ext.define('Biofuels.view.InformationPanel', {
     initComponent: function() {
         var me = this;
 
-        // var bdisp = Ext.create('Biofuels.view.DisplayBox');
-
-
-/*        this.fieldHistoryStore2 = Ext.create('Ext.data.JsonStore', {
-            storeId: 'historyStore2',
-            fields: ['year','corn','grass'],
-            data: [
-              {'year':0, 'corn':10, 'grass':20},
-              {'year':1, 'corn':20, 'grass':40},
-              {'year':2, 'corn':30, 'grass':10},
-            ]
-        });*/
-        // this. contractPanel = Ext.create()
         this.environmentStore = Ext.create('Ext.data.JsonStore', {
             storeId: 'environmentHistoryStore',
             fields: ['year','soil fertility','water quality', 'rank'],
@@ -227,19 +214,21 @@ Ext.define('Biofuels.view.InformationPanel', {
             ]
         });
 
+/*        this.environmentStore.loadRawData([
+          {'year':1, 'id':1},
+          {'year':2, 'id':2},
+          {'year':3, 'id':3},
+          {'year':4, 'id':4},
+        ], true)*/
+
         this.sustainabilityStore = Ext.create('Ext.data.JsonStore', {
             storeId: 'sustainabilityStore',
             fields: ['year','environment','economy', 'energy', 'rank'],
-            /*data: [
-              {'year':0,'id':0, 'environment':10, 'economy':20, 'energy':20, 'rank':3},
-              {'year':1,'id':1, 'environment':20, 'economy':40, 'energy':40, 'rank':1},
-              {'year':2,'id':2, 'environment':30, 'economy':10, 'energy':10, 'rank':2},
-            ]*/
         });
 
         //for some reason loading the data on creation doesn't work with the IDs
         this.sustainabilityStore.loadRawData([
-              {'year':1,'id':1, 'environment':0, 'economy':0, 'energy':0,},
+              {'year':1,'id':1, 'environment':0, 'economy':0, 'energy':0},
               {'year':2,'id':2, 'environment':0, 'economy':0, 'energy':0},
               {'year':3,'id':3, 'environment':0, 'economy':0, 'energy':0},
               {'year':4,'id':4, 'environment':0, 'economy':0, 'energy':0},
@@ -722,17 +711,14 @@ Ext.define('Biofuels.view.InformationPanel', {
                         xtype: 'tbspacer', width: 50
                       },
                     ],
-                    items: [
-                      {
-                        xtype: 'container',
-                        layout: 'fit',
+
                         items: [
                             {
                               xtype: 'chart',
                               // height: 226,
                               // width: 404,
                               animate: true,
-                              insetPadding: 20,
+                              // insetPadding: 20,
                               store: 'environmentHistoryStore',
                               theme: 'Category2',
                               legend: {
@@ -740,17 +726,18 @@ Ext.define('Biofuels.view.InformationPanel', {
                               },
                               axes: [
                                   {
-                                      type: 'Category',
+                                      type: 'Numeric',
                                       fields: [
                                           'year'
                                       ],
                                       position: 'bottom',
-                                      title: 'Year'
+                                      title: 'Year',
                                   },
                                   {
                                       type: 'Numeric',
                                       fields: [
-                                          'y'
+                                          'soil quality',
+                                          'water quality',
                                       ],
                                       position: 'left',
                                       title: 'Score'
@@ -782,8 +769,6 @@ Ext.define('Biofuels.view.InformationPanel', {
                                 ]
                               }
                             ]
-                          }
-                        ]
                 },
                 //========================================================
                 // Log Panel

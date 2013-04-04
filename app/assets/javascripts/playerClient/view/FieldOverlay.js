@@ -70,7 +70,7 @@ Ext.define('Biofuels.view.FieldOverlay', {
 		}]);
 
 		this.fieldHistoryStore = Ext.create('Ext.data.JsonStore', {
-				fields: ['year','corn','grass'],
+				fields: ['year','corn','grass', 'SOC'],
 /*				data: [
 					{'year':0, 'corn':50, 'grass':50},
 					{'year':1, 'corn':20, 'grass':30},
@@ -212,8 +212,42 @@ Ext.define('Biofuels.view.FieldOverlay', {
 
     //--------------------------------------------------------------------------
     showSoilHealth: function() {
+      var fillColor = this.underlay[0].fill
+      this.animateShow(this.underlay[0], 100, 0.5);
+      this.underlay[0].stopAnimation().animate({
+        duration: 200,
+        to: {
+          fill: fillColor,
+          opacity: 0.5
+        }
+      });
+    },
 
-    	this.animateShow(this.underlay[0], 100, 0.5);
+    setSoilHealth: function(percent){
+      var color = null
+      if(percent < .1)
+        color = '#FF0500'
+      else if(percent < .2)
+        color = '#FF3700'
+      else if(percent < .3)
+        color = '#FF6900'
+      else if(percent < .4)
+        color = '#FF9B00'
+      else if(percent < .5)
+        color = '#FFCD00'
+      else if(percent < .6)
+        color = '#FFFF00'
+      else if(percent < .7)
+        color = '#C6F700'
+      else if(percent < .8)
+        color = '#8EEF00'
+      else if(percent < .9)
+        color = '#56E700'
+      else
+        color = '#1EE000'
+      console.log(this.underlay[0])
+      this.underlay[0].fill = color
+
     },
 
     //--------------------------------------------------------------------------
