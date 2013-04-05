@@ -84,6 +84,7 @@ Ext.define('Biofuels.view.RoundStageBar', {
       Biofuels.network.send(JSON.stringify(msg))
     },
 
+
     // array in the form of:   [{label: 'someLabel', active: true, checked: false},
     //                          {label: 'nextLabel', active: false, checked: false},
     //                            ...]

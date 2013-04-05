@@ -128,26 +128,32 @@ Ext.define('Biofuels.view.Farm', {
 
   //Load farm data from server
   loadFromServer: function(json){
+    var me = this;
+    Ext.defer(function() {
     var newFields = json.fields //.substring(1, json.fields.length - 1).split(",");
     // var arr = Ext.decode(newFields)
     for(var i = 0;i < newFields.length; i++){
       var crop = newFields[i].crop.toLowerCase();
-      if (this.fields.length > i) {
-        this.fields[i].fieldVisuals.plant(crop);
-        // this.fields[i].fieldVisuals.setManagementTechnique("pesticide", newFields[i].pesticide)
-        this.fields[i].fieldVisuals.setManagementTechnique("fertilizer", newFields[i].fertilizer)
-        this.fields[i].fieldVisuals.setManagementTechnique("tillage", newFields[i].tillage)
+      if (me.fields.length > i) {
+        me.fields[i].fieldVisuals.plant(crop);
+        // me.fields[i].fieldVisuals.delayPlant(crop, 40000);
+        // me.fields[i].fieldVisuals.setManagementTechnique("pesticide", newFields[i].pesticide)
+        me.fields[i].fieldVisuals.setManagementTechnique("fertilizer", newFields[i].fertilizer)
+        me.fields[i].fieldVisuals.setManagementTechnique("tillage", newFields[i].tillage)
       }
       else{
-        this.createFields(1);
-        this.fields[i].fieldVisuals.plant(crop);
+        me.createFields(1);
+        me.fields[i].fieldVisuals.plant(crop);
+        // this.fields[i].fieldVisuals.delayPlant(crop, 40000);
       }
     }
+    }, 900)
   },
 
   advanceStage: function(json){
     // console.log(json.stageName)
     this.currentStage = json.stageName
+    this.currentYear = json.year
     if(json.stageName == "Accept/Reject Contracts"){
       Ext.getCmp('theContractPanel').show()
     }
@@ -156,15 +162,43 @@ Ext.define('Biofuels.view.Farm', {
     }
 
     if(json.stageName == "Plant"){
-      //reload field data for testing purposes
       this.grown = false;
       this.wrappedup = false;
-      for (var i = 0; i < this.fields.length; i++) {
 
-        this.fields[i].fieldVisuals.showPlantingIcon();
-      };
+      if (!this.planted){
 
-      // this.store1.getAt(0).set('plantStage',true)
+        for (var i = 0; i < this.fields.length; i++) {
+          this.fields[i].fieldVisuals.showPlantingIcon();
+        };
+
+        if(this.currentYear > 1){
+          for (var i = 0; i < this.fields.length; i++) {
+            this.fields[i].fieldVisuals.harvestCrops();
+          };
+
+          var msg = {
+            event: "getFarmInfo"
+          }
+          Biofuels.network.send(JSON.stringify(msg));
+
+          for (var i = 0; i < this.fields.length; i++) {
+            var msg = {
+              event: "getLatestFieldHistory",
+              field: i,
+            }
+            Biofuels.network.send(JSON.stringify(msg));
+          };
+
+          var msg = {
+            event: "getLatestFarmerHistory"
+          }
+          Biofuels.network.send(JSON.stringify(msg));
+
+        }
+      }
+
+      this.planted = true;
+
     }
     else{
       for (var i = 0; i < this.fields.length; i++) {
@@ -194,17 +228,18 @@ Ext.define('Biofuels.view.Farm', {
         }
 
     if(json.stageName == "Round Wrap Up"){
+      this.planted = false;
 
       if(!this.wrappedup){
-            var msg = {
+            /*var msg = {
               event: "getFarmInfo"
             }
             Biofuels.network.send(JSON.stringify(msg));
 
 
-            /*var msg = {
-              event: "getFarmHistory"
-            }*/
+            // var msg = {
+            //   event: "getFarmHistory"
+            // }
 
             for (var i = 0; i < this.fields.length; i++) {
 
@@ -214,16 +249,16 @@ Ext.define('Biofuels.view.Farm', {
               }
               Biofuels.network.send(JSON.stringify(msg));
             };
-            /*var msg = {
-              event: "getFarmerHistory"
-            }*/
+            // var msg = {
+            //   event: "getFarmerHistory"
+            // }
             var msg = {
               event: "getLatestFarmerHistory"
             }
-            Biofuels.network.send(JSON.stringify(msg));
+            Biofuels.network.send(JSON.stringify(msg));*/
 
             for (var i = 0; i < this.fields.length; i++) {
-              this.fields[i].fieldVisuals.harvestCrops();
+              this.fields[i].fieldVisuals.growCrops();
             };
             this.wrappedup = true;
           }
