@@ -385,6 +385,13 @@ Ext.define('Biofuels.view.Farm', {
 		});
 
 		this.healthIcon = result[0];
+			var tip = Ext.create('Ext.tip.ToolTip', {
+				target: this.healthIcon.el,
+				html: 'Show Field Health',
+				anchorToTarget: true,
+				anchor: 'left',
+				showDelay: 250
+			});
     },
 
     //-----------------------------------------------------------------------

@@ -27,6 +27,17 @@ Ext.define('Biofuels.view.ToggleSprite', {
     },
 
     //-----------------------------------------------------------------------
+    addTip: function(tipString) {
+    		var tip = Ext.create('Ext.tip.ToolTip', {
+				target: this.sprite.el,
+				html: tipString,
+				anchorToTarget: true,
+				anchor: 'left',
+				showDelay: 250
+			});
+		}
+
+    //-----------------------------------------------------------------------
     setListeners: function() {
 
 		this.sprite.on({
