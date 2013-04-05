@@ -223,7 +223,7 @@ Ext.define('Biofuels.view.Farm', {
             Biofuels.network.send(JSON.stringify(msg));
 
             for (var i = 0; i < this.fields.length; i++) {
-              this.fields[i].fieldVisuals.growAndHarvestCrops();
+              this.fields[i].fieldVisuals.harvestCrops();
             };
             this.wrappedup = true;
           }

@@ -84,7 +84,7 @@ Ext.define('Biofuels.view.ProgressPanel', {
       if (json.mgmtOptsOn) {
           markerData.push({label: 'Manage', active: false, checked: false});
       }
-      markerData.push({label: 'Grow', active: false, checked: false});
+      markerData.push({label: 'Harvest and Sell', active: false, checked: false});
       markerData.push({label: 'Year End', active: false, checked: false});
 
 
