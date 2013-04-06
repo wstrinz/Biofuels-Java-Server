@@ -51,7 +51,7 @@ Ext.define('BiofuelsGlobal.view.MainViewport', {
 
     	this.farmerListStore = Ext.create('Ext.data.Store', {
     		storeId:'farmerListStore',
-			fields:['name','ready'],
+			fields:['name','ready','rank'],
 			proxy: {
 				type: 'memory',
 				reader: {
@@ -94,7 +94,7 @@ Ext.define('BiofuelsGlobal.view.MainViewport', {
 					x: 10,
 					y: 10,
 					height: 550,
-					width: 170,
+					width: 270,
 					title: 'Farmers',
 					titleAlign: 'center',
 					columns: [{
@@ -102,29 +102,41 @@ Ext.define('BiofuelsGlobal.view.MainViewport', {
 						width: 120,
 						resizable: false,
 						dataIndex: 'name',
+            resizable: true,
 						hideable: false,
 						text: 'Name'
 					},
 					{
 						xtype: 'booleancolumn',
-						width: 48,
+						width: 60,
 						resizable: false,
 						dataIndex: 'ready',
+            resizable: true,
 						hideable: false,
 						text: 'Ready',
 						falseText: 'no',
 						trueText: 'yes'
-					}],
+					},
+          {
+            xtype: 'gridcolumn',
+            width: 90,
+            resizable: false,
+            dataIndex: 'rank',
+            resizable: true,
+            hideable: false,
+            text: 'Rank'
+          }
+          ],
 					viewConfig: {
 					}
 				},
 				{
           xtype: 'panel',
           id: 'Round Progress',
-          x: 190,
+          x: 290,
           y: 10,
           height: 500,
-          width: 440,
+          width: 340,
           title: 'Round Progress',
           titleAlign: 'center',
           layout: 'fit',

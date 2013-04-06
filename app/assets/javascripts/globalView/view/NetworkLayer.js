@@ -28,7 +28,12 @@ Ext.define('BiofuelsGlobal.view.NetworkLayer', {
 
 
     // var WS = window['MozWebSocket'] ? MozWebSocket : WebSocket;
+<<<<<<< HEAD
     WsConnection.webSocket = new WebSocket("ws://" + window.location.host + "/webSocket")
+=======
+    // WsConnection.webSocket = new WebSocket("ws://" + window.location.host + "/chat/sendmsg")
+    WsConnection.webSocket = new WebSocketRails('http://' + window.location.hostname + ':80/websocket', false);
+>>>>>>> parent of efeb9e4... Revert "show ranks on global screen"
 
     // WsConnection.webSocket = new WebSocketRails('http://sleepy-temple-8942.herokuapp.com:80/websocket', false);
     // WsConnection.webSocket = new WebSocketRails('localhost:3000/websocket');
