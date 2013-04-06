@@ -247,29 +247,24 @@ Ext.define('Biofuels.view.Farm', {
         if (thisYear.crop == "CORN"){
            var dataPoint = {
               "year": thisYear.year,
-              "SOC": thisYear.SOM,
               "corn": thisYear.yield,
            }
         }
         else if(thisYear.crop == "GRASS"){
           var dataPoint = {
               "year": thisYear.year,
-              "SOC": thisYear.SOM,
               "grass": thisYear.yield,
           }
         }
         else{
           var dataPoint = {
               "year": thisYear.year,
-              "SOC": thisYear.SOM,
           }
         }
 
         // console.log(fieldsStore)
         // console.log(dataPoint)
          fieldsStore.loadRawData(dataPoint, true)
-
-         this.fields[i].fieldChart.setSoilHealth(thisYear.SOM / 190)
      // };
   },
 
