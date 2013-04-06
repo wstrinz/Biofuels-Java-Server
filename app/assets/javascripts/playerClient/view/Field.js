@@ -321,10 +321,6 @@ Ext.define('Biofuels.view.Field', {
     }
   },
 
-  delayPlant: function(cropType, delay){
-    Ext.defer(this.plant(cropType), delay)
-  },
-
 	//--------------------------------------------------------------------------
 	onClick: function(evt, target) {
 		this.popup.showPopup(this.onPlantingClickHandler, this);

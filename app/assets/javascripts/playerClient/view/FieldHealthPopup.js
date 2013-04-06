@@ -51,16 +51,16 @@ Ext.define('Biofuels.view.FieldHealthPopup', {
 					boxLabel: 'Yields',
 					checked: true
 				},
-				// {
-				// 	xtype: 'checkboxfield',
-				// 	itemId: 'crop',
-				// 	colspan: 1,
-				// 	rowspan: 1,
-				// 	width: 125,
-				// 	hideLabel: true,
-				// 	boxLabel: 'Crop',
-				// 	checked: true
-				// },
+				{
+					xtype: 'checkboxfield',
+					itemId: 'crop',
+					colspan: 1,
+					rowspan: 1,
+					width: 125,
+					hideLabel: true,
+					boxLabel: 'Crop',
+					checked: true
+				},
 				{
 					xtype: 'slider',
 					itemId: 'yearSlider',
@@ -93,21 +93,21 @@ Ext.define('Biofuels.view.FieldHealthPopup', {
 
         me.callParent(arguments);
     },
-
+    
     //--------------------------------------------------------------------------
     setCheckboxCallbacks: function(soilHealthCB, yieldsCB, cropCB, scope) {
-
+    	
     	var panelBody = this.items.items[0];
-
+    	
     	// Soil Health
        	var check = panelBody.getComponent('soilHealth');
-
+       	
     	check.on({
     		change: soilHealthCB,
     		scope: scope
     	});
     	soilHealthCB.call(scope, check, check.getValue());
-
+    	
     	// Yields
     	check = panelBody.getComponent('yields');
     	check.on({
@@ -115,47 +115,47 @@ Ext.define('Biofuels.view.FieldHealthPopup', {
     		scope: scope
     	});
     	yieldsCB.call(scope, check, check.getValue());
-
-    	/*// Crop
+    	
+    	// Crop
     	check = panelBody.getComponent('crop');
     	check.on({
     		change: cropCB,
     		scope: scope
     	});
-    	cropCB.call(scope, check, check.getValue());*/
+    	cropCB.call(scope, check, check.getValue());
     },
-
+    
     //--------------------------------------------------------------------------
     setSliderCallback: function(years, dragCB, changeCB, scope) {
-
-    	var panelBody = this.items.items[0];
+    	
+    	var panelBody = this.items.items[0]; 
        	var slider = panelBody.getComponent('yearSlider');
 
 		this.setSliderNumYears(years);
-
+       	
     	slider.on({
     		drag: dragCB,
     		change: changeCB,
     		scope: scope
     	});
-
+    	
     	changeCB.call(scope, slider);
     },
-
+    
     //--------------------------------------------------------------------------
     setSliderNumYears: function(maxYears) {
-
+    	
     	// FIXME: there some kind of recursive 'get child by itemId' call??
-    	var panelBody = this.items.items[0];
+    	var panelBody = this.items.items[0]; 
        	var slider = panelBody.getComponent('yearSlider');
        	var label1 = panelBody.getComponent('prevYearLabel');
        	var label2 = panelBody.getComponent('nowLabel');
 
-       	if (typeof slider == 'undefined' || typeof label1 == 'undefined' ||
+       	if (typeof slider == 'undefined' || typeof label1 == 'undefined' || 
        		typeof label2 == 'undefined') {
        		return;
        	}
-
+    	
        	if (maxYears <= 1) {
        		slider.hide();
        		label1.hide();
@@ -169,5 +169,5 @@ Ext.define('Biofuels.view.FieldHealthPopup', {
        		slider.setValue(0);
        	}
     }
-
+    
 });

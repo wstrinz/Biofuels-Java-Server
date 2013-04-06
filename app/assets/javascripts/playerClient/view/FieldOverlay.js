@@ -275,7 +275,7 @@ Ext.define('Biofuels.view.FieldOverlay', {
     show: function(year) {
 
     	this.showSoilHealth();
-    	// this.showCrop();
+    	this.showCrop();
     	this.showYields();
     },
 
