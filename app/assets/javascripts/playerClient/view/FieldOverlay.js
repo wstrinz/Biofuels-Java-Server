@@ -245,6 +245,10 @@ Ext.define('Biofuels.view.FieldOverlay', {
         color = '#56E700'
       else
         color = '#1EE000'
+<<<<<<< HEAD
+=======
+      console.log(this.underlay[0])
+>>>>>>> parent of 5bbf8d7... Revert "show soil health colors"
       this.underlay[0].fill = color
 
     },
