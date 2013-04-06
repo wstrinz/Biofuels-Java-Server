@@ -14,9 +14,8 @@ Ext.define('BiofuelsModerator.view.MainViewport', {
 
 	extend: 'Ext.container.Viewport',
     requires: [
-      'BiofuelsModerator.view.CreateGamePopup',
-    	'BiofuelsModerator.view.StageToggle',
-      'BiofuelsModerator.view.NetworkLayer',
+        'BiofuelsModerator.view.CreateGamePopup',
+    	'BiofuelsModerator.view.NetworkLayer'
     ],
 
     title: 'My Window',
@@ -28,7 +27,7 @@ Ext.define('BiofuelsModerator.view.MainViewport', {
         var me = this;
 
         BiofuelsModerator.network = Ext.create('BiofuelsModerator.view.NetworkLayer');
-
+		// 192.168.1.101
         BiofuelsModerator.network.openSocket('localhost', 80, '/BiofuelsGame/serverConnect');
         BiofuelsModerator.network.checkModel();
 
@@ -98,22 +97,6 @@ Ext.define('BiofuelsModerator.view.MainViewport', {
             }
           },
           {
-            xtype: 'button',
-            x: 80,
-            y: 220,
-            enableToggle: true,
-            scale: 'large',
-            text: 'Pause'
-          },
-          {
-            xtype: 'button',
-            x: 140,
-            y: 220,
-            enableToggle: true,
-            scale: 'large',
-            text: 'Final Round'
-          },
-          {
 						xtype: 'button',
 						x: 30,
 						y: 285,
@@ -125,34 +108,22 @@ Ext.define('BiofuelsModerator.view.MainViewport', {
 							this.advanceStage();
 						}
 					},
-          {
-            xtype: 'label',
-            text: 'Wait for Moderator - ',
-            x: 10,
-            y: 335,
-          },
-          {
-            xtype: 'stageToggle',
-            stageName: 'Plant',
-            stageDisplayName: 'Plant',
-            x: 20,
-            y: 345,
-          },
-          {
-            xtype: 'stageToggle',
-            stageName: 'Grow',
-            stageDisplayName: 'Harvest',
-            x: 100,
-            y: 345,
-          },
-          {
-            xtype: 'stageToggle',
-            stageName: 'Round Wrap Up',
-            stageDisplayName: 'Year End',
-            x: 180,
-            y: 345,
-          },
-          ]
+					{
+						xtype: 'button',
+						x: 80,
+						y: 220,
+						enableToggle: true,
+						scale: 'large',
+						text: 'Pause'
+					},
+					{
+						xtype: 'button',
+						x: 140,
+						y: 220,
+						enableToggle: true,
+						scale: 'large',
+						text: 'Final Round'
+					}]
 				}]
 			}]
         });
