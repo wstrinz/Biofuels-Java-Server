@@ -245,7 +245,6 @@ Ext.define('Biofuels.view.FieldOverlay', {
         color = '#56E700'
       else
         color = '#1EE000'
-      console.log(this.underlay[0])
       this.underlay[0].fill = color
 
     },
