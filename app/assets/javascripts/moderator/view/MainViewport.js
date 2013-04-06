@@ -138,17 +138,17 @@ Ext.define('BiofuelsModerator.view.MainViewport', {
             x: 20,
             y: 345,
           },
-/*          {
+          {
             xtype: 'stageToggle',
             stageName: 'Grow',
             stageDisplayName: 'Harvest',
             x: 100,
             y: 345,
-          },*/
+          },
           {
             xtype: 'stageToggle',
             stageName: 'Round Wrap Up',
-            stageDisplayName: 'Harvest',
+            stageDisplayName: 'Year End',
             x: 180,
             y: 345,
           },
