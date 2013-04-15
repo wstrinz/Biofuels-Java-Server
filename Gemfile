@@ -10,13 +10,15 @@ group :development do
   gem 'sqlite3'
 end
 
-gem 'mysql2'
+# gem 'mysql2'
 
 group :production do
   gem 'pg'
 end
 
 gem 'activerecord-postgresql-adapter'
+
+gem 'siesta'
 
 # Gems used only for assets and not required
 # in production environments by default.

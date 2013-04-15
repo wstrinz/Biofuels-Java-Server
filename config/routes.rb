@@ -10,6 +10,10 @@ KoSombo::Application.routes.draw do
 
   get "game/moderator"
 
+  if Rails.env.development?
+    mount Siesta::Engine => '/'
+  end
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
