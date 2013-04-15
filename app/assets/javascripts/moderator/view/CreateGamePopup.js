@@ -36,6 +36,8 @@ Ext.define('BiofuelsModerator.view.CreateGamePopup', {
     closable: false,
     modal: true,
     title: 'Biofuels Game Creation',
+    id: 'cgPop',
+
 
     //--------------------------------------------------------------------------
     initNetworkEvents: function() {
@@ -63,6 +65,7 @@ Ext.define('BiofuelsModerator.view.CreateGamePopup', {
 				labelAlign: 'right',
 				allowBlank: false,
 				blankText: 'Required',
+        id: 'namebox',
 				enforceMaxLength: true,
 				maxLength: 16,
 				validator: Ext.bind(this.dirtyChange, this)
@@ -74,7 +77,7 @@ Ext.define('BiofuelsModerator.view.CreateGamePopup', {
 				y: 32,
 				height: 20,
 				width: 20,
-				src: 'app/resources/redLed.png'
+				src: 'app/resources/redLed.png',
 			},
 			{
 				xtype: 'textfield',

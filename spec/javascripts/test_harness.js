@@ -3,9 +3,9 @@ var Harness = Siesta.Harness.Browser.ExtJS;
 
 
 Harness.configure({
-    title     : 'App',
+    title     : 'Tests',
 
-  loaderPath: { 'App' : '/assets/app' },
+  // loaderPath: { 'App' : '/assets/app' },
 
 
   preload : [
@@ -22,13 +22,12 @@ Harness.start({
   // group: 'Sample',
   // items: ['/assets/sample.t.js'],
 
-  group: 'ShowPanel',
+  group: 'Tests',
   items: [
     {
-      title: 'GUI Tests',
+      title: 'Moderator tests',
       url: '/assets/sample.t.js',
       hostPageUrl: '../game/moderator',
-
     }
   ]
 });
