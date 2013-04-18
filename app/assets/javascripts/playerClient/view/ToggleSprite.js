@@ -16,8 +16,8 @@ Ext.define('Biofuels.view.ToggleSprite', {
 
   		var result = surface.add(config);
   		this.sprite = result[0];
-  		
-  		if (typeof startShown != 'undefined' && startShown) { 
+
+  		if (typeof startShown != 'undefined' && startShown) {
   			this.sprite.show(true);
   			this.setListeners();
   		}
@@ -25,6 +25,17 @@ Ext.define('Biofuels.view.ToggleSprite', {
   			this.sprite.show(false);
   		}
     },
+
+    //-----------------------------------------------------------------------
+    addTip: function(tipString) {
+    		var tip = Ext.create('Ext.tip.ToolTip', {
+				target: this.sprite.el,
+				html: tipString,
+				anchorToTarget: true,
+				anchor: 'left',
+				showDelay: 250
+			});
+		},
 
     //-----------------------------------------------------------------------
     setListeners: function() {

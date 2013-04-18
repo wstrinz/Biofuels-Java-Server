@@ -102,6 +102,7 @@ Ext.define('Biofuels.view.Field', {
 			height: 30,
 			zIndex: 1000
 		}], 'resources/fertilizer_no_icon.png', 'resources/fertilizer_yes_icon.png');
+		this.fertilizer.addTip('Fertilizer');
 
 		this.till = Ext.create('Biofuels.view.ToggleSprite');
 		regularclick = this.till.onClick
@@ -122,6 +123,7 @@ Ext.define('Biofuels.view.Field', {
 			height: 30,
 			zIndex: 1000
 		}], 'resources/till_no_icon.png', 'resources/till_yes_icon.png');
+		this.till.addTip('Till Field');
 
 		this.pesticide = Ext.create('Biofuels.view.ToggleSprite');
 		regularclick = this.pesticide.onClick
@@ -207,6 +209,13 @@ Ext.define('Biofuels.view.Field', {
 
 		var result = surface.add(path);
 		this.plantingIcon = result[0];
+		var tip = Ext.create('Ext.tip.ToolTip', {
+				target: this.plantingIcon.el,
+				html: 'Plant a Crop',
+				anchorToTarget: true,
+				anchor: 'left',
+				showDelay: 250
+			});
 
 		this.plantingIcon.show(true);
 		this.setPlantingIconListeners();

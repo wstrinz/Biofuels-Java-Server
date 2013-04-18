@@ -156,6 +156,7 @@ Ext.define('Biofuels.view.InformationPanel', {
         'environment': Math.round(thisYear.environmentScore * 100 / 3),
         'economy': Math.round(thisYear.economicsScore * 100 / 3),
         'energy': Math.round(thisYear.energyScore * 100 / 3),
+
       }
 
       var yieldData = {
@@ -226,7 +227,7 @@ Ext.define('Biofuels.view.InformationPanel', {
             fields: ['year','environment','economy', 'energy', 'rank'],
         });
 
-        //for some reason loading the data on creation doesn't work with the IDs
+        // for some reason loading the data on creation doesn't work with the IDs
         this.sustainabilityStore.loadRawData([
               {'year':1,'id':1, 'environment':0, 'economy':0, 'energy':0},
               {'year':2,'id':2, 'environment':0, 'economy':0, 'energy':0},
@@ -234,6 +235,17 @@ Ext.define('Biofuels.view.InformationPanel', {
               {'year':4,'id':4, 'environment':0, 'economy':0, 'energy':0},
               {'year':5,'id':5, 'environment':0, 'economy':0, 'energy':0},
             ], true)
+            // data: [
+            //   {'year':0, 'id':0, 'environment':10, 'economy':20, 'energy':20, 'rank':3},
+            //   {'year':1, 'id':1, 'environment':20, 'economy':40, 'energy':40, 'rank':1},
+            //   {'year':2, 'id':2, 'environment':30, 'economy':10, 'energy':10, 'rank':2},
+            // ]
+        // });
+
+     /*   this.sustainabilityStore.on('add', function(store, newRecordsArray, indexWhereRecordsAdded ){
+            //
+        });
+        this.sustainabilityStore.loadData( newDataArray, true );*/
 
         this.farmYieldStore = Ext.create('Ext.data.JsonStore', {
             storeId: 'farmYieldStore',
@@ -376,7 +388,7 @@ Ext.define('Biofuels.view.InformationPanel', {
                                     stacked: true,
                                     tips: {
                                       trackMouse: true,
-                                      width: 105,
+                                      width: 125,
                                       height: 90,
                                       layout: 'fit',
                                       renderer: function(storeItem, item) {
