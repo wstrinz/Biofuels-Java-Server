@@ -34,6 +34,7 @@ module WebsocketHelper
     else
       redis = REDISWRITE
     end
+    puts "writing"
     redis.lpush("toJava", msg)
   end
 

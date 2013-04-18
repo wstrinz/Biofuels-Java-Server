@@ -60,6 +60,15 @@ class WebsocketController < WebsocketRails::BaseController
     controller_store[:id_num] += 1
   end
 
+  def clean_environment
+    puts "__\nclearing environment\n__"
+    event = {"event"=>"clearAllGames"}
+    write_queue(ActiveSupport::JSON.encode(event))
+
+    trigger_success "succ"
+  end
+
+
   def watch_pipe(mode)
     loop do
       # if mode == "redis"

@@ -35,12 +35,10 @@ WebsocketRails::EventMap.describe do
   #
   # Uncomment and edit the next line to handle the client connected event:
     subscribe :client_connected, :to => WebsocketController, :with_method => :connected
-
     subscribe :receive_event, :to => WebsocketController, :with_method => :receive_event
-
     subscribe :get_new_id, :to => WebsocketController, :with_method => :get_new_id
-
     subscribe :check_model, :to => WebsocketController, :with_method => :check_model
+    subscribe :clean_environment, :to => WebsocketController, :with_method => :clean_environment
   #
   # Here is an example of mapping namespaced events:
   #   namespace :product do

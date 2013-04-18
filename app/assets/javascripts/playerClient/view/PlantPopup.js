@@ -9,7 +9,7 @@ Ext.define('Biofuels.view.PlantPopup', {
     createForSurface: function(surface, atX, atY) {
 
     	// Background
-    	var popupBackground = [{        
+    	var popupBackground = [{
 			type: 'circle',
 			x: atX + 25,
 			y: atY,
@@ -17,7 +17,7 @@ Ext.define('Biofuels.view.PlantPopup', {
 			fill: '#000',
 			opacity: 0.2,
 			zIndex: 1800
-		},{        
+		},{
 			type: 'circle',
 			x: atX + 25,
 			y: atY,
@@ -25,7 +25,7 @@ Ext.define('Biofuels.view.PlantPopup', {
 			fill: '#000',
 			opacity: 0.15,
 			zIndex: 1900
-		},{        
+		},{
 			type: 'circle',
 			x: atX + 25,
 			y: atY,
@@ -36,7 +36,7 @@ Ext.define('Biofuels.view.PlantPopup', {
 		}];
 
     	// Switchgrass
-    	var switchGrass = [{        
+    	var switchGrass = [{
 			type: 'image',
 			src: 'resources/grass_icon.png',
 			x: atX - 25,
@@ -48,7 +48,7 @@ Ext.define('Biofuels.view.PlantPopup', {
 		}];
 
     	// corn
-    	var corn = [{        
+    	var corn = [{
 			type: 'image',
 			src: 'resources/corn_icon.png',
 			x: atX + 25,
@@ -60,7 +60,7 @@ Ext.define('Biofuels.view.PlantPopup', {
 		}];
 
     	// Cover Crop
-    	var coverCrop = [{        
+    	var coverCrop = [{
 			type: 'image',
 			src: 'resources/cover_crop_icon.png',
 			x: atX,
@@ -70,7 +70,7 @@ Ext.define('Biofuels.view.PlantPopup', {
 			opacity: 0.5,
 			zIndex: 3000
 		}];
-		
+
   		this.bg = surface.add(popupBackground);
   		this.coverCrop = surface.add(coverCrop);
   		this.grass = surface.add(switchGrass);
@@ -79,14 +79,14 @@ Ext.define('Biofuels.view.PlantPopup', {
 
     //--------------------------------------------------------------------------
     showPopup: function(clickResponder, scope) {
-    	
+
     	this.plantingClickResponder = clickResponder;
     	this.plantingClickResponderScope = scope;
-    	
+
     	var baseInit = function(sprite, functionScope, clickValue) {
 			sprite.show(true);
 			sprite.cropTypeClickValue = clickValue;
-			
+
 			// scope is sprite so that the event will animate that given sprite
 			sprite.on({
 					mouseover: functionScope.onMouseOver,
@@ -115,12 +115,12 @@ Ext.define('Biofuels.view.PlantPopup', {
 				mouseout: this.onPopupMouseOut,
 				click: this.onClick,
 				scope: this});
-		
+
 		baseInit(this.coverCrop[0], this, "cover");
 		baseInit(this.grass[0], this, "grass");
 		baseInit(this.corn[0], this, "corn");
-    },    
-    
+    },
+
     //--------------------------------------------------------------------------
     hidePopup: function() {
     	// hide all sprites and clear the listen events
@@ -131,7 +131,7 @@ Ext.define('Biofuels.view.PlantPopup', {
     	this.grass[0].hide(true).clearListeners();
     	this.corn[0].hide(true).clearListeners();
     },
-    
+
     //--------------------------------------------------------------------------
     onMouseOver: function(evt, target) {
     	this.stopAnimation().animate({
@@ -165,12 +165,12 @@ Ext.define('Biofuels.view.PlantPopup', {
 		this.plantingClickResponder.call(this.plantingClickResponderScope, 'cancel');
 		this.hidePopup();
 	},
-	
+
     //--------------------------------------------------------------------------
 	onClick: function(evt, target) {
 		this.plantingClickResponder.call(this.plantingClickResponderScope, evt.cropTypeClickValue);
 		this.hidePopup();
 	},
-	
+
 });
 

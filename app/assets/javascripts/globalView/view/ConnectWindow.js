@@ -10,6 +10,7 @@ Ext.define('BiofuelsGlobal.view.ConnectWindow', {
     closable: false,
     title: 'Connecting to Server',
     titleAlign: 'center',
+    id: 'connectWindow',
 
 
     initComponent: function() {

@@ -9,6 +9,7 @@ Ext.define('Biofuels.view.Farm', {
     extend: 'Ext.draw.Component',
     alias: 'widget.Farm',
     renderTo: Ext.getBody(),
+    id: 'farm',
 
     // Some basic constants
 	//--------------------------------------------------------------------------
@@ -126,32 +127,26 @@ Ext.define('Biofuels.view.Farm', {
 		}
     },
 
-  //Load farm data from server
   loadFromServer: function(json){
     var me = this;
     Ext.defer(function() {
     var newFields = json.fields //.substring(1, json.fields.length - 1).split(",");
-    // var arr = Ext.decode(newFields)
     for(var i = 0;i < newFields.length; i++){
       var crop = newFields[i].crop.toLowerCase();
       if (me.fields.length > i) {
         me.fields[i].fieldVisuals.plant(crop);
-        // me.fields[i].fieldVisuals.delayPlant(crop, 40000);
-        // me.fields[i].fieldVisuals.setManagementTechnique("pesticide", newFields[i].pesticide)
         me.fields[i].fieldVisuals.setManagementTechnique("fertilizer", newFields[i].fertilizer)
         me.fields[i].fieldVisuals.setManagementTechnique("tillage", newFields[i].tillage)
       }
       else{
         me.createFields(1);
         me.fields[i].fieldVisuals.plant(crop);
-        // this.fields[i].fieldVisuals.delayPlant(crop, 40000);
       }
     }
     }, 900)
   },
 
   advanceStage: function(json){
-    // console.log(json.stageName)
     this.currentStage = json.stageName
     this.currentYear = json.year
     if(json.stageName == "Accept/Reject Contracts"){

@@ -5,6 +5,7 @@
 Ext.onReady(function() {
 	var createGame = Ext.create('Biofuels.view.JoinGamePopup');
   var connect = Ext.create('Biofuels.view.ConnectWindow');
+  createGame.show()
 	connect.show();
 });
 //------------------------------------------------------------------------------

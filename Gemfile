@@ -18,7 +18,7 @@ end
 
 gem 'activerecord-postgresql-adapter'
 
-gem 'siesta'
+gem 'siesta' # !!use local version
 
 # Gems used only for assets and not required
 # in production environments by default.
