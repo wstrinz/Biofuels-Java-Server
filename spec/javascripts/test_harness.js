@@ -74,7 +74,7 @@ Harness.start({
        title: 'Test',
        url: '/assets/oneYear.t.js',
        hostPageUrl: '../game/play',
-       // preload: ['/assets/test_helper.js']
+       preload: ['/assets/test_helper.js']
      },
    ]
  },
@@ -100,6 +100,23 @@ Harness.start({
        // preload: ['/assets/test_helper.js']
      },
     ]
+ },
+ {
+  group: 'Multiple Years',
+  items:[
+  {
+    title: 'Setup',
+    url: '/assets/multipleYearsSetup.t.js',
+    hostPageUrl: '../game/moderator',
+    preload: ['/assets/test_helper.js']
+  },
+  {
+    title: 'Test',
+    url: '/assets/multipleYears.t.js',
+    hostPageUrl: '../game/play',
+    preload: ['/assets/test_helper.js']
+  }
+  ]
  }
 
  );

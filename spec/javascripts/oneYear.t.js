@@ -77,12 +77,12 @@ StartTest(function(t) {
       t.ok(fieldList[1].fieldVisuals.cropType == "grass", "should plant grass on second field")
 
       // t.ok(fieldList[1].fieldVisuals.cropType == "grass", "should plant grass on second field")
-
-      progressPanel = Ext.ComponentQuery.query('.progressPanel')[0]
+      clickAdvance(Ext)
+      // progressPanel = Ext.ComponentQuery.query('.progressPanel')[0]
 
       // console.log(progressPanel.stageBar)
       // t.click(progressPanel.stageBar.markers[0])
-      progressPanel.stageBar.markers[0].handleOnClick() //.fireEvent("click")
+      // progressPanel.stageBar.markers[0].handleOnClick() //.fireEvent("click")
 
       // t.click(fieldList[0].fieldVisuals.plantingIcon.surface)
       // fieldList[0].fieldVisuals.plantingIcon.el.dom.click()
@@ -92,9 +92,12 @@ StartTest(function(t) {
     },
     // {waitFor:function(){return Ext.ComponentQuery.query('.progressPanel')[1].}},
     {waitFor:function(){return Ext.getCmp('farm').currentStage != "Plant"}},
+    // {waitFor:100},
     function(next){
       t.ok(Ext.getCmp('farm').currentStage == "Round Wrap Up", "should advance to harvest stage")
-      progressPanel.stageBar.markers[1].handleOnClick() //.fireEvent("click")
+      clickAdvance(Ext)
+      // progressPanel.stageBar.markers[1].handleOnClick() //.fireEvent("click")
+
       next()
     },
     {waitFor:function(){return Ext.getCmp('farm').currentStage != "Round Wrap Up"}},
@@ -102,6 +105,8 @@ StartTest(function(t) {
       t.ok(Ext.getCmp('farm').currentStage == "Plant", "should finish year and go back to plant stage")
       var sustainStore = Ext.data.StoreManager.lookup('sustainabilityStore')
       var econStore = Ext.data.StoreManager.lookup('economicsStore')
+      clickAdvance(Ext)
+
       // t.ok(sustainStore.)
       next()
     },
