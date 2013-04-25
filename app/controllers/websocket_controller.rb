@@ -94,11 +94,12 @@ class WebsocketController < WebsocketRails::BaseController
   end
 
   def check_model
-    if ENV["RAILS_ENV"] == "development"
-      url = URI.parse('http://localhost:4567/start')
-    else
-      url = URI.parse('http://mysterious-cliffs-4762.herokuapp.com/start')
-    end
+    url = URI.parse('http://localhost:4567/start')
+    # if ENV["RAILS_ENV"] == "development"
+    #   url = URI.parse('http://localhost:4567/start')
+    # else
+    #   url = URI.parse('http://mysterious-cliffs-4762.herokuapp.com/start')
+    # end
     req = Net::HTTP::Get.new(url.path)
     res = Net::HTTP.start(url.host, url.port) {|http|
       http.request(req)
@@ -107,11 +108,12 @@ class WebsocketController < WebsocketRails::BaseController
   end
 
   def subscribe_to_redis
-    if ENV["RAILS_ENV"] == "development"
-      redis = REDISLOCALR
-    else
-      redis = REDISREAD
-    end
+    redis = REDISLOCALR
+    # if ENV["RAILS_ENV"] == "development"
+    #   redis = REDISLOCALR
+    # else
+    #   redis = REDISREAD
+    # end
     puts "subscribing"
     redis.subscribe(:toRuby) do |on|
       on.message do |channel, msg|

@@ -13,7 +13,7 @@ StartTest(function(t) {
     {waitFor:function(){return getComp('window[title="Biofuels Game Creation"]')}},
     {waitFor:0.1},
 
-    function(next) {
+    function(ncd ext) {
       var cgpop = Ext.ComponentQuery.query('window[title="Biofuels Game Creation"]')[0]
       var roombox = cgpop.getComponent('name')
       var goButton = cgpop.getComponent('Create Game')
