@@ -1,8 +1,9 @@
 KoSombo::Application.routes.draw do
+  devise_for :users
   get "player/index"
   get "player/help"
+  get "player/change_user"
 
-  devise_for :users
 
   get "game/play"
 

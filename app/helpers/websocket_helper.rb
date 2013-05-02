@@ -29,12 +29,13 @@ module WebsocketHelper
 
   def write_queue(msg)
     # REDISREAD.lpush("toJava", msg)
-    if ENV["RAILS_ENV"] == "development"
       redis = REDISLOCALW
-    else
-      redis = REDISWRITE
-    end
-    puts "writing"
+    # if ENV["RAILS_ENV"] == "development"
+    #   redis = REDISLOCALW
+    # else
+    #   redis = REDISWRITE
+    # end
+    # puts "writing"
     redis.lpush("toJava", msg)
   end
 

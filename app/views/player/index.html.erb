@@ -3,10 +3,12 @@
  -->
 <link rel="stylesheet" href="http://extjs.cachefly.net/ext-4.1.1-gpl/resources/css/ext-all-access.css">
 
-<p> <%= "Hello #{current_user.email}"  %> </p>
+<p> <%= "Hello #{@name}"  %> </p>
 
 <p> <%= link_to "Play", game_play_path %> </p>
 <p> <%= link_to "Moderate", game_moderator_path %> </p>
 <p> <%= link_to "Watch", game_global_path %> </p>
 
-<p> <br> <br> <%= link_to "Help", player_help_path %> </p>
+<p> <br> <br> <%= link_to "Logout", destroy_user_session_path, method: :delete %> </p>
+<p> <%= link_to "Change User", player_change_user_path %> </p>
+<p> <br> <%= link_to "Help", player_help_path %> </p>

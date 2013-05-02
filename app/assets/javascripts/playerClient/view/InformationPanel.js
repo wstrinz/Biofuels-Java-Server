@@ -48,14 +48,14 @@ Ext.define('Biofuels.view.InformationPanel', {
     },
 
     refreshRanks: function(json){
-      Ext.getCmp("sustainability-score").setText(Math.round(json.sustainabilityScore * 100) / 10)
-      Ext.getCmp("sustainability-rank").setText(json.sustainabilityRank)
-      Ext.getCmp("economics-score").setText(Math.round(json.economicsScore * 100) / 100)
-      Ext.getCmp("economics-rank").setText(json.economicsRank)
-      Ext.getCmp("environment-score").setText(Math.round(json.environmentScore * 100) / 10)
-      Ext.getCmp("environment-rank").setText(json.environmentRank)
-      Ext.getCmp("energy-score").setText(Math.round(json.energyScore * 100) / 10)
-      Ext.getCmp("energy-rank").setText(json.energyRank)
+      Ext.getCmp("sustainability-score").setVal(Math.round(json.sustainabilityScore * 100) / 10)
+      Ext.getCmp("sustainability-rank").setVal(json.sustainabilityRank)
+      Ext.getCmp("economics-score").setVal(Math.round(json.economicsScore * 100) / 100)
+      Ext.getCmp("economics-rank").setVal(json.economicsRank)
+      Ext.getCmp("environment-score").setVal(Math.round(json.environmentScore * 100) / 10)
+      Ext.getCmp("environment-rank").setVal(json.environmentRank)
+      Ext.getCmp("energy-score").setVal(Math.round(json.energyScore * 100) / 10)
+      Ext.getCmp("energy-rank").setVal(json.energyRank)
     },
 
     refreshGraphs: function(json){
@@ -65,8 +65,9 @@ Ext.define('Biofuels.view.InformationPanel', {
       Ext.data.StoreManager.lookup('farmEnergyStore').removeAll();
       Ext.data.StoreManager.lookup('economicsStore').removeAll();
 
-      const CORNENERGY_S = 37601;
-      const CORNENERGY_I = 17700;
+
+      const CORNENERGY_KERNEL = 18800;
+      const CORNENERGY_STOVER = 17700;
       const GRASSENERGY = 17700;
       const CORNPRICE = 200;
       const GRASSPRICE = 100;
@@ -103,10 +104,14 @@ Ext.define('Biofuels.view.InformationPanel', {
           'year': thisYear.year,
         }
         if(thisYear.cornYield > 0){
-          energyData.corn = Math.round((CORNENERGY_S * thisYear.cornYield + CORNENERGY_I) * 100) / 100;
+          console.log(thisYear.cornYield)
+          console.log((CORNENERGY_KERNEL * (thisYear.cornYield / 2)))
+          console.log(CORNENERGY_STOVER * (thisYear.cornYield / 2))
+          energyData.corn = Math.round(CORNENERGY_KERNEL * (thisYear.cornYield / 2) + CORNENERGY_STOVER * (thisYear.cornYield / 4));
+          console.log(energyData.corn)
         }
         if(thisYear.grassYield > 0){
-          energyData.grass = Math.round((GRASSENERGY *  thisYear.grassYield) * 100) / 100;
+          energyData.grass = Math.round(GRASSENERGY *  thisYear.grassYield);
         }
 
         var econData = {
@@ -130,13 +135,15 @@ Ext.define('Biofuels.view.InformationPanel', {
 
     updateGraphs: function(json){
       // console.log("graphs")
-      const CORNENERGY_S = 37601;
-      const CORNENERGY_I = 17700;
+      const CORNENERGY_KERNEL = 18800;
+      const CORNENERGY_STOVER = 17700;
       const GRASSENERGY = 17700;
       const CORNPRICE = 200;
       const GRASSPRICE = 100;
 
       var thisYear = json.yearInfo;
+
+      Ext.getCmp("economics-score").setAlt(Math.round(thisYear.economicsScore * 100))
 
       //FIXME temporary since history on server should be keeping track of years
       thisYear.year += 1
@@ -156,7 +163,9 @@ Ext.define('Biofuels.view.InformationPanel', {
         'environment': Math.round(thisYear.environmentScore * 100 / 3),
         'economy': Math.round(thisYear.economicsScore * 100 / 3),
         'energy': Math.round(thisYear.energyScore * 100 / 3),
-
+        'percent environment': Math.round(thisYear.environmentScore * 100),
+        'percent economy': Math.round(thisYear.economicsScore * 100),
+        'percent energy': Math.round(thisYear.energyScore * 100),
       }
 
       var yieldData = {
@@ -175,10 +184,11 @@ Ext.define('Biofuels.view.InformationPanel', {
         'id': thisYear.year,
       }
       if(thisYear.cornYield > 0){
-        energyData.corn = Math.round((CORNENERGY_S * thisYear.cornYield + CORNENERGY_I) * 100) / 100;
+        energyData.corn = Math.round(CORNENERGY_KERNEL * (thisYear.cornYield / 2) + CORNENERGY_STOVER * (thisYear.cornYield / 4));
+        // energyData.corn = Math.round((CORNENERGY_S * thisYear.cornYield + CORNENERGY_I) * 100) / 100;
       }
       if(thisYear.grassYield > 0){
-        energyData.grass = Math.round((GRASSENERGY *  thisYear.grassYield) * 100) / 100;
+        energyData.grass = Math.round(GRASSENERGY *  thisYear.grassYield);
       }
 
       var econData = {
@@ -224,7 +234,7 @@ Ext.define('Biofuels.view.InformationPanel', {
 
         this.sustainabilityStore = Ext.create('Ext.data.JsonStore', {
             storeId: 'sustainabilityStore',
-            fields: ['year','environment','economy', 'energy', 'rank'],
+            fields: ['year','environment','economy', 'energy', 'rank','percent environment','percent economy', 'percent energy'],
         });
 
         // for some reason loading the data on creation doesn't work with the IDs
@@ -318,6 +328,7 @@ Ext.define('Biofuels.view.InformationPanel', {
                       {
                         xtype: 'dispbox',
                         blable: 'Score',
+                        units: '%',
                         btip: ' = (Environmental Score + Economic Score + Energy Score) / 3',
                         id: 'sustainability-score'
                       },
@@ -369,16 +380,16 @@ Ext.define('Biofuels.view.InformationPanel', {
                                     minimum: 0,
                                     maximum: 100,
                                     position: 'left',
-                                    title: 'Score'
+                                    title: 'Overall Score'
                                 }
                             ],
                             series: [
                                 {
                                     type: 'column',
-                                    label: {
-                                        display: 'outside',
-                                        field: 'rank',
-                                    },
+                                    // label: {
+                                    //     display: 'outside',
+                                    //     field: 'rank' ? 'rank' : "",
+                                    // },
                                     xField: 'year',
                                     yField: [
                                         'environment',
@@ -388,11 +399,11 @@ Ext.define('Biofuels.view.InformationPanel', {
                                     stacked: true,
                                     tips: {
                                       trackMouse: true,
-                                      width: 125,
+                                      width: 135,
                                       height: 90,
                                       layout: 'fit',
                                       renderer: function(storeItem, item) {
-                                        this.setTitle("\n energy: " + storeItem.get("energy") + "\n economy: " + storeItem.get("economy") + "\n environment: " + storeItem.get("environment"));
+                                        this.setTitle("\n energy: " + storeItem.get("percent energy") + "%\n economy: " + storeItem.get("percent economy") + "%\n environment: " + storeItem.get("percent environment") + "%");
                                       },
                                     },
                                 }
@@ -417,8 +428,12 @@ Ext.define('Biofuels.view.InformationPanel', {
                     tools: [
                       {
                         xtype: 'dispbox',
-                        blable: '$',
-                        id: 'economics-score'
+                        blable: 'Capital',
+                        units: '$',
+                        altUnits: '%',
+                        altlable: 'Score',
+                        id: 'economics-score',
+                        useAlt: true,
                       },
                       {
                         xtype: 'tbspacer', width: 135
@@ -445,7 +460,7 @@ Ext.define('Biofuels.view.InformationPanel', {
                                     type: 'Numeric',
                                     position: 'left',
                                     fields: ['corn','grass'],
-                                    title: 'Profit',
+                                    title: 'Profit ($)',
                                     minimum: 0,
                                     adjustMinimumByMajorUnit: 0
                                 }, {
@@ -501,6 +516,7 @@ Ext.define('Biofuels.view.InformationPanel', {
                       {
                         xtype: 'dispbox',
                         blable: 'Score',
+                        units: '%',
                         id: 'energy-score',
                         btip: ' = Energy Produced / Maximum Energy',
                       },
@@ -524,7 +540,7 @@ Ext.define('Biofuels.view.InformationPanel', {
                       items: [
                         {
                           xtype: 'panel',
-                          title: 'Yield',
+                          title: 'Yield (Ha)',
                           layout: 'fit',
                           bodyStyle: 'background-color: #89a',
 
@@ -638,7 +654,7 @@ Ext.define('Biofuels.view.InformationPanel', {
                                               'grass'
                                           ],
                                           position: 'left',
-                                          title: 'Energy'
+                                          title: 'Energy (MJ)'
                                       }
                                   ],
                                   series: [
@@ -708,6 +724,7 @@ Ext.define('Biofuels.view.InformationPanel', {
                       {
                         xtype: 'dispbox',
                         blable: 'Score',
+                        units: '%',
                         id: 'environment-score',
                         btip: ' = [ (Avg Soil Health / Max Soil Health) + Phosphorous Score ] / 2',
                       },

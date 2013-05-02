@@ -10,7 +10,7 @@ class WebsocketController < WebsocketRails::BaseController
       controller_store[:id_num] = 0
       Thread.abort_on_exception = true
       Thread.new do
-        puts "starting listener"
+        logger.info "starting listener"
         # watch_pipe('redis')
         subscribe_to_redis
       end
@@ -18,7 +18,7 @@ class WebsocketController < WebsocketRails::BaseController
   end
 
   def connected
-    puts "connection made!"
+    logger.info "connection made!"
     # send_message :test, "hello!"
   end
 
@@ -26,7 +26,7 @@ class WebsocketController < WebsocketRails::BaseController
     if send_channel
       WebsocketRails[:"#{send_channel}"].trigger(:event, msg)
     else
-      puts "no channel specified, skipping #{msg}"
+      logger.info "no channel specified, skipping #{msg}"
       # WebsocketRails[:"#{controller_store[:current_event_id]}"].trigger(:event, msg)
     end
 
@@ -34,7 +34,7 @@ class WebsocketController < WebsocketRails::BaseController
   end
 
   def receive_event
-    puts "received #{message}"
+    logger.info "received #{message}"
     controller_store[:current_event_id] = message[0]
     jss = ActiveSupport::JSON.decode(message[2])
     jss["clientID"] = message[0]
@@ -44,7 +44,7 @@ class WebsocketController < WebsocketRails::BaseController
     if(jss["event"] == "changeSettings")
       send_event(jss["roomName"],ActiveSupport::JSON.encode(jss))
     end
-    # puts "current #{current_user.email}"
+    # logger.info "current #{current_user.email}"
     # else
     #if @mode == "redis"
       write_queue(ActiveSupport::JSON.encode(jss))
@@ -52,16 +52,18 @@ class WebsocketController < WebsocketRails::BaseController
      # write_pipe(ActiveSupport::JSON.encode(jss))
     # end
     # end
-    # puts "wrote"
+    # logger.info "wrote"
   end
 
   def get_new_id
+    logger.info "assign"
+    # logger.info "assigned #{controller_store[:id_num]}"
     trigger_success "#{controller_store[:id_num]}"
     controller_store[:id_num] += 1
   end
 
   def clean_environment
-    puts "__\nclearing environment\n__"
+    logger.info "__\nclearing environment\n__"
     event = {"event"=>"clearAllGames"}
     write_queue(ActiveSupport::JSON.encode(event))
 
@@ -72,10 +74,10 @@ class WebsocketController < WebsocketRails::BaseController
   def watch_pipe(mode)
     loop do
       # if mode == "redis"
-      # puts "check queue"
+      # logger.info "check queue"
       str = read_queue(true)
-      # puts "read queue"
-      puts "got #{str}"
+      # logger.info "read queue"
+      logger.info "got #{str}"
       # else
       #   str = read_pipe
       # end
@@ -87,7 +89,7 @@ class WebsocketController < WebsocketRails::BaseController
         send_channel = obj["clientID"]    #redundant?
       end
 
-      puts "Sending #{str} to #{send_channel}"
+      logger.info "Sending #{str} to #{send_channel}"
 
       send_event(send_channel,str)
     end
@@ -114,13 +116,13 @@ class WebsocketController < WebsocketRails::BaseController
     # else
     #   redis = REDISREAD
     # end
-    puts "subscribing"
+    logger.info "subscribing"
     redis.subscribe(:toRuby) do |on|
       on.message do |channel, msg|
         data = JSON.parse(msg)
-        puts "sending #{msg}"
+        logger.info "sending #{msg}"
         send_event(data["clientID"], msg)
-        # puts "##{channel} - [#{data['user']}]: #{data['msg']}"
+        # logger.info "##{channel} - [#{data['user']}]: #{data['msg']}"
     end
   end
 end
