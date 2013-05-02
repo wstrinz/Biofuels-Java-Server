@@ -386,10 +386,10 @@ Ext.define('Biofuels.view.InformationPanel', {
                             series: [
                                 {
                                     type: 'column',
-                                    // label: {
-                                    //     display: 'outside',
-                                    //     field: 'rank' ? 'rank' : "",
-                                    // },
+                                    label: {
+                                        display: 'outside',
+                                        field: 'rank',
+                                    },
                                     xField: 'year',
                                     yField: [
                                         'environment',
@@ -540,7 +540,7 @@ Ext.define('Biofuels.view.InformationPanel', {
                       items: [
                         {
                           xtype: 'panel',
-                          title: 'Yield (Ha)',
+                          title: 'Yield (ha)',
                           layout: 'fit',
                           bodyStyle: 'background-color: #89a',
 

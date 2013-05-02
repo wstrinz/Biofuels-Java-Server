@@ -115,7 +115,9 @@ Ext.define('Biofuels.view.FieldOverlay', {
 
             fields: ['corn','grass'],
 						position: 'left',
-						title: 'yield'
+						title: 'yield (ha)',
+            minimum: 0,
+            maximum: 20,
 				}],
 				series: [{
 					type: 'line',
@@ -137,8 +139,6 @@ Ext.define('Biofuels.view.FieldOverlay', {
           yField: 'corn',
 					// yField: 10,
 					title: 'corn',
-          minimum: 0,
-          maximum: 20,
 					style: {
 						fill: "#F9EA01",
 						stroke: "#F9EA01"

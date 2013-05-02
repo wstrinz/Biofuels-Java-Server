@@ -514,7 +514,7 @@ Ext.define('Biofuels.view.Farm', {
 
     		this.popupWindow.on({
 				close: function(window, eOpts) {
-          console.log(this.currentStage)
+          // console.log(this.currentStage)
 					if(this.currentStage == "Plant"){
             for (var i = 0; i < this.fields.length; i++) {
               this.fields[i].fieldVisuals.showPlantingIcon()
